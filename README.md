@@ -1,4 +1,4 @@
-# VisualStateMachine
+# VisualStateMachine V2
 
 ## Overview
 Currently still a work in progress and subject to breaking changes.
