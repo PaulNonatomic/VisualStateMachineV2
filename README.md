@@ -68,12 +68,10 @@ public class DelayState : State
 6. Run the application with the StateMachineController selected to see the state of your state machine within the State Machine Editor window.
 
 ## Jump Nodes
-
 Add JumpOutState state and set it's Id. Then create a JumpInState with the corresponding Id to jump from one node to another.
 ![Unity_aEXhADhxUy](https://github.com/electricplaybox/igb-sdk-vsm/assets/4581647/8df2873c-070d-4ae9-a3a1-1abed9013c70)
 
 ## Transition Delay
-
 The process of transitioning between nodes originally incurred no delay at all but when wiring up a looping state machine
 it could cause a stack overflow. To prevent this a delay of 1 frame has been added to all transitions by default, but this
 can be configured on a per transition bases by passing a frameDelay value through the Transition attribute, but please use
@@ -87,8 +85,9 @@ with caution as a frameDelay of 0 can cause a stack overflow.
 - The state selector window attempts to unfold the states in the namespace nearest to the stataemachine asset, but doesn't always get this right.
 
 ## Roadmap]()
-
 - Support for sticky notes
 - Grouping of nodes
-- Visual cooldown feedback of state execution (a dissipating glow perhaps)
+
+## License
+VisualStateMachineV2 is licensed under the MIT license
 
