@@ -1,0 +1,70 @@
+/* *********** State Type Selector *********** */
+.unity-button {
+    color: white;
+    background-color: var(--unity-colors-window-background);
+    font-size: 12px;
+    padding: 1px 0px;
+    border-width:0;
+    flex-direction: row;
+    -unity-text-align: middle-left;
+}
+
+.unity-button.even.highlighted-button-style {
+    background-color: #595959;
+}
+.unity-button.highlighted-button-style {
+    background-color: #595959;
+}
+
+.unity-button.even {
+    background-color: var(--unity-colors-alternated_rows-background);
+}
+
+.unity-button .unity-image {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+}
+
+.unity-scroll-view__content-container {
+    padding-top:10px;
+    background-color: var(--unity-colors-window-background);
+}
+
+.search-bar {
+    width: auto;
+}
+
+.search-bar #unity-cancel {
+    visibility: hidden;
+}
+
+#group-header{
+    flex-direction: row;
+    padding-top:5px;
+    padding-bottom:5px;
+}
+
+#group-body {
+    flex-direction: column;
+    padding-top: 0px;
+}
+
+#group-body.first-group {
+    padding-top: 0px;
+}
+
+#group-icon{
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#state-button {
+    padding-left: 8px;
+}
+
+#unity-checkmark {
+    /*visibility: hidden;*/
+}

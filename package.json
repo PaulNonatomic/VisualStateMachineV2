@@ -1,0 +1,33 @@
+﻿{
+  "name": "com.nonatomic.visualstatemachinev2",
+  "version": "0.0.0",
+  "displayName": "Visual State Machine V2",
+  "description": "Visual State Machine V2",
+  "unity": "2022.3",
+  "unityRelease": "1f1",
+  "documentationUrl": "https://github.com/PaulNonatomic/VisualStateMachineV2/blob/main/README.md",
+  "changelogUrl": "https://github.com/PaulNonatomic/VisualStateMachineV2/blob/main/CHANGELOG.md",
+  "dependencies": {
+    
+  },
+  "keywords": [
+    "Unity",
+    "Package",
+    "Visual",
+    "StateMachine"
+  ],
+  "author": {
+    "name": "Nonatomic",
+    "email": "paul@nonatomic.co.uk",
+    "url": "https://nonatomic.co.uk/"
+  },
+  "type": "tool",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:PaulNonatomic/VisualStateMachineV2.git"
+  },
+  "samples": [
+    
+  ]
+}
+  

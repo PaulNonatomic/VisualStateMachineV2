@@ -1,0 +1,14 @@
+{
+    "name": "com.nonatomic.vsm2.runtime",
+    "rootNamespace": "Nonatomic.VSM2",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

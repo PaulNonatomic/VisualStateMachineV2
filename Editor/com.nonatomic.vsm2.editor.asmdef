@@ -1,0 +1,18 @@
+{
+    "name": "com.nonatomic.vsm2.editor",
+    "rootNamespace": "Nonatomic.VSM2",
+    "references": [
+        "com.nonatomic.vsm2.runtime"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

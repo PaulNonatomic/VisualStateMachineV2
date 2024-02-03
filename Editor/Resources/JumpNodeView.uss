@@ -1,0 +1,68 @@
+.node #title {
+    flex-direction: row;
+}
+
+.node #title-container {
+    padding-right: 0px;
+    align-items: center;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    flex-direction: row;
+    width: 100%
+}
+
+.node.jump-out #title-container {
+    flex-direction: row-reverse;
+}
+
+.node.jump-in #title-container {
+    flex-direction: row;
+    padding-left: 5px;
+}
+
+.node #title-button-container {
+    visibility: hidden;
+    width:0;
+    height:0;
+}
+
+.node #title-icon {
+    min-width:24px;
+    min-height:24px;
+    width: 24px;
+    height:24px;
+}
+
+Port {
+    height: 100%;
+    width: 26px;
+}
+
+Port Label {
+    display: none;
+}
+
+.node #contents {
+    display: none;
+}
+
+.jump-out PopupField {
+    margin-left: 0px;
+    margin-right: 5px;
+    height: 30px;
+}
+
+.jump-in PopupField {
+    margin-left: 0px;
+    margin-right: 0px;
+    height: 30px;
+}
+
+PopupTextElement {
+    font-size: 14px;
+    margin-left: 10px;
+    margin-right: 10px;
+    flex-grow: 1;
+    -unity-text-align: middle-center;
+    -unity-font-style: Bold;
+}
