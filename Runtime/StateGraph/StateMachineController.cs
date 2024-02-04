@@ -6,7 +6,7 @@ namespace Nonatomic.VSM2.StateGraph
 	public class StateMachineController : MonoBehaviour
 	{
 		[SerializeField] private StateMachineModel _model;
-		[SerializeField] private string _id;
+		[SerializeField, HideInInspector] private string _id;
 
 		private StateMachine _stateMachine;
 		private bool _activated;

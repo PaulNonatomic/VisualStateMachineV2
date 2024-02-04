@@ -11,6 +11,7 @@ namespace Nonatomic.VSM2.StateGraph
 	public class StateMachineModel : NodeGraphModel<StateNodeModel, StateTransitionModel>
 	{
 		public StateMachineModel Original { get; set; }
+		public StateMachineModel Parent { get; set; }
 		
 		public bool HasState<T>() where T : State
 		{
@@ -153,6 +154,11 @@ namespace Nonatomic.VSM2.StateGraph
 		{
 			stateNodeModel = Nodes.FirstOrDefault(node => node.State is T);
 			return stateNodeModel != null;
+		}
+
+		public void SetParent(StateMachineModel stateMachineModel)
+		{
+			Parent = stateMachineModel;
 		}
 	}
 }

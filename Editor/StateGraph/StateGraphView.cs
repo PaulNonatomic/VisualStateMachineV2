@@ -21,6 +21,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		public StateGraphView(string id) : base(id)
 		{
+			Debug.Log($"New StateGraphView: {id}");
 			MakeTitleBar();
 		}
 		

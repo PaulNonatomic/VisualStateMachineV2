@@ -27,7 +27,11 @@
     "url": "git@github.com:PaulNonatomic/VisualStateMachineV2.git"
   },
   "samples": [
-    
+    {
+      "displayName": "Traffic Light System (UK)",
+      "description": " A Visual UK Traffic Light State Machine",
+      "path": "Samples~/TrafficLightUK"
+    }
   ]
 }
   

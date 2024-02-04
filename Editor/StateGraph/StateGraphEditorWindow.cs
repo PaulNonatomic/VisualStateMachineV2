@@ -3,6 +3,7 @@ using Nonatomic.VSM2.Editor.NodeGraph;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
 using UnityEditor;
+using UnityEngine;
 
 namespace Nonatomic.VSM2.Editor.StateGraph
 {
@@ -10,7 +11,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 	{
 		public StateGraphEditorWindow() : base("State Machine Editor")
 		{
-			
+			Debug.Log($"New StateGraphEditorWindow: {this.GetInstanceID()}");
 		}
 		
 		[MenuItem("Window/State Machine Editor")]
