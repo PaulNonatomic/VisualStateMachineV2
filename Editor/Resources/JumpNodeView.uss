@@ -33,6 +33,19 @@
     height:24px;
 }
 
+.node #state-border {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-color: green;
+    border-width: 2px;
+    border-radius: 8px;
+    opacity:0;
+    margin:1px;
+}
+
 Port {
     height: 100%;
     width: 26px;
@@ -47,15 +60,22 @@ Port Label {
 }
 
 .jump-out PopupField {
-    margin-left: 0px;
+    margin-left: -6px;
     margin-right: 5px;
     height: 30px;
 }
 
 .jump-in PopupField {
-    margin-left: 0px;
-    margin-right: 0px;
+    margin-left: -3px;
+    margin-right: -3px;
     height: 30px;
+}
+
+PopupField .unity-base-field__input {
+    border-bottom-width: 0px;
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
 }
 
 PopupTextElement {
@@ -65,4 +85,32 @@ PopupTextElement {
     flex-grow: 1;
     -unity-text-align: middle-center;
     -unity-font-style: Bold;
+}
+
+.jump-out #beacon {
+    position: absolute;
+    left: 83px;
+    top:10px;
+}
+
+.jump-in #beacon {
+    position: absolute;
+    left:-20px;
+    top:10px;
+}
+
+.jump-out #halo {
+    position: absolute;
+    left: 86px;
+    top:11px;
+    width: 20px;
+    height: 20px;
+}
+
+.jump-in #halo {
+    position: absolute;
+    left:-20px;
+    top:11px;
+    width: 20px;
+    height: 20px;
 }

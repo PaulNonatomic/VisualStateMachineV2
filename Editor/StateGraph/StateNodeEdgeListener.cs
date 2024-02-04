@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Nonatomic.VSM2.Editor.NodeGraph;
 using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
+using Nonatomic.VSM2.StateGraph.States;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -36,6 +39,10 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			var mousePosition = Event.current.mousePosition;
 			var screenPosition = GUIUtility.GUIToScreenPoint(mousePosition);
 			var nodePosition = GraphUtils.ScreenPointToGraphPoint(position, _graphView);
+			var filterOut = new List<Type>()
+			{
+				typeof(JumpInState)
+			};
 			
 			StateSelectorWindow.Open(_stateMachineModel, screenPosition, stateType =>
 			{
@@ -49,10 +56,10 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				
 				StateGraphFactory.MakeTransition(_graphView, _stateMachineModel, originNodeId, originPortData, 
 							destinationNodeId, destinationPortData);
-			});
+			}, filterOut);
 		}
-
-				public void OnDrop(GraphView graphView, Edge edge)
+		
+		public void OnDrop(GraphView graphView, Edge edge)
 		{
 			if (Application.isPlaying) return;
 			if (edge.output == null || edge.input == null) return;

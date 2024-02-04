@@ -2,6 +2,10 @@
 {
 	public abstract class NodeIcon
 	{
+		public static string V2_BeaconRight = "Icons/v2/broadcast-right";
+		public static string V2_BeaconLeft = "Icons/v2/broadcast-left";
+		public static string V2_BeaconHaloLeft = "Icons/v2/broadcast-halo-left";
+		public static string V2_BeaconHaloRight = "Icons/v2/broadcast-halo-right";
 		public const string V2_Clock = "Icons/v2/clock";
 		public const string V2_Enter = "Icons/v2/enter";
 		public const string V2_Exit = "Icons/v2/exit";

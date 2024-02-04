@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Reflection;
-using Nonatomic.VSM2.Editor.Services;
 using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.Attributes;
-using Nonatomic.VSM2.Utils;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -72,7 +70,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			}
 		}
 
-		public virtual void Update()
+		public override void Update()
 		{
 			UpdateProgressBar();
 			UpdateGlowBorder();

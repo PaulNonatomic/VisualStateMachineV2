@@ -44,6 +44,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 		{
 			if (_window != null)
 			{
+				_window.InitializeWithData(model);
 				_window.Focus();
 				return (T) _window;
 			}

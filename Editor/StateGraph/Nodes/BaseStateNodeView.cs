@@ -1,4 +1,5 @@
-﻿using Nonatomic.VSM2.Editor.NodeGraph;
+﻿using System;
+using Nonatomic.VSM2.Editor.NodeGraph;
 using Nonatomic.VSM2.Editor.Services;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
@@ -12,20 +13,32 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
 	public class BaseStateNodeView : NodeView
 	{
+		public virtual void Update()
+		{
+			
+		}
+		
 		protected void ColorizeTitle(StateNodeModel nodeModel)
 		{
 			var title = this.Query<VisualElement>("title").First();
 			if (title == null) return;
 			
 			var stateType = nodeModel.State.GetType();
-			if (AttributeUtils.TryGetInheritedCustomAttribute<NodeColorAttribute>(stateType, out var colorAtt))
-			{
-				if(ColorUtility.TryParseHtmlString(colorAtt.HexColor, out var color))
-				{
-					color.a = 0.8f;
-					title.style.backgroundColor = color;
-				}
-			}
+			if (!AttributeUtils.TryGetInheritedCustomAttribute<NodeColorAttribute>(stateType, out var colorAtt)) return;
+			if (!ColorUtility.TryParseHtmlString(colorAtt.HexColor, out var color)) return;
+				
+			color.a = 0.8f;
+			title.style.backgroundColor = color;
+		}
+
+		protected void ApplyNodeWidth(StateNodeModel nodeModel)
+		{
+			var stateType = nodeModel.State.GetType();
+			if (!AttributeUtils.TryGetInheritedCustomAttribute<NodeWidthAttribute>(stateType, out var widthAtt)) return;
+			
+			var width = widthAtt.Width;
+			this.style.maxWidth = width;
+			this.style.width = width;
 		}
 
 		protected void ApplyStateColorToPortData(StateNodeModel nodeModel, PortModel portModel)

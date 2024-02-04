@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Nonatomic.VSM2.Editor.Services;
 using Nonatomic.VSM2.StateGraph;
+using Nonatomic.VSM2.StateGraph.Attributes;
 using Nonatomic.VSM2.StateGraph.States;
 using Nonatomic.VSM2.Utils;
 using UnityEditor.Experimental.GraphView;
@@ -24,7 +26,10 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		private GraphView _graphView;
 		private PopupField<string> _idDropdown;
 		private JumpState _jumpState;
-		
+		private Image _beacon;
+		private Image _halo;
+		private VisualElement _glowBorder;
+
 		public JumpNodeView(GraphView graphView, StateMachineModel model,  StateNodeModel nodeModel)
 		{
 			this.name = nodeModel.Id;
@@ -35,13 +40,14 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			_nodeModel = nodeModel;
 			_stateType = nodeModel.State.GetType();
 			_jumpState = _nodeModel.State as JumpState;
-			
+
+			AddBeacon(_jumpState);
 			AddStyle();
 			AddTitleContainer();
 			ColorizeTitle(_nodeModel);
 			RemoveTitleLabel();
-			//AddTitleIcon();
 			AddDropdown();
+			AddGlowBorder();
 			AddInputPorts();
 			AddOutputPorts();
 			UpdatePosition(_nodeModel, _model);
@@ -52,6 +58,69 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			RegisterCallback<AttachToPanelEvent>(HandleAttachToPanel);
 			RegisterCallback<DetachFromPanelEvent>(HandleLeavePanel);
 			RegisterCallback<FocusEvent>(e => HandleFocus());
+		}
+		
+		private void AddGlowBorder()
+		{
+			_glowBorder = new VisualElement();
+			_glowBorder.name = "state-border";
+			_glowBorder.pickingMode = PickingMode.Ignore;
+			this.Add(_glowBorder);
+		}
+		
+		public override void Update()
+		{
+			UpdateBeaconGlow();
+			UpdateGlowBorder();
+		}
+		
+		private void UpdateGlowBorder()
+		{
+			var timeElapsed = Time.time - _nodeModel.LastActive;
+			var timeOpacity = 1.0f - Mathf.Clamp01(timeElapsed / 1f);
+			var opacity = _nodeModel.LastActive == 0 ? 0 : timeOpacity;
+			
+			_glowBorder.style.opacity = opacity;
+		}
+
+		private void UpdateBeaconGlow()
+		{
+			var timeElapsed = Time.time - _nodeModel.LastActive;
+			var timeOpacity = 1.0f - Mathf.Clamp01(timeElapsed / 1f);
+			var opacity = _nodeModel.LastActive == 0 ? 0 : timeOpacity;
+
+			if (opacity > 0)
+			{
+				_halo.tintColor = new Color(0, 1, 0, opacity);
+			}
+			else
+			{
+				_halo.tintColor = new Color(1, 1, 1, 0f);
+			}
+			
+		}
+
+		private void AddBeacon(JumpState state)
+		{
+			var pegIcon = state is JumpOutState 
+				? NodeIcon.V2_BeaconRight 
+				: NodeIcon.V2_BeaconLeft;
+			
+			var haloIcon = state is JumpOutState 
+				? NodeIcon.V2_BeaconHaloRight 
+				: NodeIcon.V2_BeaconHaloLeft;
+			
+			_beacon = new Image();
+			_beacon.name = "beacon";
+			_beacon.image = ImageService.FetchTexture(pegIcon, ResourceSource.Resources);
+			Add(_beacon);
+
+			_halo = new Image();
+			_halo.name = "halo";
+			_halo.image = ImageService.FetchTexture(haloIcon, ResourceSource.Resources);
+			Add(_halo);
+
+			UpdateBeaconGlow();
 		}
 
 		private void AddDropdown()
@@ -106,11 +175,13 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			var jumpIndex = (int)_jumpState.JumpId;
 			var maxIndex = Enum.GetValues(typeof(JumpId)).Length;
 			var color = ColorUtils.GetColorFromValue(jumpIndex, maxIndex, 0.5f);
-			_idDropdown.Children().First().style.backgroundColor = color;
-
 			var port = _titleContainer.Q<Port>();
-			if (port == null) return;
 			port.portColor = color;
+			
+			color.a = 0.8f;
+			_idDropdown.Children().First().style.backgroundColor = Color.clear;
+			_title.style.backgroundColor = color;
+			_beacon.tintColor = color;
 		}
 
 		private List<string> GetIds()

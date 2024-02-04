@@ -32,6 +32,11 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		public override void PopulateGraph(NodeGraphDataModel model)
 		{
 			if (model == null) return;
+			if (model != StateManager.Model)
+			{
+				HandleRecenter();
+			}
+			
 			base.PopulateGraph(model);
 
 			_titleBar.SetTitle(model.name);
@@ -132,7 +137,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			var entryNode = this.Q<EntryNodeView>();
 			if (entryNode == null) return;
 
-			viewTransform.position = contentRect.center - entryNode.GetPosition().center;
+			var centerOffset = new Vector2(contentRect.width * 0.25f, 0);
+			viewTransform.position = contentRect.center - entryNode.GetPosition().center - centerOffset;
 			StateManager.SetGridPosition(contentRect.center, viewTransform.position);
 			HandleGridPositionChanged(viewTransform.position);
 		}
@@ -156,7 +162,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			if (!Application.isPlaying) return;
 			if (StateManager.Model == null) return;
 
-			var nodeViews = this.Query<StateNodeView>().ToList();
+			var nodeViews = this.Query<BaseStateNodeView>().ToList();
 			foreach (var nodeView in nodeViews)
 			{
 				nodeView.Update();

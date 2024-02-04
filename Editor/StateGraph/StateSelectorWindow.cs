@@ -6,6 +6,7 @@ using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.Attributes;
 using Nonatomic.VSM2.Utils;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -23,13 +24,16 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		private const string BuildInStateNamespace = "Playground.NodeGraph.StateGraph.States";
 		private const string BuildInStateDirectoryName = "Built-in States";
 		
-		public static void Open(NodeGraphDataModel model, Vector2 position, Action<Type> typeSelectionCallback)
+		public static void Open(NodeGraphDataModel model, 
+								Vector2 position, 
+								Action<Type> typeSelectionCallback, 
+								List<Type> filterOut = null)
 		{
 			var window = GetWindow<StateSelectorWindow>("Select State Type");
 			window.position = new Rect(position, window.position.size);
 			window.rootVisualElement.styleSheets.Add(Resources.Load<StyleSheet>("StateSelectorWindow"));
 			window.OnTypeSelected = typeSelectionCallback;
-			window.SearchStates(model, string.Empty);
+			window.SearchStates(model, string.Empty, filterOut);
 		}
 		
 		private void OnGUI()
@@ -189,9 +193,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			Close();
 		}
 		
-		private List<List<Type>> GetGroupedStates()
+		private List<List<Type>> GetGroupedStates(List<Type> filterOut = null)
 		{
-			var derivedTypes = AssetUtils.GetAllDerivedTypes<State>();
+			var derivedTypes = GetFilteredListOfStates(filterOut);
 			var filterOutAbstractStates = derivedTypes.Where(type => !type.IsAbstract).ToList();
 			var filterOutHiddenStates = filterOutAbstractStates.Where(type => !Attribute.IsDefined(type, typeof(HideInStateSelectorAttribute))).ToList();
 			var groupedStates = filterOutHiddenStates
@@ -202,6 +206,15 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			MoveListWithNamespaceToFront(groupedStates, BuildInStateNamespace);
 			
 			return groupedStates;
+		}
+
+		public List<Type> GetFilteredListOfStates(List<Type> filterOut = null)
+		{
+			var derivedTypes = AssetUtils.GetAllDerivedTypes<State>();
+			if (filterOut == null) return derivedTypes;
+			
+			derivedTypes.RemoveAll(item => filterOut.Contains(item));
+			return derivedTypes;
 		}
 		
 		public static void MoveListWithNamespaceToFront(List<List<Type>> lists, string namespaceName)
@@ -271,7 +284,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			};
 		}
 		
-		private void SearchStates(NodeGraphDataModel model, string searchQuery)
+		private void SearchStates(NodeGraphDataModel model, string searchQuery, List<Type> filterOut = null)
 		{
 			_model = model;
 			
@@ -283,7 +296,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			container.Clear();
 
-			var groupedStates = GetGroupedStates();
+			var groupedStates = GetGroupedStates(filterOut);
 			var nearestGroupToStateMachine = FindNearestNamespaceToSO(model, groupedStates);
 			
 			for (var groupIndex = 0; groupIndex < groupedStates.Count; groupIndex++)
