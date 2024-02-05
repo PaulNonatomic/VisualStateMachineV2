@@ -9,7 +9,7 @@ using UnityEditor;
 
 namespace Nonatomic.VSM2.StateGraph.States
 {
-	[NodeColor(NodeColor.Purple), NodeIcon(NodeIcon.V2_Share, opacity:0.8f)]
+	[NodeColor(NodeColor.Purple), NodeIcon(NodeIcon.V2_Share)]
 	public class SubStateMachine : State
 	{
 		[Transition]

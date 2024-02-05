@@ -63,7 +63,7 @@ MonoBehaviour:
       Index: 0
       FrameDelay: 1
       PortLabel: 
-      PortColor: 
+      PortColor: '#915710'
     State: {fileID: 5037623822211856789}
   - Id: SubStateMachine-761472d1b7abd794298f85119c2aa51c
     Position: {x: 318, y: -113}

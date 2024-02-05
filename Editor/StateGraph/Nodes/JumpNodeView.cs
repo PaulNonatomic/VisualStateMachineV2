@@ -178,7 +178,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			var port = _titleContainer.Q<Port>();
 			port.portColor = color;
 			
-			color.a = 0.8f;
 			_idDropdown.Children().First().style.backgroundColor = Color.clear;
 			_title.style.backgroundColor = color;
 			_beacon.tintColor = color;

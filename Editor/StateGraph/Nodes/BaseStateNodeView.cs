@@ -26,8 +26,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			var stateType = nodeModel.State.GetType();
 			if (!AttributeUtils.TryGetInheritedCustomAttribute<NodeColorAttribute>(stateType, out var colorAtt)) return;
 			if (!ColorUtility.TryParseHtmlString(colorAtt.HexColor, out var color)) return;
-				
-			color.a = 0.8f;
+			
 			title.style.backgroundColor = color;
 		}
 
@@ -65,6 +64,13 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 				
 			var transAtt = (TransitionAttribute) attributes[0];
 			portModel = transAtt.GetPortData(eventInfo, 0);
+
+			if (portModel.PortColor == default && 
+				AttributeUtils.TryGetInheritedCustomAttribute<NodeColorAttribute>(stateType, out var colorAtt))
+			{
+				portModel.PortColor = colorAtt.HexColor;
+			}
+			
 			return true;
 		}
 		

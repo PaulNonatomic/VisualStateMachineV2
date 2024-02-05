@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7c4e1bb4a74258a1a0c65ea7d7cb63, type: 3}
   m_Name: DelayState-f2c9bd9c88557164c895bccb5247f61a
   m_EditorClassIdentifier: 
-  _useScaledTime: 1
+  _unscaledTime: 0
   _duration: 5
 --- !u!114 &11400000
 MonoBehaviour:
@@ -115,7 +115,7 @@ MonoBehaviour:
       PortColor: 
     State: {fileID: -1687358500621789454}
   - Id: LightState-cb446fb170baf8448842bb1499f21097
-    Position: {x: 249, y: -81}
+    Position: {x: 224, y: -81}
     OutputPorts:
     - Id: OnComplete
       Index: 0
@@ -127,7 +127,7 @@ MonoBehaviour:
       Index: 0
       FrameDelay: 1
       PortLabel: 
-      PortColor: 
+      PortColor: '#915710'
     State: {fileID: 6755416186446608384}
   - Id: LightState-a38be1b8511814b43ba0b7d193ace699
     Position: {x: 846, y: -81}
@@ -142,7 +142,7 @@ MonoBehaviour:
       Index: 0
       FrameDelay: 1
       PortLabel: 
-      PortColor: 
+      PortColor: '#915710'
     State: {fileID: -5011391817707107934}
   - Id: LightState-8d831fa481f11d44f8147b6b79b40509
     Position: {x: 1386, y: -81}
@@ -157,7 +157,7 @@ MonoBehaviour:
       Index: 0
       FrameDelay: 1
       PortLabel: 
-      PortColor: 
+      PortColor: '#915710'
     State: {fileID: -3583056657934318828}
   - Id: JumpInState-78e141561990fcd4992d4cdccd7f57bd
     Position: {x: 42, y: 190}
@@ -182,7 +182,7 @@ MonoBehaviour:
       Index: 0
       FrameDelay: 1
       PortLabel: 
-      PortColor: 
+      PortColor: '#915710'
     State: {fileID: 7622146115332257100}
   - Id: DelayState-4ad5e799506813242b0533e18a4ab8b3
     Position: {x: 574, y: 100}
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7c4e1bb4a74258a1a0c65ea7d7cb63, type: 3}
   m_Name: DelayState-4ad5e799506813242b0533e18a4ab8b3
   m_EditorClassIdentifier: 
-  _useScaledTime: 1
+  _unscaledTime: 0
   _duration: 5
 --- !u!114 &6755416186446608384
 MonoBehaviour:
