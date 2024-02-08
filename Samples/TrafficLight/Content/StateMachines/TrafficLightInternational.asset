@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aead138c0fb40b192dc61c457d0813b, type: 3}
   m_Name: CheckNationState-cc57e3d3299c71f4c8f9d121aed7d4fb
   m_EditorClassIdentifier: 
-  _nation: 0
+  _nation: 1
 --- !u!114 &6242990734283794708
 MonoBehaviour:
   m_ObjectHideFlags: 0

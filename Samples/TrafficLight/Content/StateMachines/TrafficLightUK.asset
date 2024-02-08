@@ -1,5 +1,57 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7547223979313565880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f00f4b10b2f5415b912dc5864683742d, type: 3}
+  m_Name: JumpInState-ac6873f2d14c78642a2c3831edb75f77
+  m_EditorClassIdentifier: 
+  JumpId: 3
+--- !u!114 &-7382593320584075977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7c4e1bb4a74258a1a0c65ea7d7cb63, type: 3}
+  m_Name: DelayState-2f7a2dc0f5c0f1f44879fa3ffd6ec52b
+  m_EditorClassIdentifier: 
+  Duration: 1
+--- !u!114 &-7234594378303243165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b11c06ff864651b72e92893be9b746, type: 3}
+  m_Name: JumpOutState-2e835c3aa2cee1c40a145b5bff581eb0
+  m_EditorClassIdentifier: 
+  JumpId: 2
+--- !u!114 &-5507076224941404916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f00f4b10b2f5415b912dc5864683742d, type: 3}
+  m_Name: JumpInState-d68a1f9f60e8bfa4899e4b7d5a57df8a
+  m_EditorClassIdentifier: 
+  JumpId: 1
 --- !u!114 &-5011391817707107934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18,6 +70,19 @@ MonoBehaviour:
   _redLight: 0
   _amberLight: 0
   _greenLight: 1
+--- !u!114 &-4925729048216567862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b11c06ff864651b72e92893be9b746, type: 3}
+  m_Name: JumpOutState-d624a99d001b4884a918280cd08ca151
+  m_EditorClassIdentifier: 
+  JumpId: 3
 --- !u!114 &-4170532775237235529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,6 +116,19 @@ MonoBehaviour:
   _redLight: 0
   _amberLight: 1
   _greenLight: 0
+--- !u!114 &-1836731256293324866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f00f4b10b2f5415b912dc5864683742d, type: 3}
+  m_Name: JumpInState-796bb37180c73d047b484c007e7ab63e
+  m_EditorClassIdentifier: 
+  JumpId: 2
 --- !u!114 &-1687358500621789454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,7 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7c4e1bb4a74258a1a0c65ea7d7cb63, type: 3}
   m_Name: DelayState-e28c7a92f86f9024ab09a4f31c516c88
   m_EditorClassIdentifier: 
-  Duration: 5
+  Duration: 1
 --- !u!114 &-241972300914002990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,11 +195,18 @@ MonoBehaviour:
   - {fileID: -241972300914002990}
   - {fileID: -5011391817707107934}
   - {fileID: -3583056657934318828}
-  - {fileID: 8676424307904835280}
   - {fileID: -4170532775237235529}
   - {fileID: 5601612559445887329}
   - {fileID: -1615988072606837491}
   - {fileID: 8080768008398722787}
+  - {fileID: 47605189129191544}
+  - {fileID: -5507076224941404916}
+  - {fileID: -7234594378303243165}
+  - {fileID: -1836731256293324866}
+  - {fileID: -7547223979313565880}
+  - {fileID: -4925729048216567862}
+  - {fileID: -7382593320584075977}
+  - {fileID: 4517707847334067353}
   _nodes:
   - Id: EntryState-dc5f083237a434b479bd29a86f6e3307
     Position: {x: 3, y: 44}
@@ -154,7 +239,7 @@ MonoBehaviour:
       PortColor: '#915710'
     State: {fileID: 6755416186446608384}
   - Id: LightState-cf8b55d45bbb3cd40a104653e493d7ea
-    Position: {x: 717, y: -81}
+    Position: {x: 184, y: 159}
     OutputPorts:
     - Id: OnComplete
       Index: 0
@@ -169,7 +254,7 @@ MonoBehaviour:
       PortColor: '#915710'
     State: {fileID: -241972300914002990}
   - Id: LightState-a38be1b8511814b43ba0b7d193ace699
-    Position: {x: 1250, y: -81}
+    Position: {x: 184, y: 401}
     OutputPorts:
     - Id: OnComplete
       Index: 0
@@ -184,7 +269,7 @@ MonoBehaviour:
       PortColor: '#915710'
     State: {fileID: -5011391817707107934}
   - Id: LightState-8d831fa481f11d44f8147b6b79b40509
-    Position: {x: 1788, y: -81}
+    Position: {x: 184, y: 645}
     OutputPorts:
     - Id: OnComplete
       Index: 0
@@ -198,16 +283,6 @@ MonoBehaviour:
       PortLabel: 
       PortColor: '#915710'
     State: {fileID: -3583056657934318828}
-  - Id: JumpOutState-9db30d496b63d5347b4e7f599ce80ff0
-    Position: {x: 2170, y: 33}
-    OutputPorts: []
-    InputPorts:
-    - Id: Enter
-      Index: 0
-      FrameDelay: 1
-      PortLabel: 
-      PortColor: '#915710'
-    State: {fileID: 8676424307904835280}
   - Id: JumpInState-78e141561990fcd4992d4cdccd7f57bd
     Position: {x: 45, y: 129}
     OutputPorts:
@@ -239,7 +314,7 @@ MonoBehaviour:
       PortColor: '#066670'
     State: {fileID: 5601612559445887329}
   - Id: DelayState-e28c7a92f86f9024ab09a4f31c516c88
-    Position: {x: 1102, y: 44}
+    Position: {x: 569, y: 284}
     OutputPorts:
     - Id: OnComplete
       Index: 0
@@ -254,7 +329,7 @@ MonoBehaviour:
       PortColor: '#066670'
     State: {fileID: -1615988072606837491}
   - Id: DelayState-787ef4b8f7326c349b6c7b26c4e9b18d
-    Position: {x: 1639, y: 44}
+    Position: {x: 573, y: 526}
     OutputPorts:
     - Id: OnComplete
       Index: 0
@@ -268,6 +343,106 @@ MonoBehaviour:
       PortLabel: 
       PortColor: '#066670'
     State: {fileID: 8080768008398722787}
+  - Id: JumpOutState-b72bcc140d4d57b4ca13629001bacc02
+    Position: {x: 719, y: 11}
+    OutputPorts: []
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    State: {fileID: 47605189129191544}
+  - Id: JumpInState-d68a1f9f60e8bfa4899e4b7d5a57df8a
+    Position: {x: 45, y: 284}
+    OutputPorts:
+    - Id: OnExit
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    State: {fileID: -5507076224941404916}
+  - Id: JumpOutState-2e835c3aa2cee1c40a145b5bff581eb0
+    Position: {x: 719, y: 262}
+    OutputPorts: []
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    State: {fileID: -7234594378303243165}
+  - Id: JumpInState-796bb37180c73d047b484c007e7ab63e
+    Position: {x: 45, y: 526}
+    OutputPorts:
+    - Id: OnExit
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    State: {fileID: -1836731256293324866}
+  - Id: JumpInState-ac6873f2d14c78642a2c3831edb75f77
+    Position: {x: 45, y: 759}
+    OutputPorts:
+    - Id: OnExit
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    State: {fileID: -7547223979313565880}
+  - Id: JumpOutState-d624a99d001b4884a918280cd08ca151
+    Position: {x: 719, y: 482}
+    OutputPorts: []
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    State: {fileID: -4925729048216567862}
+  - Id: DelayState-2f7a2dc0f5c0f1f44879fa3ffd6ec52b
+    Position: {x: 569, y: 745}
+    OutputPorts:
+    - Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#066670'
+    State: {fileID: -7382593320584075977}
+  - Id: JumpOutState-c4278b5434fe1d5429afae7c581ac48b
+    Position: {x: 719, y: 715}
+    OutputPorts: []
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    State: {fileID: 4517707847334067353}
   _transitions:
   - OriginNodeId: EntryState-dc5f083237a434b479bd29a86f6e3307
     DestinationNodeId: LightState-cb446fb170baf8448842bb1499f21097
@@ -277,20 +452,6 @@ MonoBehaviour:
       FrameDelay: 1
       PortLabel: 
       PortColor: '#116f1c'
-    DestinationPort:
-      Id: Enter
-      Index: 0
-      FrameDelay: 1
-      PortLabel: 
-      PortColor: 
-  - OriginNodeId: LightState-8d831fa481f11d44f8147b6b79b40509
-    DestinationNodeId: JumpOutState-9db30d496b63d5347b4e7f599ce80ff0
-    OriginPort:
-      Id: OnComplete
-      Index: 0
-      FrameDelay: 1
-      PortLabel: 
-      PortColor: 
     DestinationPort:
       Id: Enter
       Index: 0
@@ -325,20 +486,6 @@ MonoBehaviour:
       FrameDelay: 1
       PortLabel: 
       PortColor: '#750b55'
-  - OriginNodeId: DelayState-6252970f2b16b5a4c81e70a847a654b3
-    DestinationNodeId: LightState-cf8b55d45bbb3cd40a104653e493d7ea
-    OriginPort:
-      Id: OnComplete
-      Index: 0
-      FrameDelay: 1
-      PortLabel: 
-      PortColor: 
-    DestinationPort:
-      Id: Enter
-      Index: 0
-      FrameDelay: 1
-      PortLabel: 
-      PortColor: 
   - OriginNodeId: LightState-cf8b55d45bbb3cd40a104653e493d7ea
     DestinationNodeId: DelayState-e28c7a92f86f9024ab09a4f31c516c88
     OriginPort:
@@ -353,20 +500,6 @@ MonoBehaviour:
       FrameDelay: 1
       PortLabel: 
       PortColor: '#750b55'
-  - OriginNodeId: DelayState-e28c7a92f86f9024ab09a4f31c516c88
-    DestinationNodeId: LightState-a38be1b8511814b43ba0b7d193ace699
-    OriginPort:
-      Id: OnComplete
-      Index: 0
-      FrameDelay: 1
-      PortLabel: 
-      PortColor: 
-    DestinationPort:
-      Id: Enter
-      Index: 0
-      FrameDelay: 1
-      PortLabel: 
-      PortColor: 
   - OriginNodeId: LightState-a38be1b8511814b43ba0b7d193ace699
     DestinationNodeId: DelayState-787ef4b8f7326c349b6c7b26c4e9b18d
     OriginPort:
@@ -381,20 +514,144 @@ MonoBehaviour:
       FrameDelay: 1
       PortLabel: 
       PortColor: '#750b55'
-  - OriginNodeId: DelayState-787ef4b8f7326c349b6c7b26c4e9b18d
-    DestinationNodeId: LightState-8d831fa481f11d44f8147b6b79b40509
+  - OriginNodeId: DelayState-6252970f2b16b5a4c81e70a847a654b3
+    DestinationNodeId: JumpOutState-b72bcc140d4d57b4ca13629001bacc02
     OriginPort:
       Id: OnComplete
       Index: 0
       FrameDelay: 1
       PortLabel: 
-      PortColor: 
+      PortColor: '#066670'
     DestinationPort:
       Id: Enter
       Index: 0
       FrameDelay: 1
       PortLabel: 
-      PortColor: 
+      PortColor: '#915710'
+  - OriginNodeId: JumpInState-d68a1f9f60e8bfa4899e4b7d5a57df8a
+    DestinationNodeId: LightState-cf8b55d45bbb3cd40a104653e493d7ea
+    OriginPort:
+      Id: OnExit
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+  - OriginNodeId: DelayState-e28c7a92f86f9024ab09a4f31c516c88
+    DestinationNodeId: JumpOutState-2e835c3aa2cee1c40a145b5bff581eb0
+    OriginPort:
+      Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#066670'
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+  - OriginNodeId: JumpInState-796bb37180c73d047b484c007e7ab63e
+    DestinationNodeId: LightState-a38be1b8511814b43ba0b7d193ace699
+    OriginPort:
+      Id: OnExit
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+  - OriginNodeId: JumpInState-ac6873f2d14c78642a2c3831edb75f77
+    DestinationNodeId: LightState-8d831fa481f11d44f8147b6b79b40509
+    OriginPort:
+      Id: OnExit
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+  - OriginNodeId: DelayState-787ef4b8f7326c349b6c7b26c4e9b18d
+    DestinationNodeId: JumpOutState-d624a99d001b4884a918280cd08ca151
+    OriginPort:
+      Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#066670'
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+  - OriginNodeId: LightState-8d831fa481f11d44f8147b6b79b40509
+    DestinationNodeId: DelayState-2f7a2dc0f5c0f1f44879fa3ffd6ec52b
+    OriginPort:
+      Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#066670'
+  - OriginNodeId: DelayState-2f7a2dc0f5c0f1f44879fa3ffd6ec52b
+    DestinationNodeId: JumpOutState-c4278b5434fe1d5429afae7c581ac48b
+    OriginPort:
+      Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#066670'
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+--- !u!114 &47605189129191544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b11c06ff864651b72e92893be9b746, type: 3}
+  m_Name: JumpOutState-b72bcc140d4d57b4ca13629001bacc02
+  m_EditorClassIdentifier: 
+  JumpId: 1
+--- !u!114 &4517707847334067353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b11c06ff864651b72e92893be9b746, type: 3}
+  m_Name: JumpOutState-c4278b5434fe1d5429afae7c581ac48b
+  m_EditorClassIdentifier: 
+  JumpId: 0
 --- !u!114 &5601612559445887329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,17 +695,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7c4e1bb4a74258a1a0c65ea7d7cb63, type: 3}
   m_Name: DelayState-787ef4b8f7326c349b6c7b26c4e9b18d
   m_EditorClassIdentifier: 
-  Duration: 2
---- !u!114 &8676424307904835280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1b11c06ff864651b72e92893be9b746, type: 3}
-  m_Name: JumpOutState-9db30d496b63d5347b4e7f599ce80ff0
-  m_EditorClassIdentifier: 
-  JumpId: 0
+  Duration: 3

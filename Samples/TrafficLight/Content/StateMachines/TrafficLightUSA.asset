@@ -51,6 +51,19 @@ MonoBehaviour:
   _redLight: 0
   _amberLight: 1
   _greenLight: 0
+--- !u!114 &-3177747182459443175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7c4e1bb4a74258a1a0c65ea7d7cb63, type: 3}
+  m_Name: DelayState-d1ad3435e9d74a141ad624dc9050c76a
+  m_EditorClassIdentifier: 
+  Duration: 1
 --- !u!114 &-1687358500621789454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,12 +107,13 @@ MonoBehaviour:
   - {fileID: -5011391817707107934}
   - {fileID: -3583056657934318828}
   - {fileID: -4170532775237235529}
-  - {fileID: 7622146115332257100}
   - {fileID: 3677353275275027007}
   - {fileID: -1104483148999045620}
+  - {fileID: -3177747182459443175}
+  - {fileID: 8956205611713867993}
   _nodes:
   - Id: EntryState-dc5f083237a434b479bd29a86f6e3307
-    Position: {x: -59, y: 0}
+    Position: {x: -15, y: 38}
     OutputPorts:
     - Id: OnEntry
       Index: 0
@@ -129,7 +143,7 @@ MonoBehaviour:
       PortColor: '#915710'
     State: {fileID: 6755416186446608384}
   - Id: LightState-a38be1b8511814b43ba0b7d193ace699
-    Position: {x: 846, y: -81}
+    Position: {x: 691, y: -81}
     OutputPorts:
     - Id: OnComplete
       Index: 0
@@ -144,7 +158,7 @@ MonoBehaviour:
       PortColor: '#915710'
     State: {fileID: -5011391817707107934}
   - Id: LightState-8d831fa481f11d44f8147b6b79b40509
-    Position: {x: 1467, y: -81}
+    Position: {x: 1213, y: -81}
     OutputPorts:
     - Id: OnComplete
       Index: 0
@@ -159,7 +173,7 @@ MonoBehaviour:
       PortColor: '#915710'
     State: {fileID: -3583056657934318828}
   - Id: JumpInState-78e141561990fcd4992d4cdccd7f57bd
-    Position: {x: -17, y: 190}
+    Position: {x: 27, y: 136}
     OutputPorts:
     - Id: OnExit
       Index: 0
@@ -171,20 +185,10 @@ MonoBehaviour:
       Index: 0
       FrameDelay: 1
       PortLabel: 
-      PortColor: 
-    State: {fileID: -4170532775237235529}
-  - Id: JumpOutState-cb7de7b4b6ac27d4e9e4d365277aa462
-    Position: {x: 1851, y: 56}
-    OutputPorts: []
-    InputPorts:
-    - Id: Enter
-      Index: 0
-      FrameDelay: 1
-      PortLabel: 
       PortColor: '#915710'
-    State: {fileID: 7622146115332257100}
+    State: {fileID: -4170532775237235529}
   - Id: DelayState-4ad5e799506813242b0533e18a4ab8b3
-    Position: {x: 574, y: 100}
+    Position: {x: 545, y: 42}
     OutputPorts:
     - Id: OnComplete
       Index: 0
@@ -199,7 +203,7 @@ MonoBehaviour:
       PortColor: '#066670'
     State: {fileID: 3677353275275027007}
   - Id: DelayState-f2c9bd9c88557164c895bccb5247f61a
-    Position: {x: 1240, y: 100}
+    Position: {x: 1070, y: 42}
     OutputPorts:
     - Id: OnComplete
       Index: 0
@@ -213,6 +217,31 @@ MonoBehaviour:
       PortLabel: 
       PortColor: '#066670'
     State: {fileID: -1104483148999045620}
+  - Id: DelayState-d1ad3435e9d74a141ad624dc9050c76a
+    Position: {x: 1593, y: 42}
+    OutputPorts:
+    - Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#066670'
+    State: {fileID: -3177747182459443175}
+  - Id: JumpOutState-7510842e24238724db9187e558927f74
+    Position: {x: 1740, y: -18}
+    OutputPorts: []
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    State: {fileID: 8956205611713867993}
   _transitions:
   - OriginNodeId: EntryState-dc5f083237a434b479bd29a86f6e3307
     DestinationNodeId: LightState-cb446fb170baf8448842bb1499f21097
@@ -232,20 +261,6 @@ MonoBehaviour:
     DestinationNodeId: LightState-cb446fb170baf8448842bb1499f21097
     OriginPort:
       Id: OnExit
-      Index: 0
-      FrameDelay: 1
-      PortLabel: 
-      PortColor: 
-    DestinationPort:
-      Id: Enter
-      Index: 0
-      FrameDelay: 1
-      PortLabel: 
-      PortColor: 
-  - OriginNodeId: LightState-8d831fa481f11d44f8147b6b79b40509
-    DestinationNodeId: JumpOutState-cb7de7b4b6ac27d4e9e4d365277aa462
-    OriginPort:
-      Id: OnComplete
       Index: 0
       FrameDelay: 1
       PortLabel: 
@@ -312,6 +327,34 @@ MonoBehaviour:
       FrameDelay: 1
       PortLabel: 
       PortColor: 
+  - OriginNodeId: LightState-8d831fa481f11d44f8147b6b79b40509
+    DestinationNodeId: DelayState-d1ad3435e9d74a141ad624dc9050c76a
+    OriginPort:
+      Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#066670'
+  - OriginNodeId: DelayState-d1ad3435e9d74a141ad624dc9050c76a
+    DestinationNodeId: JumpOutState-7510842e24238724db9187e558927f74
+    OriginPort:
+      Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#066670'
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
 --- !u!114 &3677353275275027007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,7 +386,7 @@ MonoBehaviour:
   _redLight: 1
   _amberLight: 0
   _greenLight: 0
---- !u!114 &7622146115332257100
+--- !u!114 &8956205611713867993
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -353,6 +396,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1b11c06ff864651b72e92893be9b746, type: 3}
-  m_Name: JumpOutState-cb7de7b4b6ac27d4e9e4d365277aa462
+  m_Name: JumpOutState-7510842e24238724db9187e558927f74
   m_EditorClassIdentifier: 
   JumpId: 0
