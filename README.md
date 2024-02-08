@@ -37,29 +37,34 @@ https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/8e7f1b99-b3
 - Serialized and public properties are also exposed in the states node in the State Machine Editor. Note fields should be populated with value types and assets and not scene types.
 
 ```cs
-[NodeColor(NodeColor.Pink)]
+[NodeWidth(width:190), NodeColor(NodeColor.Teal), NodeIcon(NodeIcon.V2_Clock)]
 public class DelayState : State
 {
     [Transition]
-    public event Action Exit;
+    public event Action OnComplete;
     
-    [SerializeField] 
-    private float _duration = 1f;
+    [SerializeField, Tooltip("Duration in seconds")] 
+    public float Duration = 1f;
     
     [NonSerialized]
-    private float _time;
+    private float _elapsedTime;
 
-    public override void EnterState()
+    public override void Enter()
     {
-        _time = Time.time;
+        _elapsedTime = 0f;
+    }
+    
+    public override void Update()
+    {
+        _elapsedTime += Time.deltaTime;
+        
+        if (_elapsedTime >= Duration)
+        {
+            OnComplete?.Invoke();
+        }
     }
 
-    public override void UpdateState()
-    {
-        if(Time.time - _time > _duration) Exit?.Invoke();
-    }
-
-    public override void ExitState()
+    public override void Exit()
     {
         
     }
