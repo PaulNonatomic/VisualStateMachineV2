@@ -13,7 +13,7 @@ https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/2b6d7d0e-f4
 - **Unity Integration**: Seamlessly integrates with Unity, allowing for easy implementation in your game projects.
 - **Custom State Support**: Create your own states to handle specific game behaviors.
 - **Transition Management**: Easily manage transitions between states with intuitive controls.
-[CHANGELOG.md](Assets%2FPackage%2FCHANGELOG.md)
+
 ## Installation
 To install VisualStateMachine in your Unity project, follow these [package.json](Assets%2FPackage%2Fpackage.json)steps:
 1. Via package manager add a package from git url https://github.com/PaulNonatomic/VisualStateMachine.git?path=/Assets/Package#master
