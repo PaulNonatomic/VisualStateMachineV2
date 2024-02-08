@@ -89,7 +89,7 @@ with caution as a frameDelay of 0 can cause a stack overflow.
 - No way to follow the progress of parallel sub state machines at run time.
 - The state selector window attempts to unfold the states in the namespace nearest to the stataemachine asset, but doesn't always get this right.
 
-## Roadmap]()
+## Roadmap
 - Support for sticky notes
 - Grouping of nodes
 
