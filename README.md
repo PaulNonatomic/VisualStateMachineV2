@@ -22,7 +22,7 @@ To install VisualStateMachine in your Unity project, follow these [package.json]
 1. Create a state machine asset from the project panel. Right click -> Create -> State Machine -> State Machine
 2. Either right click and select "Add State" or drag out from the Entry State
 
-![Unity_6YHrBPVHBo](https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/9da52f3e-e28a-4475-9e7b-b646c9fa35d2)
+![Unity_EQDqu8DdM8](https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/b8d9f18e-d168-49c1-9e02-f0df852ba086)
 
 3. The State Selection window appears listing all available states.
     - States are grouped by namespace with the inbuilt states appearing at the top.
@@ -75,8 +75,7 @@ public class DelayState : State
 ## Jump Nodes
 Add JumpOutState state and set it's Id. Then create a JumpInState with the corresponding Id to jump from one node to another.
 
-https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/8192f5ac-fa96-48e4-b44d-738fa2946f81
-
+![Unity_6YHrBPVHBo](https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/9da52f3e-e28a-4475-9e7b-b646c9fa35d2)
 
 
 ## Transition Delay
