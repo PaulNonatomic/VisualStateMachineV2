@@ -13,10 +13,8 @@ VisualStateMachine is a Unity package designed to simplify the creation and mana
 - **Transition Management**: Easily manage transitions between states with intuitive controls.
 
 ## Installation
-To install VisualStateMachine in your Unity project, follow these [package.json](Assets%2FPackage%2Fpackage.json)steps:
-1. Via package manager add a package from git url https://github.com/PaulNonatomic/VisualStateMachine.git?path=/Assets/Package#master
-    - To work with a specific version use <b><i>#0.3.6-alpha</b><i> or similar
-    - And for the lastest and greatest word in progress use <b><i>#develop</b><i> at your own risk
+To install VisualStateMachine in your Unity project, follow these steps:
+1. Via package manager add a package from git url https://github.com/PaulNonatomic/VisualStateMachineV2.git
 
 ## Usage
 1. Create a state machine asset from the project panel. Right click -> Create -> State Machine -> State Machine
