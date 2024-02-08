@@ -22,7 +22,7 @@ To install VisualStateMachine in your Unity project, follow these [package.json]
 1. Create a state machine asset from the project panel. Right click -> Create -> State Machine -> State Machine
 2. Either right click and select "Add State" or drag out from the Entry State
 
-https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/8e7f1b99-b38e-417f-8d67-95d2af212a37
+![Unity_6YHrBPVHBo](https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/9da52f3e-e28a-4475-9e7b-b646c9fa35d2)
 
 3. The State Selection window appears listing all available states.
     - States are grouped by namespace with the inbuilt states appearing at the top.
