@@ -28,9 +28,9 @@
   },
   "samples": [
     {
-      "displayName": "Traffic Light System (UK)",
-      "description": " A Visual UK Traffic Light State Machine",
-      "path": "Samples~/TrafficLightUK"
+      "displayName": "Traffic Light System",
+      "description": " A Visual Traffic Light State Machine",
+      "path": "Samples~/TrafficLight"
     }
   ]
 }

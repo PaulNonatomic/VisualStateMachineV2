@@ -1,0 +1,454 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5011391817707107934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05b207d1d2794a07a4ed4b7093f0ac13, type: 3}
+  m_Name: LightState-a38be1b8511814b43ba0b7d193ace699
+  m_EditorClassIdentifier: 
+  _description: 'Green: go, if the way is
+
+    clear.'
+  _redLight: 0
+  _amberLight: 0
+  _greenLight: 1
+--- !u!114 &-4170532775237235529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f00f4b10b2f5415b912dc5864683742d, type: 3}
+  m_Name: JumpInState-78e141561990fcd4992d4cdccd7f57bd
+  m_EditorClassIdentifier: 
+  JumpId: 0
+--- !u!114 &-3583056657934318828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05b207d1d2794a07a4ed4b7093f0ac13, type: 3}
+  m_Name: LightState-8d831fa481f11d44f8147b6b79b40509
+  m_EditorClassIdentifier: 
+  _description: 'Amber: stop unless
+
+    you''ve already crossed
+
+    the stop line.'
+  _redLight: 0
+  _amberLight: 1
+  _greenLight: 0
+--- !u!114 &-1687358500621789454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1b46786219545fc8928dcdef8cbfadd, type: 3}
+  m_Name: EntryState-dc5f083237a434b479bd29a86f6e3307
+  m_EditorClassIdentifier: 
+--- !u!114 &-1615988072606837491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7c4e1bb4a74258a1a0c65ea7d7cb63, type: 3}
+  m_Name: DelayState-e28c7a92f86f9024ab09a4f31c516c88
+  m_EditorClassIdentifier: 
+  Duration: 5
+--- !u!114 &-241972300914002990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05b207d1d2794a07a4ed4b7093f0ac13, type: 3}
+  m_Name: LightState-cf8b55d45bbb3cd40a104653e493d7ea
+  m_EditorClassIdentifier: 
+  _description: 'Red & Amber: stop and
+
+    wait; don''t pass or start
+
+    until
+    the green light
+
+    show.'
+  _redLight: 1
+  _amberLight: 1
+  _greenLight: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fbad6fa67694a73a1930e6cbe475649, type: 3}
+  m_Name: TrafficLightUK
+  m_EditorClassIdentifier: 
+  _subAssets:
+  - {fileID: -1687358500621789454}
+  - {fileID: 6755416186446608384}
+  - {fileID: -241972300914002990}
+  - {fileID: -5011391817707107934}
+  - {fileID: -3583056657934318828}
+  - {fileID: 8676424307904835280}
+  - {fileID: -4170532775237235529}
+  - {fileID: 5601612559445887329}
+  - {fileID: -1615988072606837491}
+  - {fileID: 8080768008398722787}
+  _nodes:
+  - Id: EntryState-dc5f083237a434b479bd29a86f6e3307
+    Position: {x: 3, y: 44}
+    OutputPorts:
+    - Id: OnEntry
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    State: {fileID: -1687358500621789454}
+  - Id: LightState-cb446fb170baf8448842bb1499f21097
+    Position: {x: 184, y: -81}
+    OutputPorts:
+    - Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    State: {fileID: 6755416186446608384}
+  - Id: LightState-cf8b55d45bbb3cd40a104653e493d7ea
+    Position: {x: 717, y: -81}
+    OutputPorts:
+    - Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    State: {fileID: -241972300914002990}
+  - Id: LightState-a38be1b8511814b43ba0b7d193ace699
+    Position: {x: 1250, y: -81}
+    OutputPorts:
+    - Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    State: {fileID: -5011391817707107934}
+  - Id: LightState-8d831fa481f11d44f8147b6b79b40509
+    Position: {x: 1788, y: -81}
+    OutputPorts:
+    - Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    State: {fileID: -3583056657934318828}
+  - Id: JumpOutState-9db30d496b63d5347b4e7f599ce80ff0
+    Position: {x: 2170, y: 33}
+    OutputPorts: []
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    State: {fileID: 8676424307904835280}
+  - Id: JumpInState-78e141561990fcd4992d4cdccd7f57bd
+    Position: {x: 45, y: 129}
+    OutputPorts:
+    - Id: OnExit
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    State: {fileID: -4170532775237235529}
+  - Id: DelayState-6252970f2b16b5a4c81e70a847a654b3
+    Position: {x: 570, y: 44}
+    OutputPorts:
+    - Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#066670'
+    State: {fileID: 5601612559445887329}
+  - Id: DelayState-e28c7a92f86f9024ab09a4f31c516c88
+    Position: {x: 1102, y: 44}
+    OutputPorts:
+    - Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#066670'
+    State: {fileID: -1615988072606837491}
+  - Id: DelayState-787ef4b8f7326c349b6c7b26c4e9b18d
+    Position: {x: 1639, y: 44}
+    OutputPorts:
+    - Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#066670'
+    State: {fileID: 8080768008398722787}
+  _transitions:
+  - OriginNodeId: EntryState-dc5f083237a434b479bd29a86f6e3307
+    DestinationNodeId: LightState-cb446fb170baf8448842bb1499f21097
+    OriginPort:
+      Id: OnEntry
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#116f1c'
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+  - OriginNodeId: LightState-8d831fa481f11d44f8147b6b79b40509
+    DestinationNodeId: JumpOutState-9db30d496b63d5347b4e7f599ce80ff0
+    OriginPort:
+      Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+  - OriginNodeId: JumpInState-78e141561990fcd4992d4cdccd7f57bd
+    DestinationNodeId: LightState-cb446fb170baf8448842bb1499f21097
+    OriginPort:
+      Id: OnExit
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+  - OriginNodeId: LightState-cb446fb170baf8448842bb1499f21097
+    DestinationNodeId: DelayState-6252970f2b16b5a4c81e70a847a654b3
+    OriginPort:
+      Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#750b55'
+  - OriginNodeId: DelayState-6252970f2b16b5a4c81e70a847a654b3
+    DestinationNodeId: LightState-cf8b55d45bbb3cd40a104653e493d7ea
+    OriginPort:
+      Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+  - OriginNodeId: LightState-cf8b55d45bbb3cd40a104653e493d7ea
+    DestinationNodeId: DelayState-e28c7a92f86f9024ab09a4f31c516c88
+    OriginPort:
+      Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#750b55'
+  - OriginNodeId: DelayState-e28c7a92f86f9024ab09a4f31c516c88
+    DestinationNodeId: LightState-a38be1b8511814b43ba0b7d193ace699
+    OriginPort:
+      Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+  - OriginNodeId: LightState-a38be1b8511814b43ba0b7d193ace699
+    DestinationNodeId: DelayState-787ef4b8f7326c349b6c7b26c4e9b18d
+    OriginPort:
+      Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#750b55'
+  - OriginNodeId: DelayState-787ef4b8f7326c349b6c7b26c4e9b18d
+    DestinationNodeId: LightState-8d831fa481f11d44f8147b6b79b40509
+    OriginPort:
+      Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+--- !u!114 &5601612559445887329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7c4e1bb4a74258a1a0c65ea7d7cb63, type: 3}
+  m_Name: DelayState-6252970f2b16b5a4c81e70a847a654b3
+  m_EditorClassIdentifier: 
+  Duration: 3
+--- !u!114 &6755416186446608384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05b207d1d2794a07a4ed4b7093f0ac13, type: 3}
+  m_Name: LightState-cb446fb170baf8448842bb1499f21097
+  m_EditorClassIdentifier: 
+  _description: 'Red: stop and wait beind
+
+    the stop line.'
+  _redLight: 1
+  _amberLight: 0
+  _greenLight: 0
+--- !u!114 &8080768008398722787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd7c4e1bb4a74258a1a0c65ea7d7cb63, type: 3}
+  m_Name: DelayState-787ef4b8f7326c349b6c7b26c4e9b18d
+  m_EditorClassIdentifier: 
+  Duration: 2
+--- !u!114 &8676424307904835280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b11c06ff864651b72e92893be9b746, type: 3}
+  m_Name: JumpOutState-9db30d496b63d5347b4e7f599ce80ff0
+  m_EditorClassIdentifier: 
+  JumpId: 0

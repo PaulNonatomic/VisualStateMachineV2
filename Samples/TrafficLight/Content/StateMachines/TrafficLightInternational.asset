@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-1687358500621789454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1b46786219545fc8928dcdef8cbfadd, type: 3}
+  m_Name: EntryState-dc5f083237a434b479bd29a86f6e3307
+  m_EditorClassIdentifier: 
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fbad6fa67694a73a1930e6cbe475649, type: 3}
+  m_Name: TrafficLightInternational
+  m_EditorClassIdentifier: 
+  _subAssets:
+  - {fileID: -1687358500621789454}
+  - {fileID: 5037623822211856789}
+  - {fileID: 6242990734283794708}
+  - {fileID: 3067033177595601931}
+  _nodes:
+  - Id: EntryState-dc5f083237a434b479bd29a86f6e3307
+    Position: {x: -255, y: -26}
+    OutputPorts:
+    - Id: OnEntry
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    State: {fileID: -1687358500621789454}
+  - Id: CheckNationState-cc57e3d3299c71f4c8f9d121aed7d4fb
+    Position: {x: -45, y: -52}
+    OutputPorts:
+    - Id: OnUK
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    - Id: OnUS
+      Index: 1
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#915710'
+    State: {fileID: 5037623822211856789}
+  - Id: SubStateMachine-761472d1b7abd794298f85119c2aa51c
+    Position: {x: 318, y: -113}
+    OutputPorts:
+    - Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#4a0e99'
+    State: {fileID: 6242990734283794708}
+  - Id: SubStateMachine-17ab3aea01edceb4a9c3aa3d425b7060
+    Position: {x: 318, y: 62}
+    OutputPorts:
+    - Id: OnComplete
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    InputPorts:
+    - Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#4a0e99'
+    State: {fileID: 3067033177595601931}
+  _transitions:
+  - OriginNodeId: EntryState-dc5f083237a434b479bd29a86f6e3307
+    DestinationNodeId: CheckNationState-cc57e3d3299c71f4c8f9d121aed7d4fb
+    OriginPort:
+      Id: OnEntry
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#116f1c'
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+  - OriginNodeId: CheckNationState-cc57e3d3299c71f4c8f9d121aed7d4fb
+    DestinationNodeId: SubStateMachine-761472d1b7abd794298f85119c2aa51c
+    OriginPort:
+      Id: OnUK
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#4a0e99'
+  - OriginNodeId: CheckNationState-cc57e3d3299c71f4c8f9d121aed7d4fb
+    DestinationNodeId: SubStateMachine-17ab3aea01edceb4a9c3aa3d425b7060
+    OriginPort:
+      Id: OnUS
+      Index: 1
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: 
+    DestinationPort:
+      Id: Enter
+      Index: 0
+      FrameDelay: 1
+      PortLabel: 
+      PortColor: '#4a0e99'
+--- !u!114 &3067033177595601931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f32c978824f4c9a99c86a716585fc97, type: 3}
+  m_Name: SubStateMachine-17ab3aea01edceb4a9c3aa3d425b7060
+  m_EditorClassIdentifier: 
+  _model: {fileID: 11400000, guid: bdafeac02f838064f8331634cd0919e3, type: 2}
+--- !u!114 &5037623822211856789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aead138c0fb40b192dc61c457d0813b, type: 3}
+  m_Name: CheckNationState-cc57e3d3299c71f4c8f9d121aed7d4fb
+  m_EditorClassIdentifier: 
+  _nation: 0
+--- !u!114 &6242990734283794708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f32c978824f4c9a99c86a716585fc97, type: 3}
+  m_Name: SubStateMachine-761472d1b7abd794298f85119c2aa51c
+  m_EditorClassIdentifier: 
+  _model: {fileID: 11400000, guid: 8cfa72117208873438d0f4c4a9b0aa6c, type: 2}

@@ -15,7 +15,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 	{
 		private readonly StateMachineModel _stateMachineModel;
 		private readonly GraphView _graphView;
-
+		
 		public StateNodeEdgeListener(GraphView graphView, StateMachineModel stateMachineModel)
 		{
 			_graphView = graphView;
@@ -46,16 +46,21 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			StateSelectorWindow.Open(_stateMachineModel, screenPosition, stateType =>
 			{
-				var nodeData = StateGraphFactory.MakeStateNodeData(_stateMachineModel, stateType, nodePosition);
-				var nodeView = StateGraphFactory.MakeNode(_graphView, nodeData, _stateMachineModel);
+				var nodeData = StateGraphNodeFactory.MakeStateNodeData(_stateMachineModel, stateType, nodePosition);
+				var nodeView = StateGraphNodeFactory.MakeNode(_graphView, nodeData, _stateMachineModel);
+				_graphView.AddElement(nodeView);
 				
 				var originNodeId = droppedEdgeOutput.node.name;
 				var originPortData = droppedEdgeUserData as PortModel;
 				var destinationNodeId = nodeData.Id;
 				var destinationPortData = nodeData.InputPorts[0];
 				
-				StateGraphFactory.MakeTransition(_graphView, _stateMachineModel, originNodeId, originPortData, 
-							destinationNodeId, destinationPortData);
+				StateGraphTransitionFactory.MakeTransition(_graphView, 
+														   _stateMachineModel, 
+														   originNodeId, 
+														   originPortData, 
+														   destinationNodeId, 
+														   destinationPortData);
 			}, filterOut);
 		}
 		
@@ -73,8 +78,12 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			var destinationNodeId = edge.input.node.name;
 			var destinationPortModel = edge.input.userData as PortModel;
 			
-			StateGraphFactory.MakeTransition(_graphView, _stateMachineModel, originNodeId, originPortModel, 
-				destinationNodeId, destinationPortModel);
+			StateGraphTransitionFactory.MakeTransition(_graphView, 
+													   _stateMachineModel, 
+													   originNodeId, 
+													   originPortModel, 
+													   destinationNodeId, 
+													   destinationPortModel);
 		}
 	}
 }

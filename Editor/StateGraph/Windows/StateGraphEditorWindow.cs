@@ -11,7 +11,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 	{
 		public StateGraphEditorWindow() : base("State Machine Editor")
 		{
-			Debug.Log($"New StateGraphEditorWindow: {this.GetInstanceID()}");
+			
 		}
 		
 		[MenuItem("Window/State Machine Editor")]

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Reflection;
 using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.StateGraph;
+using Nonatomic.VSM2.StateGraph.Attributes;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -8,23 +10,25 @@ using UnityEngine.UIElements;
 
 namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
-	public class ExitNodeView : BaseStateNodeView
+	public class SubStateNodeView : BaseStateNodeView
 	{
+		public StateNodeModel NodeModel => _nodeModel;
+		
 		private readonly StateNodeModel _nodeModel;
-		private readonly StateMachineModel _stateMachineModel;
+		private readonly StateMachineModel _model;
 		private readonly Type _stateType;
 		private VisualElement _titleContainer;
 		private VisualElement _title;
 		private GraphView _graphView;
 		private VisualElement _glowBorder;
 
-		public ExitNodeView(GraphView graphView, StateMachineModel stateMachineModel,  StateNodeModel nodeModel)
+		public SubStateNodeView(GraphView graphView, StateMachineModel model,  StateNodeModel nodeModel)
 		{
 			this.name = nodeModel.Id;
 			this.userData = nodeModel;
 
 			_graphView = graphView;
-			_stateMachineModel = stateMachineModel;
+			_model = model;
 			_nodeModel = nodeModel;
 			_stateType = nodeModel.State.GetType();
 			
@@ -32,21 +36,20 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			AddTitleContainer();
 			ColorizeTitle(_nodeModel);
 			AddTitleLabel();
-			AddGlowBorder();
 			AddTitleIcon();
+			AddProgressBar();
 			AddInputPorts();
-			UpdatePosition(_nodeModel, _stateMachineModel);
+			AddOutputPorts();
+			AddProperties();
+			AddGlowBorder();
+			CheckCustomWidth();
+			UpdatePosition(_nodeModel, _model);
 			
 			RegisterCallback<GeometryChangedEvent>(HandleGeometryChanged);
 			RegisterCallback<AttachToPanelEvent>(HandleAttachToPanel);
 			RegisterCallback<DetachFromPanelEvent>(HandleLeavePanel);
 		}
-		
-		public override void Update()
-		{
-			UpdateGlowBorder();
-		}
-		
+
 		private void AddGlowBorder()
 		{
 			_glowBorder = new VisualElement();
@@ -54,7 +57,25 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			_glowBorder.pickingMode = PickingMode.Ignore;
 			this.Add(_glowBorder);
 		}
-		
+
+		private void CheckCustomWidth()
+		{
+			var stateType = _nodeModel.State.GetType();
+			var nodeWidth = stateType.GetCustomAttribute<NodeWidthAttribute>();
+			if (nodeWidth != null)
+			{
+				this.style.maxWidth = nodeWidth.Width;
+				this.style.minWidth = nodeWidth.Width;
+				this.style.width = nodeWidth.Width;
+			}
+		}
+
+		public override void Update()
+		{
+			UpdateProgressBar();
+			UpdateGlowBorder();
+		}
+
 		private void UpdateGlowBorder()
 		{
 			var timeElapsed = Time.time - _nodeModel.LastActive;
@@ -63,22 +84,52 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			
 			_glowBorder.style.opacity = opacity;
 		}
-		
+
+		private void UpdateProgressBar()
+		{
+			var progressBar = this.Query<ProgressBar>().First();
+			var progressFill = progressBar.Q(className:"unity-progress-bar__progress");
+			progressFill.visible = _nodeModel.Active;
+			
+			if(progressBar != null) progressBar.value = (Time.time % 1f) * 100f;
+		}
+
 		private void AddStyle()
 		{
-			var style = UnityEngine.Resources.Load<StyleSheet>("ExitNodeView");
-			Assert.IsNotNull(style, "ExitNodeView.uss not found");
+			var style = UnityEngine.Resources.Load<StyleSheet>("SubStateNodeView");
+			Assert.IsNotNull(style, "SubStateNodeView.uss not found");
 			styleSheets.Add(style);
 		}
-		
+
+		private void AddProgressBar()
+		{
+			var progressBar = new ProgressBar();
+			progressBar.name = "progress-bar";
+			
+			var title = this.Query<VisualElement>("title").First();
+			title.Add(progressBar);
+		}
+
 		private void AddInputPorts()
 		{
 			for (var index = 0; index < _nodeModel.InputPorts.Count; index++)
 			{
 				var portData = _nodeModel.InputPorts[index];
 				ApplyStateColorToPortData(_nodeModel, portData);
-				StateGraphPortFactory.MakePort(_graphView, _stateMachineModel, this,
-					_titleContainer, Direction.Input, Port.Capacity.Multi, portData);
+				StateGraphPortFactory.MakePort(_graphView, _model, this,
+					inputContainer, Direction.Input, Port.Capacity.Multi, portData);
+			}
+		}
+
+		private void AddOutputPorts()
+		{
+			for (var index = 0; index < _nodeModel.OutputPorts.Count; index++)
+			{
+				var portData = _nodeModel.OutputPorts[index];
+				TryUpdatePortDataFromState(_nodeModel, portData.Id, out portData);
+
+				StateGraphPortFactory.MakePort(_graphView, _model, this,
+					outputContainer, Direction.Output, Port.Capacity.Single, portData);
 			}
 		}
 
@@ -95,7 +146,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		private void AddTitleContainer()
 		{
 			_title = this.Query<VisualElement>("title").First();
-
 			var titleButton = _title.Query<VisualElement>("title-button-container").First();
 			_title.Remove(titleButton);
 			
@@ -118,12 +168,36 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			var icon = MakeIcon(_nodeModel);
 			_titleContainer.Insert(0, icon);
 		}
-		
+
 		private void HandleGeometryChanged(GeometryChangedEvent evt)
 		{
 			if (evt.oldRect.position != evt.newRect.position)
 			{
 				_nodeModel.Position = evt.newRect.position;
+			}
+		}
+
+		private void AddProperties()
+		{
+			var contents = this.Query<VisualElement>("contents").First();
+			var propertyContainer = new VisualElement()
+			{
+				name = "property-container"
+			};
+			
+			propertyContainer.AddToClassList("full-width");
+			contents.Insert(0, propertyContainer);
+			
+			var scrollView = new ScrollView();
+			propertyContainer.Add(scrollView);
+				
+			var stateInspector = MakePropertyInspector(_nodeModel.State);
+			stateInspector.name = "state-inspector";
+			scrollView.contentContainer.Add(stateInspector);
+				
+			if (stateInspector.childCount > 0)
+			{
+				propertyContainer.AddToClassList("has-properties");
 			}
 		}
 	}

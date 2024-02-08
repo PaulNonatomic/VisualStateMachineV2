@@ -21,7 +21,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		public StateGraphView(string id) : base(id)
 		{
-			Debug.Log($"New StateGraphView: {id}");
 			MakeTitleBar();
 		}
 		
@@ -53,7 +52,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		private void AddEntryNode(StateMachineModel stateModel)
 		{
 			if (stateModel.HasState<EntryState>()) return;
-			StateGraphFactory.MakeStateNodeData(stateModel, typeof(EntryState), Vector2.zero);
+			StateGraphNodeFactory.MakeStateNodeData(stateModel, typeof(EntryState), Vector2.zero);
 		}
 
 		public override EventPropagation DeleteSelection()
@@ -96,7 +95,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			var stateNodes = stateMachineModel.Nodes.Cast<StateNodeModel>();
 			foreach (var nodeModel in stateNodes)
 			{
-				StateGraphFactory.MakeNode(this, nodeModel, stateMachineModel);
+				var nodeView = StateGraphNodeFactory.MakeNode(this, nodeModel, stateMachineModel); 
+				AddElement(nodeView);
 			}
 		}
 		
@@ -104,7 +104,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			foreach (var transition in stateMachineModel.Transitions)
 			{
-				StateGraphFactory.MakeTransitionView(this, transition);
+				StateGraphTransitionFactory.MakeTransitionView(this, transition);
 			}
 		}
 
@@ -162,7 +162,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			if (!Application.isPlaying) return;
 			if (StateManager.Model == null) return;
-
+			
 			var nodeViews = this.Query<BaseStateNodeView>().ToList();
 			foreach (var nodeView in nodeViews)
 			{
@@ -198,8 +198,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			StateSelectorWindow.Open(StateManager.Model, screenPosition, stateType =>
 			{
 				var model = (StateMachineModel) StateManager.Model;
-				var nodeData = StateGraphFactory.MakeStateNodeData(model, stateType, nodePosition);
-				StateGraphFactory.MakeNode(this, nodeData, model);
+				var nodeData = StateGraphNodeFactory.MakeStateNodeData(model, stateType, nodePosition);
+				var nodeView = StateGraphNodeFactory.MakeNode(this, nodeData, model);
+				AddElement(nodeView);
 			});
 		}
 

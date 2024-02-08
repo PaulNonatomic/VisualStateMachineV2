@@ -116,7 +116,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			{
 				var portData = _nodeModel.InputPorts[index];
 				ApplyStateColorToPortData(_nodeModel, portData);
-				StateGraphFactory.MakePort(_graphView, _model, this,
+				StateGraphPortFactory.MakePort(_graphView, _model, this,
 					inputContainer, Direction.Input, Port.Capacity.Multi, portData);
 			}
 		}
@@ -128,7 +128,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 				var portData = _nodeModel.OutputPorts[index];
 				TryUpdatePortDataFromState(_nodeModel, portData.Id, out portData);
 
-				StateGraphFactory.MakePort(_graphView, _model, this,
+				StateGraphPortFactory.MakePort(_graphView, _model, this,
 					outputContainer, Direction.Output, Port.Capacity.Single, portData);
 			}
 		}
@@ -191,7 +191,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			var scrollView = new ScrollView();
 			propertyContainer.Add(scrollView);
 				
-			var stateInspector = StateGraphFactory.MakePropertyInspector(_nodeModel.State);
+			var stateInspector = MakePropertyInspector(_nodeModel.State);
 			stateInspector.name = "state-inspector";
 			scrollView.contentContainer.Add(stateInspector);
 				

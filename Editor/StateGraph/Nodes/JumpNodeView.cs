@@ -220,7 +220,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			{
 				var portData = _nodeModel.InputPorts[index];
 				ApplyStateColorToPortData(_nodeModel, portData);
-				StateGraphFactory.MakePort(_graphView, _model, this,
+				StateGraphPortFactory.MakePort(_graphView, _model, this,
 					_titleContainer, Direction.Input, Port.Capacity.Multi, portData);
 			}
 		}
@@ -237,7 +237,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 				var portData = _nodeModel.OutputPorts[index];
 				TryUpdatePortDataFromState(_nodeModel, portData.Id, out portData);
 
-				StateGraphFactory.MakePort(_graphView, _model, this,
+				StateGraphPortFactory.MakePort(_graphView, _model, this,
 					_titleContainer, Direction.Output, Port.Capacity.Single, portData);
 			}
 		}

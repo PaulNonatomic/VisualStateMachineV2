@@ -8,7 +8,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 {
 	[NodeWidth(width:190)]
 	[NodeColor(NodeColor.Teal), NodeIcon(NodeIcon.V2_Clock)]
-	public class DelayState : State
+	public class DelayUnsclaedState : State
 	{
 		[Transition]
 		public event Action OnComplete;
@@ -26,7 +26,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 		
 		public override void Update()
 		{
-			_elapsedTime += Time.deltaTime;
+			_elapsedTime += Time.unscaledTime;
 			
 			if (_elapsedTime >= Duration)
 			{

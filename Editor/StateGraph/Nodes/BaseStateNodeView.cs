@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using Nonatomic.VSM2.Editor.NodeGraph;
 using Nonatomic.VSM2.Editor.Services;
+using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.Attributes;
 using Nonatomic.VSM2.Utils;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -110,6 +113,34 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			}
 
 			return icon;
+		}
+		
+		protected static VisualElement MakePropertyInspector(UnityEngine.Object target, 
+			List<string> propertiesToExclude = null)
+		{
+			var container = new VisualElement();
+			var serializedObject = new SerializedObject(target);
+			var fields = FieldUtils.GetInheritedSerializedFields(target.GetType());
+ 
+			foreach (var field in fields)
+			{
+				if ( propertiesToExclude != null && propertiesToExclude.Contains(field.Name)) continue;
+
+				var serializedProperty = serializedObject.FindProperty(field.Name);
+				if (serializedProperty != null)
+				{
+					var propertyField = new PropertyField(serializedProperty);
+					container.Add(propertyField);
+				}
+				else
+				{
+					Debug.LogWarning($"Property {field.Name} not found in serialized object.");
+				}
+			}
+			
+			container.Bind(serializedObject);
+			
+			return container;
 		}
 	}
 }

@@ -27,33 +27,44 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 		
 		public static T OpenWindow<T>() where T : NodeGraphEditorWindow
 		{
-			if (_window != null)
+			// Find all instances of the window type in the scene
+			var windows = Resources.FindObjectsOfTypeAll<T>();
+
+			// If there's already an instance, focus on it and return it
+			if (windows != null && windows.Length > 0)
 			{
+				_window = windows[0];
 				_window.Focus();
-				return (T) _window;
+				return (T)_window;
 			}
-			
+
+			// If no instance exists, create a new one
 			_window = GetWindow<T>(false, Title, true);
 			_window.Initialize();
 			_window.Show();
 			_window.Reposition();
-			return (T) _window;
+			return (T)_window;
 		}
 		
 		public static T OpenWindow<T>(NodeGraphDataModel model) where T : NodeGraphEditorWindow
 		{
-			if (_window != null)
+			// Find all instances of the window type in the scene
+			var windows = Resources.FindObjectsOfTypeAll<T>();
+
+			// If there's already an instance, focus on it and return it
+			if (windows != null && windows.Length > 0)
 			{
-				_window.InitializeWithData(model);
+				_window = windows[0];
 				_window.Focus();
-				return (T) _window;
+				return (T)_window;
 			}
-			
+
+			// If no instance exists, create a new one
 			_window = GetWindow<T>(false, Title, true);
 			_window.InitializeWithData(model);
 			_window.Show();
 			_window.Reposition();
-			return (T) _window;
+			return (T)_window;
 		}
 		
 		[InitializeOnLoadMethod]

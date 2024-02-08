@@ -82,7 +82,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 				var portData = _nodeModel.OutputPorts[index];
 				TryUpdatePortDataFromState(_nodeModel, portData.Id, out portData);
 
-				StateGraphFactory.MakePort(_graphView, _stateMachineModel, this,
+				StateGraphPortFactory.MakePort(_graphView, _stateMachineModel, this,
 					_titleContainer, Direction.Output, Port.Capacity.Single, portData);
 			}
 		}

@@ -14,6 +14,10 @@ namespace Nonatomic.VSM2.StateGraph
 		public abstract void Enter();
 		public abstract void Exit();
 		
+		/**
+		 * Unity life cycle methods are optional to override.
+		 */
+		
 		public virtual void Awake()
 		{
 			//..

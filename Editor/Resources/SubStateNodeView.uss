@@ -1,8 +1,8 @@
 /* *********** Node *********** */
 
 .node {
-    min-width: 280px;
-    max-width: 340px;
+    min-width: 340px;
+    max-width: 320px;
 }
 
 .node #title {
@@ -115,4 +115,8 @@ flex-direction: column;
 #field-container {
     height: 20px;
     flex-direction: row;
+}
+
+.unity-text-element {
+    min-width: 50px;
 }

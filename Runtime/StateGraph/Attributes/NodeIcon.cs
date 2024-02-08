@@ -24,6 +24,8 @@
 		public const string V2_Trophy = "Icons/v2/trophy";
 		public const string V2_Help = "Icons/v2/help";
 		public const string V2_Menu = "Icons/v2/menu";
+		public const string V2_RulerArrows = "Icons/v2/ruler-arrows";
+		public const string V2_Eject = "Icons/v2/eject";
 		
 		public const string VsmRecenter = "Icons/recenter-flat-white";
 		public const string VsmFlatRandomWhite = "Icons/random-flat-white";

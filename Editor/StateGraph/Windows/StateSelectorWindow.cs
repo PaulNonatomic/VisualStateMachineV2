@@ -21,7 +21,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		private int _currentSelectedIndex = -1;
 		private NodeGraphDataModel _model;
 		private const string HighlightClass = "highlighted-button-style";
-		private const string BuildInStateNamespace = "Playground.NodeGraph.StateGraph.States";
+		private const string BuildInStateNamespace = "Nonatomic.VSM2.StateGraph.States";
 		private const string BuildInStateDirectoryName = "Built-in States";
 		
 		public static void Open(NodeGraphDataModel model, 
