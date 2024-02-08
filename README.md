@@ -76,7 +76,10 @@ public class DelayState : State
 
 ## Jump Nodes
 Add JumpOutState state and set it's Id. Then create a JumpInState with the corresponding Id to jump from one node to another.
-![Unity_aEXhADhxUy](https://github.com/electricplaybox/igb-sdk-vsm/assets/4581647/8df2873c-070d-4ae9-a3a1-1abed9013c70)
+
+https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/8192f5ac-fa96-48e4-b44d-738fa2946f81
+
+
 
 ## Transition Delay
 The process of transitioning between nodes originally incurred no delay at all but when wiring up a looping state machine
