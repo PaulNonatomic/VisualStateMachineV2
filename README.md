@@ -2,7 +2,7 @@
 
 ## Overview
 Currently still a work in progress and subject to breaking changes.
-VisualStateMachine is a Unity package designed to simplify the creation and management of state machines in Unity projects. It provides a visual editor for designing state machines, making it easier to create complex behaviors without writing extensive code.
+Visual State Machine is a Unity package designed to simplify the creation and management of state machines in Unity projects. It provides a visual editor for designing state machines, making it easier to create complex behaviors without writing extensive code.
 
 ![Unity_ISB14HXGR3](https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/e06d7ba2-8e03-4635-9ce5-c1e7597f0f1d)
 
@@ -13,7 +13,7 @@ VisualStateMachine is a Unity package designed to simplify the creation and mana
 - **Transition Management**: Easily manage transitions between states with intuitive controls.
 
 ## Installation
-To install VisualStateMachine in your Unity project, follow these steps:
+To install Visual State Machine in your Unity project, follow these steps:
 1. Via package manager add a package from git url https://github.com/PaulNonatomic/VisualStateMachineV2.git
 
 ## Usage
