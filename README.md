@@ -81,17 +81,6 @@ it could cause a stack overflow. To prevent this a delay of 1 frame has been add
 can be configured on a per transition bases by passing a frameDelay value through the Transition attribute, but please use
 with caution as a frameDelay of 0 can cause a stack overflow.
 
-## Known Issues
-- Renaming transition events will lead to the transition being removed.
-    - I'm working on a fix for this were a combination of event name and order will be used to identify events.
-- On occasions the nodes will loose there style.
-- No way to follow the progress of parallel sub state machines at run time.
-- The state selector window attempts to unfold the states in the namespace nearest to the stataemachine asset, but doesn't always get this right.
-
-## Roadmap
-- Support for sticky notes
-- Grouping of nodes
-
 ## License
 VisualStateMachineV2 is licensed under the MIT license
 
