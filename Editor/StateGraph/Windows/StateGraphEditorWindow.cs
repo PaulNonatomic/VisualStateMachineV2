@@ -25,7 +25,12 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			base.OnEnable();
 			OpenWindow();
 		}
-		
+
+		private void OnFocus()
+		{
+			Initialize();
+		}
+
 		[InitializeOnLoadMethod]
 		private static void InitializeOnLoad()
 		{
