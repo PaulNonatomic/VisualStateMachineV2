@@ -1,0 +1,14 @@
+﻿
+#horizontal-container {
+    flex-direction: row;
+}
+
+ObjectField {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+Button {    
+    min-width: 50px;
+    max-width: 100px;
+}
