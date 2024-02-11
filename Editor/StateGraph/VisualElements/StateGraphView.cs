@@ -42,7 +42,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				HandleRecenter();
 			}
 			
-			Debug.Log($"PopulateGraph: {model}");
 			base.PopulateGraph(model);
 
 			_titleBar.SetTitle(model.name);
