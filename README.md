@@ -1,10 +1,10 @@
-# VisualStateMachine V2
+# Visual State Machine V2
 
 ## Overview
 Currently still a work in progress and subject to breaking changes.
-VisualStateMachine is a Unity package designed to simplify the creation and management of state machines in Unity projects. It provides a visual editor for designing state machines, making it easier to create complex behaviors without writing extensive code.
+Visual State Machine is a Unity package designed to simplify the creation and management of state machines in Unity projects. It provides a visual editor for designing state machines, making it easier to create complex behaviors without writing extensive code.
 
-![Unity_ISB14HXGR3](https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/e06d7ba2-8e03-4635-9ce5-c1e7597f0f1d)
+https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/fd8d3d78-ada4-4c27-bb33-3ab18323f38c
 
 ## Features
 - **Visual Editor**: Design state machines using a user-friendly graphical interface.
@@ -13,7 +13,7 @@ VisualStateMachine is a Unity package designed to simplify the creation and mana
 - **Transition Management**: Easily manage transitions between states with intuitive controls.
 
 ## Installation
-To install VisualStateMachine in your Unity project, follow these steps:
+To install Visual State Machine in your Unity project, follow these steps:
 1. Via package manager add a package from git url https://github.com/PaulNonatomic/VisualStateMachineV2.git
 
 ## Usage
@@ -73,25 +73,13 @@ public class DelayState : State
 ## Jump Nodes
 Add JumpOutState state and set it's Id. Then create a JumpInState with the corresponding Id to jump from one node to another.
 
-![Unity_6YHrBPVHBo](https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/9da52f3e-e28a-4475-9e7b-b646c9fa35d2)
-
+https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/17fbb675-1a77-4117-bd2b-1c0f9c3e79a5
 
 ## Transition Delay
 The process of transitioning between nodes originally incurred no delay at all but when wiring up a looping state machine
 it could cause a stack overflow. To prevent this a delay of 1 frame has been added to all transitions by default, but this
 can be configured on a per transition bases by passing a frameDelay value through the Transition attribute, but please use
 with caution as a frameDelay of 0 can cause a stack overflow.
-
-## Known Issues
-- Renaming transition events will lead to the transition being removed.
-    - I'm working on a fix for this were a combination of event name and order will be used to identify events.
-- On occasions the nodes will loose there style.
-- No way to follow the progress of parallel sub state machines at run time.
-- The state selector window attempts to unfold the states in the namespace nearest to the stataemachine asset, but doesn't always get this right.
-
-## Roadmap
-- Support for sticky notes
-- Grouping of nodes
 
 ## License
 VisualStateMachineV2 is licensed under the MIT license
