@@ -7,6 +7,7 @@ namespace Nonatomic.VSM2.Utils
 	{
 		public static List<Type> GetAllDerivedTypes<T>()
 		{
+			var derivedType = typeof(T);
 			var derivedTypes = new List<Type>();
 			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
@@ -15,7 +16,7 @@ namespace Nonatomic.VSM2.Utils
 				var types = assembly.GetTypes();
 				foreach (var type in types)
 				{
-					if (!type.IsSubclassOf(typeof(T))) continue;
+					if (!type.IsSubclassOf(derivedType)) continue;
 					derivedTypes.Add(type);
 				}
 			}

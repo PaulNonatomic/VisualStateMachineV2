@@ -4,7 +4,7 @@ using Nonatomic.VSM2.StateGraph.Attributes;
 
 namespace Nonatomic.VSM2.StateGraph.States
 {
-	[NodeIcon(NodeIcon.V2_Enter, opacity:0.8f)]
+	[NodeIcon(NodeIcon.V2_Enter)]
 	[HideInStateSelector, NodeColor(NodeColor.Green)]
 	public class EntryState : State
 	{

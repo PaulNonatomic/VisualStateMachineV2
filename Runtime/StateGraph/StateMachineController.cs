@@ -12,8 +12,13 @@ namespace Nonatomic.VSM2.StateGraph
 		private bool _activated;
 
 		public string Id => _id;
-		public StateMachineModel Model => _stateMachine != null ? _stateMachine.Model : _model;
 
+		public StateMachineModel Model
+		{
+			get => _stateMachine != null ? _stateMachine.Model : _model;
+			set => _model = value;
+		}
+		
 		public virtual void Reset()
 		{
 			CreateUniqueId();

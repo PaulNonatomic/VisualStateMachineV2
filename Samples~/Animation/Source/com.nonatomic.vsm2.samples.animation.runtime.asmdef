@@ -1,0 +1,16 @@
+{
+    "name": "com.nonatomic.vsm2.samples.animation.runtime",
+    "rootNamespace": "",
+    "references": [
+        "com.nonatomic.vsm2.runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

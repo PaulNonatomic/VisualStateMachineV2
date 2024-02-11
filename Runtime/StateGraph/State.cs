@@ -1,9 +1,11 @@
 ﻿#pragma warning disable 0067
 
+using Nonatomic.VSM2.StateGraph.Attributes;
 using UnityEngine;
 
 namespace Nonatomic.VSM2.StateGraph
 {
+	[NodeColor(NodeColor.Orange), NodeIcon(NodeIcon.V2_Cube)]
 	public abstract class State : ScriptableObject
 	{
 		public GameObject GameObject { get; set; }
@@ -11,6 +13,10 @@ namespace Nonatomic.VSM2.StateGraph
 		
 		public abstract void Enter();
 		public abstract void Exit();
+		
+		/**
+		 * Unity life cycle methods are optional to override.
+		 */
 		
 		public virtual void Awake()
 		{
