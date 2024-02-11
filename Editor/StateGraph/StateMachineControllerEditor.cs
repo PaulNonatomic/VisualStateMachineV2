@@ -18,11 +18,10 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			var controller = (StateMachineController) target;
 			var root = CreateRoot();
-			var container = CreateContainer(root);
-			var stateMachineField = CreateStateMachineField(container, controller);
+			var stateMachineField = CreateStateMachineField(root, controller);
 			
-			_newModelButton = CreateNewModelButton(container);
-			_openModelButton = CreateOpenModelButton(container, controller);
+			_newModelButton = CreateNewModelButton(root);
+			_openModelButton = CreateOpenModelButton(root, controller);
 			
 			return root;
 		}
@@ -31,6 +30,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			var newButton = new Button(() => CreateNewStateMachine());
 			newButton.text = "New";
+			newButton.style.minWidth = 50;
+			newButton.style.maxWidth = 100;
 			
 			container.Add(newButton);
 
@@ -51,7 +52,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			var root = new VisualElement();
 			root.name = "root";
-			root.styleSheets.Add(Resources.Load<StyleSheet>("StateMachineControllerEditor"));
+			root.style.flexDirection = FlexDirection.Row;
 
 			return root;
 		}
@@ -78,7 +79,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				allowSceneObjects = false,
 				bindingPath = nameof(controller.Model),
 				value = controller.Model
-			};
+			}; 
+			stateMachineField.style.flexGrow = 1;
+			stateMachineField.style.flexShrink = 1;
 			stateMachineField.RegisterValueChangedCallback(HandleStateMachineFieldValueChange);
 			container.Add(stateMachineField);
 			
