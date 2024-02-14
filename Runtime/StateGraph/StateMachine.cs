@@ -84,6 +84,7 @@ namespace Nonatomic.VSM2.StateGraph
 			if (_currentNode != null)
 			{
 				UnsubscribeFromNode(_currentNode);
+				_currentNode.Exit();
 			}
 			
 			foreach(var kvp in _nodeLookup)
@@ -171,7 +172,7 @@ namespace Nonatomic.VSM2.StateGraph
 			{
 				throw new NullReferenceException("StateMachine cannot unsubscribe to null node");
 			}
-
+			
 			if (!_transitionLookup.ContainsKey(node.Id)) return;
 
 			var transitions = _transitionLookup[node.Id];
