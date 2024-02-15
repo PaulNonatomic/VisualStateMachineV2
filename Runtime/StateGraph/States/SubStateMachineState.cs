@@ -69,13 +69,13 @@ namespace Nonatomic.VSM2.StateGraph.States
 			_subStateMachine.OnDestroy();
 		}
 
-		private void CreateStateMachine()
+		protected virtual void CreateStateMachine()
 		{
 			if(_model == null) return;
 			_subStateMachine = new StateMachine(_model, this.GameObject);
 		}
 
-		private void HandleComplete(State state)
+		protected virtual void HandleComplete(State state)
 		{
 			#if UNITY_EDITOR
 			{
