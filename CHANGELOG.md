@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.0.5-beta] - Feb 16, 2024
+- Fix for the unavailability of Event.Current in StateGraphView when opening the state selection window
+
 ## [0.0.4-beta] - Feb 15, 2024
 - Made a BaseStateMachineState for SubStateMachineState
 
