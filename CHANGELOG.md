@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.0.7-beta] - Feb 16, 2024
+- Fix for BaseSubsStateMachine not clearing down the complete handler on Exit
+
 ## [0.0.6-beta] - Feb 16, 2024
 - BaseSubStateMachine will set the activeObject to the substate when updating. Not this is a temporary fix and will be replaced with a more robust solution in the future.
 
