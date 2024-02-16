@@ -56,6 +56,11 @@ namespace Nonatomic.VSM2.StateGraph.States
 			}
 			#endif 
 		}
+		
+		public override void Exit()
+		{
+			_subStateMachine.OnComplete -= HandleComplete;
+		}
 
 		public override void FixedUpdate()
 		{
