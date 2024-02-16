@@ -46,6 +46,15 @@ namespace Nonatomic.VSM2.StateGraph.States
 		{
 			if (!_activated) return;
 			_subStateMachine.Update();
+			
+			#if UNITY_EDITOR
+			{
+				if (Selection.activeObject != _subStateMachine.Model)
+				{
+					Selection.activeObject = _subStateMachine.Model;
+				};
+			}
+			#endif 
 		}
 
 		public override void FixedUpdate()

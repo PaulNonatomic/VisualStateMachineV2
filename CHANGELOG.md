@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.0.6-beta] - Feb 16, 2024
+- BaseSubStateMachine will set the activeObject to the substate when updating. Not this is a temporary fix and will be replaced with a more robust solution in the future.
+
 ## [0.0.5-beta] - Feb 16, 2024
 - Fix for the unavailability of Event.Current in StateGraphView when opening the state selection window
 
