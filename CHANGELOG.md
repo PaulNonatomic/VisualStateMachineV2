@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.0.9-beta] - Feb 17, 2024
+- Removed the temporary fix for the BaseSubStateMachine that switched focus to the substatemachine on update
+
 ## [0.0.8-beta] - Feb 17, 2024
 - Fix for states updating after exiting
 
