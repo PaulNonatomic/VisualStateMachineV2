@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.0.8-beta] - Feb 17, 2024
+- Fix for states updating after exiting
+
 ## [0.0.7-beta] - Feb 16, 2024
 - Fix for BaseSubsStateMachine not clearing down the complete handler on Exit
 
