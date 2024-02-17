@@ -65,6 +65,7 @@ namespace Nonatomic.VSM2.StateGraph
 
 		public void OnDestroy()
 		{
+			Active = false;
 			State?.OnDestroy();
 			Enabled = false;
 		}

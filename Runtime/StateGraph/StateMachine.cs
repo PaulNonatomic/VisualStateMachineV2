@@ -35,12 +35,16 @@ namespace Nonatomic.VSM2.StateGraph
 		public void Update()
 		{
 			if (_currentNode == null) return;
+			if (!_currentNode.Active) return;
+			
 			_currentNode.Update();
 		}
 
 		public void FixedUpdate()
 		{
 			if (_currentNode == null) return;
+			if (!_currentNode.Active) return;
+			
 			_currentNode.FixedUpdate();
 		}
 
@@ -48,6 +52,7 @@ namespace Nonatomic.VSM2.StateGraph
 		{
 			foreach (var node in Model.Nodes)
 			{
+				if(!node.Enabled) continue;
 				node.Start();
 			}
 		}
@@ -61,6 +66,7 @@ namespace Nonatomic.VSM2.StateGraph
 			
 			IsComplete = false;
 			SubscribeToNode(_currentNode);
+
 			_currentNode.Enter();
 		}
 		
