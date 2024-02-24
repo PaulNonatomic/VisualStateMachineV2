@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.0.10-beta] - Feb 24, 2024
+- Fix for duplication of state method calls for awake and destroy
+
 ## [0.0.9-beta] - Feb 17, 2024
 - Removed the temporary fix for the BaseSubStateMachine that switched focus to the substatemachine on update
 

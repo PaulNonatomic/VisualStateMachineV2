@@ -10,12 +10,8 @@ namespace Nonatomic.VSM2.StateGraph.States
 		
 		protected override void HandleComplete(State state)
 		{
+			base.HandleComplete(state);
 			OnComplete?.Invoke();
-		}
-
-		public override void Exit()
-		{
-			//...
 		}
 	}
 }

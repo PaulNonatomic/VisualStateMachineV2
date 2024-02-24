@@ -144,9 +144,9 @@ namespace Nonatomic.VSM2.StateGraph
 		{
 			foreach (var stateNode in Nodes)
 			{
+				stateNode.State = Instantiate(stateNode.State);
 				stateNode.State.GameObject = gameObject;
 				stateNode.State.StateMachine = stateMachine;
-				stateNode.State.Awake();
 			}
 		}
 

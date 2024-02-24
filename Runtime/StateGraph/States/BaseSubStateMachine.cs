@@ -59,12 +59,6 @@ namespace Nonatomic.VSM2.StateGraph.States
 			_subStateMachine.FixedUpdate();
 		}
 
-		public override void OnDestroy()
-		{
-			if (!_activated) return;
-			_subStateMachine.OnDestroy();
-		}
-
 		protected virtual void CreateStateMachine()
 		{
 			if(_model == null) return;
