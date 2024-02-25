@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.1.0-beta] - Feb 25, 2024
+- Breaking change. Renamed the state methods because States are ScriptableObjects the Unity messages Awake and OnDestroy
+behave inconsistently between Unity Editor versions. Renaming provides greater control over the state lifecycle.
+When renaming these methods I considered just adding State on the end but this caused a clash with some State names.
+I also considered just adding On before the method name but this causes clashes with some transition names. 
+
 ## [0.0.10-beta] - Feb 24, 2024
 - Fix for duplication of state method calls for awake and destroy
 
