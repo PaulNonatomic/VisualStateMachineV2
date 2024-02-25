@@ -24,11 +24,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			MakeTitleBar();
 		}
 
-		public void OnFocus()
-		{
-			Debug.Log("OnFocus");
-		}
-		
 		protected override void MakeStateManager(string id)
 		{
 			StateManager = new StateNodeGraphStateManager(id);
@@ -132,7 +127,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			EditorApplication.playModeStateChanged -= HandlePlayModeStateChanged;
 			OnGridPositionChanged -= HandleGridPositionChanged;
-			_titleBar.OnRecenter += HandleRecenter;
+			_titleBar.OnRecenter -= HandleRecenter;
 			_contextMenu.OnCreateNewStateNode -= HandleCreateNewStateNode;
 			_contextMenu.OnDeleteEdgeContext -= HandleDeleteEdge;
 			_contextMenu.OnDeleteStateNode -= HandleDeleteStateNode;

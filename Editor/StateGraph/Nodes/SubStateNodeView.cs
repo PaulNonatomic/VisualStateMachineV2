@@ -1,20 +1,14 @@
 ﻿using System;
-using System.Reflection;
-using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.StateGraph;
-using Nonatomic.VSM2.StateGraph.Attributes;
+using Nonatomic.VSM2.StateGraph.States;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.UIElements;
 
 namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
 	public class SubStateNodeView : BaseStateNodeView
 	{
-		public StateNodeModel NodeModel => _nodeModel;
-		
-		private readonly StateNodeModel _nodeModel;
 		private readonly StateMachineModel _model;
 		private readonly Type _stateType;
 		private VisualElement _titleContainer;
@@ -32,6 +26,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			ColorizeTitle();
 			AddTitleLabel();
 			AddTitleIcon();
+			AddStateMachineOpenButton();
 			AddProgressBar();
 			AddInputPorts(inputContainer);
 			AddOutputPorts(outputContainer);
@@ -45,6 +40,20 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			AddGlowBorder();
 			CheckCustomWidth();
 			UpdatePosition();
+		}
+
+		private void AddStateMachineOpenButton()
+		{
+			var openButton = new Button(() =>
+			{
+				var substate = (BaseSubStateMachineState) NodeModel.State;
+				Selection.activeObject = substate.StateMachine.Model;
+				// Selection.activeObject = substate.StateMachine.Model;
+			});
+			openButton.text = "Open";
+			openButton.name = "open-button";
+
+			TitleContainer.Add(openButton);
 		}
 
 		public override void Update()

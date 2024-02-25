@@ -10,6 +10,8 @@ namespace Nonatomic.VSM2.StateGraph.States
 	[NodeColor(NodeColor.Purple), NodeIcon(NodeIcon.V2_Share), NodeWidth(200)]
 	public abstract class BaseSubStateMachineState : State
 	{
+		public StateMachine StateMachine => _subStateMachine;
+		
 		[SerializeField] private StateMachineModel _model;
 		
 		private StateMachine _subStateMachine;
