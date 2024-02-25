@@ -5,8 +5,8 @@
   "description": "Visual State Machine V2",
   "unity": "2022.3",
   "unityRelease": "1f1",
-  "documentationUrl": "https://github.com/PaulNonatomic/VisualStateMachineV2/blob/main/README.md",
-  "changelogUrl": "https://github.com/PaulNonatomic/VisualStateMachineV2/blob/main/CHANGELOG.md",
+  "documentationUrl": "https://github.com/PaulNonatomic/VisualStateMachineV2/blob/develop/README.md",
+  "changelogUrl": "https://github.com/PaulNonatomic/VisualStateMachineV2/blob/develop/CHANGELOG.md",
   "dependencies": {
     
   },
