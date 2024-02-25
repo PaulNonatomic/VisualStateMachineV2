@@ -6,12 +6,12 @@ namespace Nonatomic.VSM2.StateGraph.States
 	[NodeColor(NodeColor.Red)]
 	public class ExitState : State
 	{
-		public override void Enter()
+		public override void OnEnterState()
 		{
 			StateMachine.Complete(this);
 		}
 
-		public override void Exit()
+		public override void OnExitState()
 		{
 			
 		}

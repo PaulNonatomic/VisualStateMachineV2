@@ -11,34 +11,34 @@ namespace Nonatomic.VSM2.StateGraph
 		public GameObject GameObject { get; set; }
 		public StateMachine StateMachine { get; set; }
 		
-		public abstract void Enter();
-		public abstract void Exit();
+		public abstract void OnEnterState();
+		public abstract void OnExitState();
 		
 		/**
 		 * Unity life cycle methods are optional to override.
 		 */
 		
-		public virtual void Awake()
+		public virtual void OnAwakeState()
 		{
 			//..
 		}
 		
-		public virtual void Start()
+		public virtual void OnStartState()
 		{
 			//..
 		}
 
-		public virtual void Update()
+		public virtual void OnUpdateState()
 		{
 			//..
 		}
 
-		public virtual void FixedUpdate()
+		public virtual void OnFixedUpdateState()
 		{
 			//..
 		}
 
-		public virtual void OnDestroy()
+		public virtual void OnDestroyState()
 		{
 			//..
 		}

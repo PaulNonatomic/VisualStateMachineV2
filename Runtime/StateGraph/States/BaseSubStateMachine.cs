@@ -15,19 +15,19 @@ namespace Nonatomic.VSM2.StateGraph.States
 		private StateMachine _subStateMachine;
 		private bool _activated;
 
-		public override void Awake()
+		public override void OnAwakeState()
 		{
 			CreateStateMachine();
 			_activated = _subStateMachine != null;
 		}
 		
-		public override void Start()
+		public override void OnStartState()
 		{
 			if(!_activated) return;
 			_subStateMachine.Start();
 		}
 
-		public override void Enter()
+		public override void OnEnterState()
 		{
 			if (!_activated) return;
 			
@@ -42,21 +42,27 @@ namespace Nonatomic.VSM2.StateGraph.States
 			#endif 
 		}
 
-		public override void Update()
+		public override void OnUpdateState()
 		{
 			if (!_activated) return;
 			_subStateMachine.Update();
 		}
 		
-		public override void Exit()
+		public override void OnExitState()
 		{
 			_subStateMachine.OnComplete -= HandleComplete;
 		}
 
-		public override void FixedUpdate()
+		public override void OnFixedUpdateState()
 		{
 			if (!_activated) return;
 			_subStateMachine.FixedUpdate();
+		}
+		
+		public override void OnDestroyState()
+		{
+			if (!_activated) return;
+			_subStateMachine.OnDestroy();
 		}
 
 		protected virtual void CreateStateMachine()

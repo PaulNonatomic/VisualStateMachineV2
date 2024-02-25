@@ -29,44 +29,45 @@ namespace Nonatomic.VSM2.StateGraph
 		public void Awake()
 		{
 			Enabled = true;
-			State?.Awake();
+			State?.OnAwakeState();
 		}
 
 		public void Start()
 		{
-			State?.Start();
+			State?.OnStartState();
 		}
 
 		public void Enter()
 		{
 			Active = true;
 			LastActive = Time.time;
-			State?.Enter();
+			State?.OnEnterState();
 		}
 
 		public void Update()
 		{
 			LastActive = Time.time;
-			State?.Update();
+			State?.OnUpdateState();
 		}
 
 		public void FixedUpdate()
 		{
 			LastActive = Time.time;
-			State?.FixedUpdate();
+			State?.OnFixedUpdateState();
 		}
 
 		public void Exit()
 		{
 			LastActive = Time.time;
 			Active = false;
-			State?.Exit();
+			State?.OnExitState();
 		}
 
 		public void OnDestroy()
 		{
 			Active = false;
 			Enabled = false;
+			State?.OnDestroyState();
 		}
 
 		public void ValidatePorts()
@@ -208,7 +209,7 @@ namespace Nonatomic.VSM2.StateGraph
 		{
 			InputPorts.Add(new PortModel()
 			{
-				Id = "Enter",
+				Id = "OnEnterState",
 				Index = 0
 			});
 		}

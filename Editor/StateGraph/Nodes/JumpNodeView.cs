@@ -122,7 +122,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 				currentId = ids[0];
 			}
 
-			_idDropdown.choices = ids; // Update the choices
+			_idDropdown.choices = ids; // OnUpdateState the choices
 			_idDropdown.value = currentId; // Ensure the selected value is valid
 
 			HandleIdValueChanged(_idDropdown.value);
