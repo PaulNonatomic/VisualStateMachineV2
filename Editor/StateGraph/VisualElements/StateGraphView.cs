@@ -16,12 +16,14 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 {
 	public class StateGraphView : NodeGraphView
 	{
-		private TitleBarView _titleBar;
+		private ToolBarView _toolBar;
+		private FooterBarView _footerBar;
 		private StateGraphContextMenu _contextMenu;
 
 		public StateGraphView(string id) : base(id)
 		{
-			MakeTitleBar();
+			MakeToolBar();
+			MakeFooterBar();
 		}
 
 		protected override void MakeStateManager(string id)
@@ -39,11 +41,11 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			base.PopulateGraph(model);
 
-			_titleBar.SetTitle(model.name);
-			_titleBar.SetGridPosition(StateManager.GridPosition);
-
 			var stateModel = model as StateMachineModel;
 			
+			_toolBar.SetModel(stateModel);
+			_footerBar.SetGridPosition(StateManager.GridPosition);
+
 			AddEntryNode(stateModel);
 			AddNodes(stateModel);
 			AddEdges(stateModel);
@@ -99,7 +101,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				AddElement(nodeView);
 			}
 		}
-		
+
 		private void AddEdges(StateMachineModel stateMachineModel)
 		{
 			foreach (var transition in stateMachineModel.Transitions)
@@ -114,7 +116,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			EditorApplication.playModeStateChanged += HandlePlayModeStateChanged;
 			OnGridPositionChanged += HandleGridPositionChanged;
-			_titleBar.OnRecenter += HandleRecenter;
+			_toolBar.OnRecenter += HandleRecenter;
 			_contextMenu = new StateGraphContextMenu(this);
 			_contextMenu.OnCreateNewStateNode += HandleCreateNewStateNode;
 			_contextMenu.OnDeleteEdgeContext += HandleDeleteEdge;
@@ -127,7 +129,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			EditorApplication.playModeStateChanged -= HandlePlayModeStateChanged;
 			OnGridPositionChanged -= HandleGridPositionChanged;
-			_titleBar.OnRecenter -= HandleRecenter;
+			_toolBar.OnRecenter -= HandleRecenter;
 			_contextMenu.OnCreateNewStateNode -= HandleCreateNewStateNode;
 			_contextMenu.OnDeleteEdgeContext -= HandleDeleteEdge;
 			_contextMenu.OnDeleteStateNode -= HandleDeleteStateNode;
@@ -157,7 +159,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 					break;
 			}
 		}
-		
+
 		protected override void HandleUpdate()
 		{
 			if (!Application.isPlaying) return;
@@ -172,7 +174,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		private void HandleGridPositionChanged(Vector2 position)
 		{
-			_titleBar.SetGridPosition(StateManager.GridPosition);
+			_footerBar.SetGridPosition(StateManager.GridPosition);
 		}
 
 		private void HandleDeleteStateNode(NodeView nodeView)
@@ -212,16 +214,22 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			});
 		}
 
-		private void MakeTitleBar()
+		private void MakeFooterBar()
 		{
-			_titleBar = new TitleBarView();
+			_footerBar = new FooterBarView();
+			Add(_footerBar);
 
-			if (StateManager.Model != null)
-			{
-				_titleBar.SetTitle(StateManager.Model.name);
-			}
-			
-			Insert(2, _titleBar);
+			if (StateManager.Model == null) return;
+			_footerBar.SetModel(StateManager.Model as StateMachineModel);
+		}
+
+		private void MakeToolBar()
+		{
+			_toolBar = new ToolBarView();
+			Insert(2, _toolBar);
+
+			if (StateManager.Model == null) return;
+			_toolBar.SetModel(StateManager.Model as StateMachineModel);
 		}
 
 		protected override void HandleSelectionChanged()

@@ -3,6 +3,7 @@ using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.States;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
@@ -47,8 +48,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			var openButton = new Button(() =>
 			{
 				var substate = (BaseSubStateMachineState) NodeModel.State;
-				Selection.activeObject = substate.StateMachine.Model;
-				// Selection.activeObject = substate.StateMachine.Model;
+				Selection.activeObject = Application.isPlaying 
+					? substate.SubStateMachine.Model 
+					: substate.Model;
 			});
 			openButton.text = "Open";
 			openButton.name = "open-button";

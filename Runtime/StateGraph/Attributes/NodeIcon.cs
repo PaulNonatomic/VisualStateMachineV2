@@ -26,6 +26,9 @@
 		public const string V2_Menu = "Icons/v2/menu";
 		public const string V2_RulerArrows = "Icons/v2/ruler-arrows";
 		public const string V2_Eject = "Icons/v2/eject";
+		public const string V2_Center = "Icons/v2/center";
+		public const string V2_CenterSquare = "Icons/v2/center-square";
+		public const string V2_CenterAlign = "Icons/v2/center-align";
 		
 		public const string VsmRecenter = "Icons/recenter-flat-white";
 		public const string VsmFlatRandomWhite = "Icons/random-flat-white";

@@ -140,7 +140,7 @@ namespace Nonatomic.VSM2.StateGraph
 		{
 			if (node == null)
 			{
-				throw new NullReferenceException("StateMachine cannot subscribe to null node");
+				throw new NullReferenceException("SubStateMachine cannot subscribe to null node");
 			}
 
 			if (!_transitionLookup.ContainsKey(node.Id)) return;
@@ -176,7 +176,7 @@ namespace Nonatomic.VSM2.StateGraph
 		{
 			if (node == null)
 			{
-				throw new NullReferenceException("StateMachine cannot unsubscribe to null node");
+				throw new NullReferenceException("SubStateMachine cannot unsubscribe to null node");
 			}
 			
 			if (!_transitionLookup.ContainsKey(node.Id)) return;
@@ -228,7 +228,7 @@ namespace Nonatomic.VSM2.StateGraph
 			}
 			catch (OperationCanceledException canceledException)
 			{
-				GraphLog.Log("StateMachine.TransitionAsync cancelled: " + canceledException.Message);
+				GraphLog.Log("SubStateMachine.TransitionAsync cancelled: " + canceledException.Message);
 			}
 		}
 
@@ -238,6 +238,12 @@ namespace Nonatomic.VSM2.StateGraph
 
 			IsComplete = true;
 			OnComplete?.Invoke(state);
+		}
+
+		public void SetParent(StateMachine stateMachine)
+		{
+			Debug.Log($"SubStateMachine.SetParent: {stateMachine?.Model.name}");
+			Model.SetParent(stateMachine.Model);
 		}
 	}
 }
