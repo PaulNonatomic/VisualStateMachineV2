@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.1.1-beta] - Feb 25, 2024
+- Hotfix for editor script dependencies in runtime code
+
 ## [0.1.0-beta] - Feb 25, 2024
 - Breaking change. Renamed the state methods because States are ScriptableObjects the Unity messages Awake and OnDestroy
 behave inconsistently between Unity Editor versions. Renaming provides greater control over the state lifecycle.
