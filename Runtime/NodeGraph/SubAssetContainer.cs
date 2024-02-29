@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using Nonatomic.VSM2.Logging;
 using Nonatomic.VSM2.Utils;
-using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Nonatomic.VSM2.NodeGraph
 {
@@ -19,7 +22,11 @@ namespace Nonatomic.VSM2.NodeGraph
 		/// </summary>
 		public virtual void OnEnable()
 		{
-			AssemblyReloadEvents.afterAssemblyReload += HandleAfterAssemblyReload;
+			#if UNITY_EDITOR
+			{
+				AssemblyReloadEvents.afterAssemblyReload += HandleAfterAssemblyReload;
+			}
+			#endif
 		}
 
 		/// <summary>
@@ -27,7 +34,11 @@ namespace Nonatomic.VSM2.NodeGraph
 		/// </summary>
 		public virtual void OnDisable()
 		{
-			AssemblyReloadEvents.afterAssemblyReload -= HandleAfterAssemblyReload;
+			#if UNITY_EDITOR
+			{
+				AssemblyReloadEvents.afterAssemblyReload -= HandleAfterAssemblyReload;
+			}
+			#endif
 		}
 
 		/// <summary>
