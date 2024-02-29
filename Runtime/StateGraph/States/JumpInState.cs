@@ -8,12 +8,12 @@ namespace Nonatomic.VSM2.StateGraph.States
 		[Transition] 
 		public event Action OnExit;
 		
-		public override void Enter()
+		public override void OnEnterState()
 		{
 			OnExit?.Invoke();
 		}
 
-		public override void Exit()
+		public override void OnExitState()
 		{
 			
 		}

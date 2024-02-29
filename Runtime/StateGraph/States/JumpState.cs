@@ -4,12 +4,12 @@
 	{
 		public JumpId JumpId;
 
-		public override void Enter()
+		public override void OnEnterState()
 		{
 			this.StateMachine.JumpTo(this.JumpId);
 		}
 
-		public override void Exit()
+		public override void OnExitState()
 		{
 		}
 	}

@@ -35,12 +35,16 @@ namespace Nonatomic.VSM2.StateGraph
 		public void Update()
 		{
 			if (_currentNode == null) return;
+			if (!_currentNode.Active) return;
+			
 			_currentNode.Update();
 		}
 
 		public void FixedUpdate()
 		{
 			if (_currentNode == null) return;
+			if (!_currentNode.Active) return;
+			
 			_currentNode.FixedUpdate();
 		}
 
@@ -48,6 +52,7 @@ namespace Nonatomic.VSM2.StateGraph
 		{
 			foreach (var node in Model.Nodes)
 			{
+				if(!node.Enabled) continue;
 				node.Start();
 			}
 		}
@@ -61,6 +66,7 @@ namespace Nonatomic.VSM2.StateGraph
 			
 			IsComplete = false;
 			SubscribeToNode(_currentNode);
+
 			_currentNode.Enter();
 		}
 		
@@ -84,6 +90,7 @@ namespace Nonatomic.VSM2.StateGraph
 			if (_currentNode != null)
 			{
 				UnsubscribeFromNode(_currentNode);
+				_currentNode.Exit();
 			}
 			
 			foreach(var kvp in _nodeLookup)
@@ -171,7 +178,7 @@ namespace Nonatomic.VSM2.StateGraph
 			{
 				throw new NullReferenceException("StateMachine cannot unsubscribe to null node");
 			}
-
+			
 			if (!_transitionLookup.ContainsKey(node.Id)) return;
 
 			var transitions = _transitionLookup[node.Id];

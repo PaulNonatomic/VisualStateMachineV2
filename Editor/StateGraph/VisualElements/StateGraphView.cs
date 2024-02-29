@@ -197,8 +197,16 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
 			
 			var nodePosition = GraphUtils.ScreenPointToGraphPoint(position, this);
-			var mousePosition = Event.current.mousePosition;
-			var screenPosition = GUIUtility.GUIToScreenPoint(mousePosition);
+			var screenPosition = Vector2.zero;
+			
+			if (Event.current != null)
+			{
+				screenPosition = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
+			}
+			else
+			{
+				screenPosition = GUIUtility.ScreenToGUIPoint(MousePosition);
+			}
 			
 			StateSelectorWindow.Open(StateManager.Model, screenPosition, stateType =>
 			{

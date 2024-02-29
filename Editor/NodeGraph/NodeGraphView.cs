@@ -16,6 +16,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 		
 		protected NodeGraphStateManager StateManager;
 		protected Vector2 Size;
+		protected Vector2 MousePosition;
 
 		public NodeGraphView(string id)
 		{
@@ -28,11 +29,17 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			RegisterCallback<AttachToPanelEvent>(HandleAttachToPanel);
 			RegisterCallback<DetachFromPanelEvent>(HandleLeavePanel);
 			RegisterCallback<GeometryChangedEvent>(HandleGeometryChanged);
+			RegisterCallback<MouseMoveEvent>(HandleMouseMove);
 		}
 
 		protected virtual void MakeStateManager(string id)
 		{
 			StateManager = new NodeGraphStateManager(id);
+		}
+		
+		protected virtual void HandleMouseMove(MouseMoveEvent evt)
+		{
+			MousePosition = evt.localMousePosition;
 		}
 		
 		private void HandleGeometryChanged(GeometryChangedEvent evt)

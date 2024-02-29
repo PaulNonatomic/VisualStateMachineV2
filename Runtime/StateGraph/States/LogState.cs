@@ -14,13 +14,13 @@ namespace Nonatomic.VSM2.StateGraph.States
 		[SerializeField, Multiline(3)] 
 		private string _message = "Hello World";
 		
-		public override void Enter()
+		public override void OnEnterState()
 		{
 			Debug.Log(_message);
 			OnExit?.Invoke();
 		}
 
-		public override void Exit()
+		public override void OnExitState()
 		{
 			//Do nothing
 		}
