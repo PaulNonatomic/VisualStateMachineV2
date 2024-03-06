@@ -12,6 +12,7 @@ namespace Nonatomic.VSM2.StateGraph
 	{
 		public StateMachineModel Original { get; private set; }
 		public StateMachineModel Parent { get; private set; }
+		public string ModelName => Original == null ? name : Original.name;
 		
 		public bool HasState<T>() where T : State
 		{
@@ -22,7 +23,7 @@ namespace Nonatomic.VSM2.StateGraph
 		public static StateMachineModel CreateInstance(StateMachineModel model)
 		{
 			var instance = Instantiate(model);
-			instance.name = instance.name + instance.GetInstanceID();
+			instance.name = instance.name;// + instance.GetInstanceID();
 			instance.Original = model;
 			
 			return instance;

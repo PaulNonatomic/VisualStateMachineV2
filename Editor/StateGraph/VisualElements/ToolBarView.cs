@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using Nonatomic.VSM2.Editor.Services;
-using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.Attributes;
 using UnityEngine;
@@ -15,65 +13,32 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		
 		private Button _recenterButton;
 		private VisualElement _buttonContainer;
-		private VisualElement _labelContainer;
-		private List<LayerLabelView> _layerLabelList = new ();
+		private BreadcrumTrailView _breadcrumbTrail;
 		
 		public ToolBarView()
 		{
 			this.name = "toolBar";
 
 			ApplyStyle();
-			AddLabelContainer();
+			AddBreadcrumTrail();
 			AddButtonContainer();
 			AddRecenterButton();
 		}
 
-		private void AddLabelContainer()
+		private void AddBreadcrumTrail()
 		{
-			_labelContainer = new VisualElement();
-			_labelContainer.name = "label-container";
-			Add(_labelContainer);
+			_breadcrumbTrail = new BreadcrumTrailView();
+			Add(_breadcrumbTrail);
 		}
 
 		public void SetModel(StateMachineModel model)
 		{
-			_labelContainer.Clear();
-			_layerLabelList.Clear();
-			Debug.Log($"/////////// CLEAR");
-			
-			CreateLayerButton(model);
-			CreateParentLayerButton(model);
-			AddLayerButtons();
+			_breadcrumbTrail.SetModel(model);
 		}
-
-		private void AddLayerButtons()
-		{
-			for (var index = 0; index < _layerLabelList.Count; index++)
-			{
-				var label = _layerLabelList[index];
-				_labelContainer.Add(label);
-				
-				if (index > 0)
-				{
-					label.ToggleTip(true);
-				}
-			}
-		}
-
-		private void CreateParentLayerButton(StateMachineModel model)
-		{
-			var parent = model.Parent;
-			Debug.Log($"Add Parent: {parent?.name}");
-			if (parent == null) return;
-			if (parent == model) return;
-			
-			CreateLayerButton(parent);
-			CreateParentLayerButton(parent);
-		}
-
+		
 		private void ApplyStyle()
 		{
-			var style = UnityEngine.Resources.Load<StyleSheet>("ToolBarView");
+			var style = UnityEngine.Resources.Load<StyleSheet>(nameof(ToolBarView));
 			styleSheets.Add(style);
 		}
 
@@ -99,14 +64,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			_recenterButton.Add(icon);
 			_buttonContainer.Add(_recenterButton);
-		}
-
-		private void CreateLayerButton(NodeGraphDataModel model)
-		{
-			Debug.Log($"CreateLayerButton: {model.name}");
-			var layerLabel = new LayerLabelView();
-			layerLabel.SetText(model.name);
-			_layerLabelList.Add(layerLabel);
 		}
 	}
 }

@@ -10,52 +10,6 @@
     padding-right: 2px;
 }
 
-#label-container {    
-    flex-direction: row;
-    width:100%;
-    flex-grow: 1;
-}
-
-#layer-label {
-    flex-direction: row-reverse;
-    align-items: center;
-}
-
-#title-label {
-    color: white;
-    background-color: #1D1D1D;
-    border-radius: 4px;
-    padding:4px;
-    padding-left:8px;
-    padding-right:25px;
-    margin-left:10px;
-    margin:2px;
-    font-size: 12px;
-    flex-shrink: 1;
-}
-
-.pointy-element {
-    position: absolute;
-    background-color: #1D1D1D;
-    height:16px;
-    width:16px;
-    translate: 6 0 0;
-    rotate: 45deg;
-    border-right-color: #B06101;
-    border-top-color: #B06101;
-    border-width: 2px;
-    border-radius: 2px;
-}
-
-.pointy-background {
-    flex: auto;
-    position: absolute;
-    background-color: #1D1D1D;
-    height:23px;
-    width:22px;
-    translate: 9 0 0;
-}
-
 #button-container {
     flex-direction: row-reverse;
     height: 100%;
