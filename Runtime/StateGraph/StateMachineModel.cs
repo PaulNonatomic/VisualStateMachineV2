@@ -7,11 +7,12 @@ using UnityEngine;
 
 namespace Nonatomic.VSM2.StateGraph
 {
-	[CreateAssetMenu(fileName = "StateMachine", menuName = Constants.AssetMenuRoot + "/StateMachine")]
+	[CreateAssetMenu(fileName = "SubStateMachine", menuName = Constants.AssetMenuRoot + "/SubStateMachine")]
 	public class StateMachineModel : NodeGraphModel<StateNodeModel, StateTransitionModel>
 	{
-		public StateMachineModel Original { get; set; }
-		public StateMachineModel Parent { get; set; }
+		public StateMachineModel Original { get; private set; }
+		public StateMachineModel Parent { get; private set; }
+		public string ModelName => Original == null ? name : Original.name;
 		
 		public bool HasState<T>() where T : State
 		{
@@ -22,7 +23,7 @@ namespace Nonatomic.VSM2.StateGraph
 		public static StateMachineModel CreateInstance(StateMachineModel model)
 		{
 			var instance = Instantiate(model);
-			instance.name = instance.name + instance.GetInstanceID();
+			instance.name = instance.name;// + instance.GetInstanceID();
 			instance.Original = model;
 			
 			return instance;
@@ -159,6 +160,8 @@ namespace Nonatomic.VSM2.StateGraph
 
 		public void SetParent(StateMachineModel stateMachineModel)
 		{
+			if (stateMachineModel == this) return;
+			
 			Parent = stateMachineModel;
 		}
 	}

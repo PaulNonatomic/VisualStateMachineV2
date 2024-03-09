@@ -45,12 +45,12 @@ public class DelayState : State
     [NonSerialized]
     private float _elapsedTime;
 
-    public override void Enter()
+    public override void OnEnterState()
     {
         _elapsedTime = 0f;
     }
     
-    public override void Update()
+    public override void OnUpdateState()
     {
         _elapsedTime += Time.deltaTime;
         
@@ -60,7 +60,7 @@ public class DelayState : State
         }
     }
 
-    public override void Exit()
+    public override void OnExitState()
     {
         
     }
