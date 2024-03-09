@@ -101,13 +101,13 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			
 			_idDropdown = new PopupField<string>("", ids, currentId);
 			_idDropdown.AddToClassList("center-aligned-text");
+			_idDropdown.RegisterCallback<PointerDownEvent>(evt => RepopulateDropdown());
+			_idDropdown.RegisterCallback<PointerOverEvent>(evt => RepopulateDropdown());
 			_idDropdown.RegisterValueChangedCallback(evt =>
 			{
 				HandleIdValueChanged(evt.newValue);
 			});
-			_idDropdown.RegisterCallback<PointerDownEvent>(evt => RepopulateDropdown());
-			_idDropdown.RegisterCallback<PointerOverEvent>(evt => RepopulateDropdown());
-				
+
 			TitleContainer.Add(_idDropdown);
 		}
 
@@ -122,8 +122,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 				currentId = ids[0];
 			}
 
-			_idDropdown.choices = ids; // OnUpdateState the choices
-			_idDropdown.value = currentId; // Ensure the selected value is valid
+			_idDropdown.choices = ids;
+			_idDropdown.value = currentId;
 
 			HandleIdValueChanged(_idDropdown.value);
 		}
@@ -132,9 +132,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		{
 			_jumpState.JumpId = (JumpId) Enum.Parse(typeof(JumpId), value);
 			
-			var jumpIndex = (int)_jumpState.JumpId;
+			var jumpIndex = (int) _jumpState.JumpId;
 			var maxIndex = Enum.GetValues(typeof(JumpId)).Length;
-			var color = ColorUtils.GetColorFromValue(jumpIndex, maxIndex, 0.5f);
+			var color = ColorUtils.GetColorFromValue(jumpIndex, maxIndex, 0.5f, 200);
 			var port = TitleContainer.Q<Port>();
 			port.portColor = color;
 			
