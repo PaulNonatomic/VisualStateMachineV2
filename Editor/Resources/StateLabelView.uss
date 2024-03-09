@@ -1,0 +1,31 @@
+﻿#state-label-view {
+    border-radius: 5px;
+    margin-top:2px;
+    margin-bottom:2px;
+}
+
+#state-label-txt {
+    width: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 12px;
+    border-radius: 5px;
+    margin-top:2px;
+    margin-bottom:2px;
+    -unity-text-align: middle-center;
+    -unity-font-style: Bold;
+    flex-grow: 1;
+}
+
+.play-mode {
+    background-color: #980e23;
+}
+
+.edit-mode {
+    background-color: #0e5816;
+}
+
+.active-mode {
+    background-color: #af6001;
+}
+

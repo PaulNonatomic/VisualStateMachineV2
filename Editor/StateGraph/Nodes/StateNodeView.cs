@@ -7,9 +7,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
 	public class StateNodeView : BaseStateNodeView
 	{
-		public StateNodeModel NodeModel => _nodeModel;
-		
-		private readonly StateNodeModel _nodeModel;
 		private readonly StateMachineModel _model;
 		private readonly Type _stateType;
 		private VisualElement _titleContainer;
