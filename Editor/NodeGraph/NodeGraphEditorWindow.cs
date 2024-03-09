@@ -29,7 +29,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 		
 		public static T OpenWindow<T>() where T : NodeGraphEditorWindow
 		{
-			/var windows = Resources.FindObjectsOfTypeAll<T>();
+			var windows = Resources.FindObjectsOfTypeAll<T>();
 			if (windows != null && windows.Length > 0)
 			{
 				_window = windows[0];
