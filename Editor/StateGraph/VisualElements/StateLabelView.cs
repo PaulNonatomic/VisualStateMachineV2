@@ -6,16 +6,16 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 {
 	public class StateLabelView : VisualElement
 	{
+		private readonly string[] _stateLabels = {"Edit Mode", "Play Mode", "Active Mode"};
+		private readonly string[] _stateClasses = {"edit-mode", "play-mode", "active-mode"};
 		private readonly Label _label;
-		private string[] _stateLabels = {"Edit Mode", "Play Mode", "Active Mode"};
-		private string[] _stateClasses = {"edit-mode", "play-mode", "active-mode"};
 		private StateMachineModel _model;
 
 		public StateLabelView()
 		{
-			this.name = "state-label-view";
+			name = "state-label-view";
 			
-			var style = UnityEngine.Resources.Load<StyleSheet>("StateLabelView");
+			var style = UnityEngine.Resources.Load<StyleSheet>(nameof(StateLabelView));
 			styleSheets.Add(style);
 			
 			_label = new Label();

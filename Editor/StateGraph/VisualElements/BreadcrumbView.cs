@@ -1,4 +1,7 @@
-﻿using UnityEngine.UIElements;
+﻿using Nonatomic.VSM2.NodeGraph;
+using Nonatomic.VSM2.StateGraph;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Nonatomic.VSM2.Editor.StateGraph
 {
@@ -6,6 +9,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 	{
 		private Label _title;
 		private VisualElement _tip;
+		private StateMachineModel _model;
 
 		public BreadcrumbView()
 		{
@@ -14,6 +18,14 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			Build();
 			ApplyStyle();
 			ToggleTip(false);
+			
+			this.AddManipulator(new Clickable(HandleClick));
+		}
+
+		private void HandleClick(EventBase eventBase)
+		{
+			Debug.Log($"Breadcrumb clicked: {_model.ModelName}");
+			ModelSelection.ActiveModel = _model;
 		}
 
 		public void SetAsOrigin()
@@ -29,8 +41,11 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		private void Build()
 		{
+			pickingMode = PickingMode.Position;
+			
 			_title = new Label();
 			_title.name = "breadcrumb-title";
+			_title.pickingMode = PickingMode.Ignore;
 			Add(_title);
 			
 			_tip = new VisualElement();
@@ -56,6 +71,12 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				AddToClassList("hide-tip");
 				RemoveFromClassList("show-tip");
 			}
+		}
+
+		public void SetModel(StateMachineModel model)
+		{
+			_model = model;
+			SetText(model.ModelName);
 		}
 
 		public void SetText(string txt)

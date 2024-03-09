@@ -60,7 +60,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		private void CreateBreadcrumb(StateMachineModel model)
 		{
 			var breadcrum = new BreadcrumbView();
-			breadcrum.SetText(model.ModelName);
+			breadcrum.SetModel(model);
 			
 			_breadcrumbTrail.Add(breadcrum);
 		}

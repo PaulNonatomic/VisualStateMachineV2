@@ -7,44 +7,43 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 	public class FooterBarView : VisualElement
 	{
 		private Label _gridPositionLabel;
-		private VisualElement _gridPositionContainer;
+		private VisualElement _footerBar;
+		private GridPositionView _gridPosition;
 		private StateLabelView _stateLabelView;
 
 		public FooterBarView()
 		{
-			this.name = "footerBar";
+			name = "footerBar";
 
 			ApplyStyle();
-			AddGridPositionContainer();
-			AddGridPositionLabel();
+			AddGridPosition();
 			AddStateLabel();
 			ApplySpacing();
 		}
 
+		private void AddGridPosition()
+		{
+			_gridPosition = new GridPositionView();
+			Add(_gridPosition);
+		}
+
 		private void ApplySpacing()
 		{
-			var children = _gridPositionContainer.Children();
+			var children = Children();
 			foreach (var child in children) {
 				child.style.marginLeft = 4; // Adjust as needed
 			}
 		}
 
-		private void AddGridPositionContainer()
-		{
-			_gridPositionContainer = new VisualElement();
-			_gridPositionContainer.name = "grid-position-container";
-			Add(_gridPositionContainer);
-		}
-
 		private void AddStateLabel()
 		{
 			_stateLabelView = new StateLabelView();
-			_gridPositionContainer.Add(_stateLabelView);
+			Add(_stateLabelView);
 		}
 
 		private void ApplyStyle()
 		{
-			var style = UnityEngine.Resources.Load<StyleSheet>("FooterBarView");
+			var style = UnityEngine.Resources.Load<StyleSheet>(nameof(FooterBarView));
 			styleSheets.Add(style);
 		}
 
@@ -55,14 +54,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		public void SetGridPosition(Vector2 position)
 		{
-			_gridPositionLabel.text = $"x: {position.x}, y: {position.y}";
-		}
-		
-		private void AddGridPositionLabel()
-		{ 
-			_gridPositionLabel = new Label();
-			_gridPositionLabel.name = "grid-position-label";
-			_gridPositionContainer.Add(_gridPositionLabel);
+			_gridPosition.SetGridPosition(position);
 		}
 	}
 }

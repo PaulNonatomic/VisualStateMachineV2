@@ -1,4 +1,5 @@
 ﻿using System;
+using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.States;
 using UnityEditor;
@@ -48,7 +49,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			var openButton = new Button(() =>
 			{
 				var substate = (BaseSubStateMachineState) NodeModel.State;
-				Selection.activeObject = Application.isPlaying 
+				ModelSelection.ActiveModel = Application.isPlaying 
 					? substate.SubStateMachine.Model 
 					: substate.Model;
 			});

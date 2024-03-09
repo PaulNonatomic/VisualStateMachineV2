@@ -160,7 +160,6 @@ namespace Nonatomic.VSM2.StateGraph
 
 		public void SetParent(StateMachineModel stateMachineModel)
 		{
-			Debug.Log($"Set Parent: {this.name}, {this.Original?.name}, {stateMachineModel?.name}");
 			if (stateMachineModel == this) return;
 			
 			Parent = stateMachineModel;

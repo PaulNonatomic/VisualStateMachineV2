@@ -33,15 +33,12 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		public override void PopulateGraph(NodeGraphDataModel model)
 		{
-			if (model == null) return;
-			if (model != StateManager.Model)
-			{
-				HandleRecenter();
-			}
-			
 			base.PopulateGraph(model);
 
+			HandleRecenter();
+			
 			var stateModel = model as StateMachineModel;
+			ModelSelection.ActiveModel = model;
 			
 			_toolBar.SetModel(stateModel);
 			_footerBar.SetGridPosition(StateManager.GridPosition);
@@ -234,25 +231,27 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		protected override void HandleSelectionChanged()
 		{
-			switch (Selection.activeObject)
-			{
-				case StateMachineModel:
-					PopulateGraph(Selection.activeObject as StateMachineModel);
-					break;
-				case GameObject:
-					var go = Selection.activeObject as GameObject;
-					var smc = go.GetComponent<StateMachineController>();
-					if (smc == null) break;
+			HandleSelectionOfScriptableObject();
+			HandleSelectionOfGameObject();
+		}
+		
+		protected void HandleSelectionOfScriptableObject()
+		{
+			if (Selection.activeObject is not StateMachineModel model) return;
+			
+			ModelSelection.ActiveModel = model;
+			
+		}
 
-					var model = smc.Model;
-					if (model == null) break;
-					
-					var stateManager = StateManager as StateNodeGraphStateManager;
-					stateManager.SetStateControllerId(smc.Id);
-					
-					PopulateGraph(model);
-					break;
-			}
+		protected void HandleSelectionOfGameObject()
+		{
+			if (Selection.activeGameObject == null) return;
+			if (!Selection.activeGameObject.TryGetComponent(out StateMachineController stateMachineController)) return;
+			
+			ModelSelection.ActiveModel = stateMachineController.Model;
+			
+			var stateManager = (StateNodeGraphStateManager) StateManager;
+			stateManager.SetStateControllerId(stateMachineController.Id);
 		}
 	}
 }

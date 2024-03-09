@@ -1,4 +1,5 @@
-﻿using Nonatomic.VSM2.StateGraph.Attributes;
+﻿using Nonatomic.VSM2.NodeGraph;
+using Nonatomic.VSM2.StateGraph.Attributes;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -34,14 +35,14 @@ namespace Nonatomic.VSM2.StateGraph.States
 		{
 			if (!_activated) return;
 			
-			Debug.Log($"BaseSubStateMachine.OnEnterState: {SubStateMachine.Model}");
 			_subSubStateMachine.Model.SetParent(SubStateMachine.Model);
 			_subSubStateMachine.OnComplete += HandleComplete;
 			_subSubStateMachine.Enter();
 
 			#if UNITY_EDITOR
 			{
-				Selection.activeObject = _subSubStateMachine.Model;
+				if (ModelSelection.ActiveModel != StateMachine.Model) return;
+				ModelSelection.ActiveModel = _subSubStateMachine.Model;
 			}
 			#endif 
 		}
@@ -50,6 +51,13 @@ namespace Nonatomic.VSM2.StateGraph.States
 		{
 			if (!_activated) return;
 			_subSubStateMachine.Update();
+			
+			#if UNITY_EDITOR
+			{
+				if (ModelSelection.ActiveModel != StateMachine.Model) return;
+				ModelSelection.ActiveModel = _subSubStateMachine.Model;
+			}
+			#endif 
 		}
 		
 		public override void OnExitState()
@@ -72,7 +80,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 		protected virtual void CreateStateMachine()
 		{
 			if(_model == null) return;
-			Debug.Log($"BaseSubStateMachine.CreateStateMachine: {_model.name}, {SubStateMachine?.Model.name}, {StateMachine?.Model.name}");
+			
 			_subSubStateMachine = new StateMachine(_model, this.GameObject);
 			_subSubStateMachine.SetParent(StateMachine);
 		}
@@ -81,9 +89,12 @@ namespace Nonatomic.VSM2.StateGraph.States
 		{
 			#if UNITY_EDITOR
 			{
-				Selection.activeObject = SubStateMachine.Model;
+				if (ModelSelection.ActiveModel == _subSubStateMachine.Model)
+				{
+					ModelSelection.ActiveModel = SubStateMachine.Model.Parent;
+				}
 			}
-			#endif 
+			#endif
 		}
 	}
 }
