@@ -1,4 +1,6 @@
-﻿using Nonatomic.VSM2.NodeGraph;
+﻿using System;
+using System.Reflection;
+using Nonatomic.VSM2.NodeGraph;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -53,12 +55,13 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			}
 
 			_window = GetWindow<T>(false, Title, true);
+			_window.Reposition();
 			_window.InitializeWithData(model);
 			_window.Show();
-			_window.Reposition();
+			
 			return (T)_window;
 		}
-
+		
 		[InitializeOnLoadMethod]
 		public static void OnInitializeOnLoad()
 		{
@@ -79,7 +82,8 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			if (Event.current?.type != EventType.MouseDown || Event.current?.clickCount != 2) return;
 			if (Selection.activeObject is not NodeGraphDataModel) return;
 			
-			OpenWindowDelegate?.Invoke(Selection.activeObject as NodeGraphDataModel);
+			ModelSelection.ActiveModel = Selection.activeObject as NodeGraphDataModel;
+			OpenWindowDelegate?.Invoke(ModelSelection.ActiveModel);
 		}
 		
 		public virtual void Initialize()
@@ -129,7 +133,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			rect.width = _windowDefaultSize.x;
 			rect.height = _windowDefaultSize.y;
 			rect.center = new Rect(0, 0, Screen.currentResolution.width, Screen.currentResolution.height).center;
-			this.position = rect;
+			position = rect;
 		}
 
 		private bool NeedsReinitialization()

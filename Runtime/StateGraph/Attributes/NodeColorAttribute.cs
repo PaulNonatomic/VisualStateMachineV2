@@ -6,7 +6,7 @@ namespace Nonatomic.VSM2.StateGraph.Attributes
 	{
 		public const string Grey = "#444444";
 		public const string Red = "#990e23";
-		public const string Orange = "#915710";
+		public const string Orange = "#B06101";
 		public const string LimeGreen = "#6d9111";
 		public const string Green = "#116f1c";
 		public const string ForestGreen = "#08704a";

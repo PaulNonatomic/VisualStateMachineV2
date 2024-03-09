@@ -1,4 +1,5 @@
-﻿using Nonatomic.VSM2.StateGraph.Attributes;
+﻿using Nonatomic.VSM2.NodeGraph;
+using Nonatomic.VSM2.StateGraph.Attributes;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -10,34 +11,38 @@ namespace Nonatomic.VSM2.StateGraph.States
 	[NodeColor(NodeColor.Purple), NodeIcon(NodeIcon.V2_Share), NodeWidth(200)]
 	public abstract class BaseSubStateMachineState : State
 	{
+		public StateMachine SubStateMachine => _subSubStateMachine;
+		public StateMachineModel Model => _model;
+		
 		[SerializeField] private StateMachineModel _model;
 		
-		private StateMachine _subStateMachine;
+		private StateMachine _subSubStateMachine;
 		private bool _activated;
 
 		public override void OnAwakeState()
 		{
 			CreateStateMachine();
-			_activated = _subStateMachine != null;
+			_activated = _subSubStateMachine != null;
 		}
 		
 		public override void OnStartState()
 		{
 			if(!_activated) return;
-			_subStateMachine.Start();
+			_subSubStateMachine.Start();
 		}
 
 		public override void OnEnterState()
 		{
 			if (!_activated) return;
 			
-			_subStateMachine.Model.SetParent(StateMachine.Model);
-			_subStateMachine.OnComplete += HandleComplete;
-			_subStateMachine.Enter();
+			_subSubStateMachine.Model.SetParent(SubStateMachine.Model);
+			_subSubStateMachine.OnComplete += HandleComplete;
+			_subSubStateMachine.Enter();
 
 			#if UNITY_EDITOR
 			{
-				Selection.activeObject = _subStateMachine.Model;
+				if (ModelSelection.ActiveModel != StateMachine.Model) return;
+				ModelSelection.ActiveModel = _subSubStateMachine.Model;
 			}
 			#endif 
 		}
@@ -45,39 +50,51 @@ namespace Nonatomic.VSM2.StateGraph.States
 		public override void OnUpdateState()
 		{
 			if (!_activated) return;
-			_subStateMachine.Update();
+			_subSubStateMachine.Update();
+			
+			#if UNITY_EDITOR
+			{
+				if (ModelSelection.ActiveModel != StateMachine.Model) return;
+				ModelSelection.ActiveModel = _subSubStateMachine.Model;
+			}
+			#endif 
 		}
 		
 		public override void OnExitState()
 		{
-			_subStateMachine.OnComplete -= HandleComplete;
+			_subSubStateMachine.OnComplete -= HandleComplete;
 		}
 
 		public override void OnFixedUpdateState()
 		{
 			if (!_activated) return;
-			_subStateMachine.FixedUpdate();
+			_subSubStateMachine.FixedUpdate();
 		}
 		
 		public override void OnDestroyState()
 		{
 			if (!_activated) return;
-			_subStateMachine.OnDestroy();
+			_subSubStateMachine.OnDestroy();
 		}
 
 		protected virtual void CreateStateMachine()
 		{
 			if(_model == null) return;
-			_subStateMachine = new StateMachine(_model, this.GameObject);
+			
+			_subSubStateMachine = new StateMachine(_model, this.GameObject);
+			_subSubStateMachine.SetParent(StateMachine);
 		}
 
 		protected virtual void HandleComplete(State state)
 		{
 			#if UNITY_EDITOR
 			{
-				Selection.activeObject = StateMachine.Model;
+				if (ModelSelection.ActiveModel == _subSubStateMachine.Model)
+				{
+					ModelSelection.ActiveModel = SubStateMachine.Model.Parent;
+				}
 			}
-			#endif 
+			#endif
 		}
 	}
 }

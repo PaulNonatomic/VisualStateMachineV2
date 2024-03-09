@@ -1,0 +1,41 @@
+﻿/* *********** Tool Bar *********** */
+#toolBar {
+    height: 34px;
+    background-color: #2d2d2d;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+#button-container {
+    flex-direction: row-reverse;
+    height: 100%;
+    padding:2px;
+    width: 100px;
+}
+
+#toolbtn {
+    background-color: #1d1d1d;
+    margin:0px;
+    height:100%;
+    width:30px;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+#toolbtn-icon {
+    width: 80%;
+    height: auto;
+}
+
+.node #title-button-container {
+    visibility: hidden;
+    width:0;
+    height:0;
+}
+
+

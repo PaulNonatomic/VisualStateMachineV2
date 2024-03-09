@@ -23,6 +23,11 @@
     padding-right:10px;
 }
 
+#button-container{
+    flex-direction: row-reverse;
+    width: 100%;
+}
+
 #toolbtn {
     width: 24px;
     height: 18px;
