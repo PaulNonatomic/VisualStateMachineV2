@@ -39,9 +39,11 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			var stateModel = model as StateMachineModel;
 			ModelSelection.ActiveModel = model;
+			StateManager.SetModel(stateModel);
 			
 			_toolBar.SetModel(stateModel);
 			_footerBar.SetGridPosition(StateManager.GridPosition);
+			_footerBar.SetModel(stateModel);
 
 			AddEntryNode(stateModel);
 			AddNodes(stateModel);
@@ -167,6 +169,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			{
 				nodeView.Update();
 			}
+			
+			_footerBar.SetGridPosition(StateManager.GridPosition);
 		}
 
 		private void HandleGridPositionChanged(Vector2 position)
@@ -240,7 +244,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			if (Selection.activeObject is not StateMachineModel model) return;
 			
 			ModelSelection.ActiveModel = model;
-			
 		}
 
 		protected void HandleSelectionOfGameObject()
