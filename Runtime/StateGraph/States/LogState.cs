@@ -22,7 +22,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		public override void OnExitState()
 		{
-			//Do nothing
+			//...
 		}
 	}
 }

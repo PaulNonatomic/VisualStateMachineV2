@@ -1,0 +1,8 @@
+﻿#footerBar {
+    height: 30px;    
+    display: flex;
+    flex-direction: row;    
+    justify-content: space-between;
+    padding-right: 4px;
+    padding-left:  4px;
+}

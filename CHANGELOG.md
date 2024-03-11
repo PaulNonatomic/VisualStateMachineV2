@@ -1,5 +1,19 @@
 # Change Log
 
+## [0.2.1-beta] - Mar 11, 2024
+- Fix for graph position label not updating when the graph is moved
+- Fix fro the graph state label not updating when in active mode
+
+## [0.2.0-beta] - Mar 09, 2024
+- SubStateMachine now has a button on the Node to open the sub state
+- Moved away from using Selection.activeObject to populate the StateMachineEditor opting for a custom solution.
+- Added breadcrumb trail to the StateMachineEditor to show the current state machine and parent state machines.
+- Added current state label to the StateMachineEditor to show the current state of the state machine. (Still needs some work)
+- Added a hue shift to the jump nodes so they don't start on red which I think confuses the jump nodes with exit nodes.
+
+## [0.1.1-beta] - Feb 25, 2024
+- Hotfix for editor script dependencies in runtime code
+
 ## [0.1.0-beta] - Feb 25, 2024
 - Breaking change. Renamed the state methods because States are ScriptableObjects the Unity messages Awake and OnDestroy
 behave inconsistently between Unity Editor versions. Renaming provides greater control over the state lifecycle.

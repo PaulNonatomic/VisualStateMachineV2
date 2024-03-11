@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.NodeGraph;
+using Nonatomic.VSM2.StateGraph;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -32,20 +33,22 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			RegisterCallback<MouseMoveEvent>(HandleMouseMove);
 		}
 
+		public virtual void PopulateGraph(NodeGraphDataModel model)
+		{
+			if (model == null) return;
+			
+			StateManager.SetModel(model);
+			ClearGraph();
+		}
+
 		protected virtual void MakeStateManager(string id)
 		{
 			StateManager = new NodeGraphStateManager(id);
 		}
-		
+
 		protected virtual void HandleMouseMove(MouseMoveEvent evt)
 		{
 			MousePosition = evt.localMousePosition;
-		}
-		
-		private void HandleGeometryChanged(GeometryChangedEvent evt)
-		{
-			Size = evt.newRect.size;
-			StateManager.LoadState();
 		}
 
 		/**
@@ -71,16 +74,6 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			return compatiblePorts;
 		}
 
-		private void MakeGridShadow()
-		{
-			var shadow = new VisualElement();
-			shadow.name = "gridShadow";
-			shadow.style.backgroundImage= Resources.Load<Texture2D>("DropShadowSliced2");
-			shadow.pickingMode = PickingMode.Ignore;
-			
-			Add(shadow);
-		}
-
 		protected virtual void HandleStateChange()
 		{
 			EditorApplication.delayCall += () =>
@@ -93,6 +86,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 		{
 			StateManager.OnChange += HandleStateChange;
 			Selection.selectionChanged += HandleSelectionChanged;
+			ModelSelection.OnModelSelected += HandleModelChanged;
 			EditorApplication.update += HandleUpdate;
 			viewTransformChanged += HandleViewTransformChanged;
 
@@ -111,39 +105,18 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			
 			StateManager.OnChange -= HandleStateChange;
 			Selection.selectionChanged -= HandleSelectionChanged;
+			ModelSelection.OnModelSelected -= HandleModelChanged;
 			EditorApplication.update -= HandleUpdate;
 		}
 
-		private void HandleViewTransformChanged(GraphView graphView)
-		{
-			SaveState();
-		}
-
-		private void SaveState()
-		{
-			StateManager.SetGridPosition(contentRect.center, viewTransform.position);
-			StateManager.SetGridScale(viewTransform.scale);
-			
-			OnGridPositionChanged?.Invoke(viewTransform.position);
-		}
-		
 		protected virtual void HandleUpdate()
 		{
 			if (StateManager.Model == null) return;
 		}
 
-		protected virtual void HandleSelectionChanged()
+		protected virtual void HandleModelChanged(NodeGraphDataModel model)
 		{
-			if (Selection.activeObject is not NodeGraphDataModel) return;
-			PopulateGraph(Selection.activeObject as NodeGraphDataModel);
-		}
-
-		public virtual void PopulateGraph(NodeGraphDataModel model)
-		{
-			if (model == null) return;
-			
-			StateManager.SetModel(model);
-			ClearGraph();
+			PopulateGraph(model);
 		}
 
 		protected virtual void ClearGraph()
@@ -164,6 +137,40 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			this.AddManipulator(new SelectionDragger());
 			this.AddManipulator(new RectangleSelector());
 			this.AddManipulator(new FreehandSelector());
+		}
+
+		private void HandleGeometryChanged(GeometryChangedEvent evt)
+		{
+			Size = evt.newRect.size;
+			StateManager.LoadState();
+		}
+
+		private void MakeGridShadow()
+		{
+			var shadow = new VisualElement();
+			shadow.name = "gridShadow";
+			shadow.style.backgroundImage= Resources.Load<Texture2D>("DropShadowSliced2");
+			shadow.pickingMode = PickingMode.Ignore;
+			
+			Add(shadow);
+		}
+
+		private void HandleViewTransformChanged(GraphView graphView)
+		{
+			SaveState();
+		}
+
+		private void SaveState()
+		{
+			StateManager.SetGridPosition(contentRect.center, viewTransform.position);
+			StateManager.SetGridScale(viewTransform.scale);
+			
+			OnGridPositionChanged?.Invoke(viewTransform.position);
+		}
+
+		protected virtual void HandleSelectionChanged()
+		{
+			//..
 		}
 	}
 }

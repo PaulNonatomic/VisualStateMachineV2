@@ -16,19 +16,16 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 {
 	public class StateGraphView : NodeGraphView
 	{
-		private TitleBarView _titleBar;
+		private ToolBarView _toolBar;
+		private FooterBarView _footerBar;
 		private StateGraphContextMenu _contextMenu;
 
 		public StateGraphView(string id) : base(id)
 		{
-			MakeTitleBar();
+			MakeToolBar();
+			MakeFooterBar();
 		}
 
-		public void OnFocus()
-		{
-			Debug.Log("OnFocus");
-		}
-		
 		protected override void MakeStateManager(string id)
 		{
 			StateManager = new StateNodeGraphStateManager(id);
@@ -36,19 +33,18 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		public override void PopulateGraph(NodeGraphDataModel model)
 		{
-			if (model == null) return;
-			if (model != StateManager.Model)
-			{
-				HandleRecenter();
-			}
-			
 			base.PopulateGraph(model);
 
-			_titleBar.SetTitle(model.name);
-			_titleBar.SetGridPosition(StateManager.GridPosition);
-
-			var stateModel = model as StateMachineModel;
+			HandleRecenter();
 			
+			var stateModel = model as StateMachineModel;
+			ModelSelection.ActiveModel = model;
+			StateManager.SetModel(stateModel);
+			
+			_toolBar.SetModel(stateModel);
+			_footerBar.SetGridPosition(StateManager.GridPosition);
+			_footerBar.SetModel(stateModel);
+
 			AddEntryNode(stateModel);
 			AddNodes(stateModel);
 			AddEdges(stateModel);
@@ -104,7 +100,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				AddElement(nodeView);
 			}
 		}
-		
+
 		private void AddEdges(StateMachineModel stateMachineModel)
 		{
 			foreach (var transition in stateMachineModel.Transitions)
@@ -119,7 +115,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			EditorApplication.playModeStateChanged += HandlePlayModeStateChanged;
 			OnGridPositionChanged += HandleGridPositionChanged;
-			_titleBar.OnRecenter += HandleRecenter;
+			_toolBar.OnRecenter += HandleRecenter;
 			_contextMenu = new StateGraphContextMenu(this);
 			_contextMenu.OnCreateNewStateNode += HandleCreateNewStateNode;
 			_contextMenu.OnDeleteEdgeContext += HandleDeleteEdge;
@@ -132,7 +128,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			EditorApplication.playModeStateChanged -= HandlePlayModeStateChanged;
 			OnGridPositionChanged -= HandleGridPositionChanged;
-			_titleBar.OnRecenter += HandleRecenter;
+			_toolBar.OnRecenter -= HandleRecenter;
 			_contextMenu.OnCreateNewStateNode -= HandleCreateNewStateNode;
 			_contextMenu.OnDeleteEdgeContext -= HandleDeleteEdge;
 			_contextMenu.OnDeleteStateNode -= HandleDeleteStateNode;
@@ -162,9 +158,12 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 					break;
 			}
 		}
-		
+
 		protected override void HandleUpdate()
 		{
+			StateManager.SetGridPosition(contentRect.center, viewTransform.position);
+			_footerBar.SetGridPosition(StateManager.GridPosition);
+			
 			if (!Application.isPlaying) return;
 			if (StateManager.Model == null) return;
 			
@@ -177,7 +176,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		private void HandleGridPositionChanged(Vector2 position)
 		{
-			_titleBar.SetGridPosition(StateManager.GridPosition);
+			_footerBar.SetGridPosition(StateManager.GridPosition);
 		}
 
 		private void HandleDeleteStateNode(NodeView nodeView)
@@ -217,39 +216,46 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			});
 		}
 
-		private void MakeTitleBar()
+		private void MakeFooterBar()
 		{
-			_titleBar = new TitleBarView();
+			_footerBar = new FooterBarView();
+			Add(_footerBar);
 
-			if (StateManager.Model != null)
-			{
-				_titleBar.SetTitle(StateManager.Model.name);
-			}
-			
-			Insert(2, _titleBar);
+			if (StateManager.Model == null) return;
+			_footerBar.SetModel(StateManager.Model as StateMachineModel);
+		}
+
+		private void MakeToolBar()
+		{
+			_toolBar = new ToolBarView();
+			Insert(2, _toolBar);
+
+			if (StateManager.Model == null) return;
+			_toolBar.SetModel(StateManager.Model as StateMachineModel);
 		}
 
 		protected override void HandleSelectionChanged()
 		{
-			switch (Selection.activeObject)
-			{
-				case StateMachineModel:
-					PopulateGraph(Selection.activeObject as StateMachineModel);
-					break;
-				case GameObject:
-					var go = Selection.activeObject as GameObject;
-					var smc = go.GetComponent<StateMachineController>();
-					if (smc == null) break;
+			HandleSelectionOfScriptableObject();
+			HandleSelectionOfGameObject();
+		}
+		
+		protected void HandleSelectionOfScriptableObject()
+		{
+			if (Selection.activeObject is not StateMachineModel model) return;
+			
+			ModelSelection.ActiveModel = model;
+		}
 
-					var model = smc.Model;
-					if (model == null) break;
-					
-					var stateManager = StateManager as StateNodeGraphStateManager;
-					stateManager.SetStateControllerId(smc.Id);
-					
-					PopulateGraph(model);
-					break;
-			}
+		protected void HandleSelectionOfGameObject()
+		{
+			if (Selection.activeGameObject == null) return;
+			if (!Selection.activeGameObject.TryGetComponent(out StateMachineController stateMachineController)) return;
+			
+			ModelSelection.ActiveModel = stateMachineController.Model;
+			
+			var stateManager = (StateNodeGraphStateManager) StateManager;
+			stateManager.SetStateControllerId(stateMachineController.Id);
 		}
 	}
 }
