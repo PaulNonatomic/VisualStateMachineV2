@@ -161,6 +161,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		protected override void HandleUpdate()
 		{
+			StateManager.SetGridPosition(contentRect.center, viewTransform.position);
+			_footerBar.SetGridPosition(StateManager.GridPosition);
+			
 			if (!Application.isPlaying) return;
 			if (StateManager.Model == null) return;
 			
@@ -169,8 +172,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			{
 				nodeView.Update();
 			}
-			
-			_footerBar.SetGridPosition(StateManager.GridPosition);
 		}
 
 		private void HandleGridPositionChanged(Vector2 position)
