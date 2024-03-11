@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.2.1-beta] - Mar 11, 2024
+- Fix for graph position label not updating when the graph is moved
+- Fix fro the graph state label not updating when in active mode
+
 ## [0.2.0-beta] - Mar 09, 2024
 - SubStateMachine now has a button on the Node to open the sub state
 - Moved away from using Selection.activeObject to populate the StateMachineEditor opting for a custom solution.
