@@ -5,11 +5,11 @@ using UnityEngine.UIElements;
 
 namespace Nonatomic.VSM2.Editor.StateGraph
 {
-	public class BreadcrumTrailView : VisualElement
+	public class BreadcrumbTrailView : VisualElement
 	{
 		private List<BreadcrumbView> _breadcrumbTrail = new ();
 		
-		public BreadcrumTrailView()
+		public BreadcrumbTrailView()
 		{
 			name = "breadcrumb-trail";
 			ApplyStyle();
@@ -17,7 +17,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		
 		private void ApplyStyle()
 		{
-			var style = UnityEngine.Resources.Load<StyleSheet>(nameof(BreadcrumTrailView));
+			var style = UnityEngine.Resources.Load<StyleSheet>(nameof(BreadcrumbTrailView));
 			styleSheets.Add(style);
 		}
 
