@@ -1,8 +1,15 @@
 # Change Log
 
+## [0.3.0-beta] - Mar 16, 2024
+- Added Parallel Sub State Machine State
+- Added custom property drawer for StateMachineModel to include an open button
+- Removed the now redundant Open button from the SubStateMachine node
+- Added Random nodes for 2 and 3 outputs
+- Fixed typo in name of DelayUnscaledState (possible breaking change)
+
 ## [0.2.1-beta] - Mar 11, 2024
 - Fix for graph position label not updating when the graph is moved
-- Fix fro the graph state label not updating when in active mode
+- Fix for the graph state label not updating when in active mode
 
 ## [0.2.0-beta] - Mar 09, 2024
 - SubStateMachine now has a button on the Node to open the sub state

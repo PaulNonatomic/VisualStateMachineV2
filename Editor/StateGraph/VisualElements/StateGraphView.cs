@@ -34,8 +34,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		public override void PopulateGraph(NodeGraphDataModel model)
 		{
 			base.PopulateGraph(model);
-
-			HandleRecenter();
 			
 			var stateModel = model as StateMachineModel;
 			ModelSelection.ActiveModel = model;
@@ -48,8 +46,10 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			AddEntryNode(stateModel);
 			AddNodes(stateModel);
 			AddEdges(stateModel);
-		}
 
+			HandleRecenter();
+		}
+		
 		private void AddEntryNode(StateMachineModel stateModel)
 		{
 			if (stateModel.HasState<EntryState>()) return;
@@ -139,8 +139,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			var entryNode = this.Q<EntryNodeView>();
 			if (entryNode == null) return;
 
+			var entryNodePosition = entryNode.NodeModel.Position;
 			var centerOffset = new Vector2(contentRect.width * 0.25f, 0);
-			viewTransform.position = contentRect.center - entryNode.GetPosition().center - centerOffset;
+			viewTransform.position = contentRect.center - entryNodePosition - centerOffset;
 			StateManager.SetGridPosition(contentRect.center, viewTransform.position);
 			HandleGridPositionChanged(viewTransform.position);
 		}

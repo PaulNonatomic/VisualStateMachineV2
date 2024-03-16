@@ -1,9 +1,11 @@
 ﻿using System;
 using Nonatomic.VSM2.NodeGraph;
+using Nonatomic.VSM2.StateGraph.Attributes;
 
 namespace Nonatomic.VSM2.StateGraph.States
 {
-	public class RandomThree : State
+	[NodeColor(NodeColor.LightBlue), NodeIcon(NodeIcon.V2_Random)]
+	public class RandomThreeState : State
 	{
 		[Transition] public event Action OnOutcomeA;
 		[Transition] public event Action OnOutcomeB;

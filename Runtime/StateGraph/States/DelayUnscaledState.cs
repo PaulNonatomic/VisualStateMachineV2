@@ -8,7 +8,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 {
 	[NodeWidth(width:190)]
 	[NodeColor(NodeColor.Teal), NodeIcon(NodeIcon.V2_Clock)]
-	public class DelayUnsclaedState : State
+	public class DelayUnscaledState : State
 	{
 		[Transition]
 		public event Action OnComplete;
