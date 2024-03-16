@@ -172,26 +172,49 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			var container = new VisualElement();
 			var serializedObject = new SerializedObject(target);
 			var fields = FieldUtils.GetInheritedSerializedFields(target.GetType());
- 
+
 			foreach (var field in fields)
 			{
-				if ( propertiesToExclude != null && propertiesToExclude.Contains(field.Name)) continue;
+				if (propertiesToExclude != null && propertiesToExclude.Contains(field.Name)) continue;
 
 				var serializedProperty = serializedObject.FindProperty(field.Name);
-				if (serializedProperty != null)
+				if (serializedProperty == null)
 				{
-					var propertyField = new PropertyField(serializedProperty);
-					container.Add(propertyField);
+					Debug.LogWarning($"Property {field.Name} not found in serialized object.");
+					continue;
+				}
+
+				if (IsSubStateMachineList(serializedProperty))
+				{
+					// Handle SubStateMachine list
+					var customElement = CreateCustomSubStateMachineUI(serializedProperty);
+					container.Add(customElement);
 				}
 				else
 				{
-					Debug.LogWarning($"Property {field.Name} not found in serialized object.");
+					// Handle regular properties
+					var propertyField = new PropertyField(serializedProperty);
+					container.Add(propertyField);
 				}
 			}
-			
+
 			container.Bind(serializedObject);
-			
 			return container;
+		}
+		
+		private bool IsSubStateMachineList(SerializedProperty property)
+		{
+			if (!property.isArray) return false;
+			if (property.arrayElementType != "PPtr<$StateMachineModel>") return false;
+			
+			return true;
+		}
+
+		private VisualElement CreateCustomSubStateMachineUI(SerializedProperty property)
+		{
+			var customUI = new PropertyField(property);
+			
+			return customUI;
 		}
 		
 		protected virtual void AddStyle(string stylePath)

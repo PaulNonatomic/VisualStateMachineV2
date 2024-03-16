@@ -13,8 +13,8 @@ namespace Nonatomic.VSM2.StateGraph.States
 	[NodeColor(NodeColor.Purple), NodeIcon(NodeIcon.V2_Share), NodeWidth(200)]
 	public abstract class BaseParallelSubStateMachineState : State
 	{
-		[SerializeField] private ParallelCompletionMode _completionMode = ParallelCompletionMode.Any;
-		[SerializeField] private List<StateMachineModel> _models;
+		[SerializeField] protected ParallelCompletionMode CompletionMode = ParallelCompletionMode.Any;
+		[SerializeField] protected List<StateMachineModel> Models;
 		
 		private List<StateMachine> _subSubStateMachines = new();
 		
@@ -77,7 +77,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 		{
 			_subSubStateMachines.Clear();
 			
-			foreach (var model in _models)
+			foreach (var model in Models)
 			{
 				if (model == null) continue;
 				
