@@ -11,13 +11,11 @@ namespace Nonatomic.VSM2.StateGraph.States
 	[NodeColor(NodeColor.Purple), NodeIcon(NodeIcon.V2_Share), NodeWidth(200)]
 	public abstract class BaseSubStateMachineState : State
 	{
-		public StateMachine SubStateMachine => _subSubStateMachine;
+		public StateMachine SubStateMachine { get; private set; }
 		public StateMachineModel Model => _model;
 		
 		[SerializeField] private StateMachineModel _model;
-		
-		private StateMachine _subSubStateMachine;
-		
+
 		public override void OnAwakeState()
 		{
 			CreateStateMachine();
@@ -25,63 +23,64 @@ namespace Nonatomic.VSM2.StateGraph.States
 		
 		public override void OnStartState()
 		{
-			_subSubStateMachine.Start();
+			SubStateMachine.Start();
 		}
 
 		public override void OnEnterState()
 		{
-			_subSubStateMachine.Model.SetParent(_subSubStateMachine.Model);
-			_subSubStateMachine.OnComplete += HandleComplete;
-			_subSubStateMachine.Enter();
+			SubStateMachine.Model.SetParent(SubStateMachine.Model);
+			SubStateMachine.OnComplete += HandleComplete;
+			SubStateMachine.Enter();
 
 			#if UNITY_EDITOR
 			{
 				if (ModelSelection.ActiveModel != StateMachine.Model) return;
-				ModelSelection.ActiveModel = _subSubStateMachine.Model;
+				ModelSelection.ActiveModel = SubStateMachine.Model;
 			}
 			#endif 
 		}
 
 		public override void OnUpdateState()
 		{
-			_subSubStateMachine.Update();
+			SubStateMachine.Update();
 			
 			#if UNITY_EDITOR
 			{
 				if (ModelSelection.ActiveModel != StateMachine.Model) return;
-				ModelSelection.ActiveModel = _subSubStateMachine.Model;
+				ModelSelection.ActiveModel = SubStateMachine.Model;
 			}
 			#endif 
 		}
 
 		public override void OnFixedUpdateState()
 		{
-			_subSubStateMachine.FixedUpdate();
+			SubStateMachine.FixedUpdate();
 		}
 
 		public override void OnExitState()
 		{
-			_subSubStateMachine.OnComplete -= HandleComplete;
+			SubStateMachine.OnComplete -= HandleComplete;
+			SubStateMachine.OnDestroy();
 		}
 
 		public override void OnDestroyState()
 		{
-			_subSubStateMachine.OnDestroy();
+			SubStateMachine.OnDestroy();
 		}
 
 		protected virtual void CreateStateMachine()
 		{
 			if(_model == null) return;
 			
-			_subSubStateMachine = new StateMachine(_model, this.GameObject);
-			_subSubStateMachine.SetParent(StateMachine);
+			SubStateMachine = new StateMachine(_model, this.GameObject);
+			SubStateMachine.SetParent(StateMachine);
 		}
 
 		protected virtual void HandleComplete(State state)
 		{
 			#if UNITY_EDITOR
 			{
-				if (ModelSelection.ActiveModel == _subSubStateMachine.Model)
+				if (ModelSelection.ActiveModel == SubStateMachine.Model)
 				{
 					ModelSelection.ActiveModel = SubStateMachine.Model.Parent;
 				}

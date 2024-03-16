@@ -153,7 +153,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			var jumpNodes = GraphView.Query<JumpNodeView>().ToList();
 			foreach(var node in jumpNodes)
 			{
-				if (node == this) continue;
+				if (node.name == this.name) continue;
 				if (node.NodeModel.State is not JumpInState) continue;
 				
 				var jumpIn = node.NodeModel.State as JumpInState;
