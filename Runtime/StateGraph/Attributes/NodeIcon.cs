@@ -29,6 +29,8 @@
 		public const string V2_Center = "Icons/v2/center";
 		public const string V2_CenterSquare = "Icons/v2/center-square";
 		public const string V2_CenterAlign = "Icons/v2/center-align";
+		public const string V2_Command = "Icons/v2/command";
+		public const string V2_Random = "Icons/v2/random";
 		
 		public const string VsmRecenter = "Icons/recenter-flat-white";
 		public const string VsmFlatRandomWhite = "Icons/random-flat-white";

@@ -13,7 +13,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		
 		private Button _recenterButton;
 		private VisualElement _buttonContainer;
-		private BreadcrumTrailView _breadcrumbTrail;
+		private BreadcrumbTrailView _breadcrumbTrail;
 		
 		public ToolBarView()
 		{
@@ -27,7 +27,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		private void AddBreadcrumTrail()
 		{
-			_breadcrumbTrail = new BreadcrumTrailView();
+			_breadcrumbTrail = new BreadcrumbTrailView();
 			Add(_breadcrumbTrail);
 		}
 

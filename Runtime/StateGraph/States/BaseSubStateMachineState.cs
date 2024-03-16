@@ -17,25 +17,20 @@ namespace Nonatomic.VSM2.StateGraph.States
 		[SerializeField] private StateMachineModel _model;
 		
 		private StateMachine _subSubStateMachine;
-		private bool _activated;
-
+		
 		public override void OnAwakeState()
 		{
 			CreateStateMachine();
-			_activated = _subSubStateMachine != null;
 		}
 		
 		public override void OnStartState()
 		{
-			if(!_activated) return;
 			_subSubStateMachine.Start();
 		}
 
 		public override void OnEnterState()
 		{
-			if (!_activated) return;
-			
-			_subSubStateMachine.Model.SetParent(SubStateMachine.Model);
+			_subSubStateMachine.Model.SetParent(_subSubStateMachine.Model);
 			_subSubStateMachine.OnComplete += HandleComplete;
 			_subSubStateMachine.Enter();
 
@@ -49,7 +44,6 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		public override void OnUpdateState()
 		{
-			if (!_activated) return;
 			_subSubStateMachine.Update();
 			
 			#if UNITY_EDITOR
@@ -59,21 +53,19 @@ namespace Nonatomic.VSM2.StateGraph.States
 			}
 			#endif 
 		}
-		
+
+		public override void OnFixedUpdateState()
+		{
+			_subSubStateMachine.FixedUpdate();
+		}
+
 		public override void OnExitState()
 		{
 			_subSubStateMachine.OnComplete -= HandleComplete;
 		}
 
-		public override void OnFixedUpdateState()
-		{
-			if (!_activated) return;
-			_subSubStateMachine.FixedUpdate();
-		}
-		
 		public override void OnDestroyState()
 		{
-			if (!_activated) return;
 			_subSubStateMachine.OnDestroy();
 		}
 
