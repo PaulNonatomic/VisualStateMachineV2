@@ -139,7 +139,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			this.AddManipulator(new FreehandSelector());
 		}
 
-		private void HandleGeometryChanged(GeometryChangedEvent evt)
+		protected virtual void HandleGeometryChanged(GeometryChangedEvent evt)
 		{
 			Size = evt.newRect.size;
 			StateManager.LoadState();
