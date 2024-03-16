@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.3.1-beta] - Mar 16, 2024
+- hotfix for JumpIn nodes changing ids at runtime because the node comparison method would fail at runtime.
+- substate and parallel substate machine nodes now destroy substates on exit. This is more important for parallel substates.
+
 ## [0.3.0-beta] - Mar 16, 2024
 - Added Parallel Sub State Machine State
 - Added custom property drawer for StateMachineModel to include an open button
