@@ -8,9 +8,9 @@ namespace Nonatomic.VSM2.StateGraph.States
 		[Transition]
 		public event Action OnComplete;
 		
-		protected override void OnSubStateComplete(State state)
+		protected override void OnSubStateComplete(State state, StateMachineModel model)
 		{
-			base.OnSubStateComplete(state);
+			base.OnSubStateComplete(state, model);
 			OnComplete?.Invoke();
 		}
 	}

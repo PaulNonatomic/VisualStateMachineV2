@@ -11,7 +11,7 @@ namespace Nonatomic.VSM2.StateGraph
 {
 	public class StateMachine
 	{
-		public event Action<State> OnComplete;
+		public event Action<State, StateMachineModel> OnComplete;
 		
 		public StateMachineModel Model { get; private set; }
 		public bool IsComplete { get; private set; }
@@ -246,7 +246,7 @@ namespace Nonatomic.VSM2.StateGraph
 			if(IsComplete) return;
 
 			IsComplete = true;
-			OnComplete?.Invoke(state);
+			OnComplete?.Invoke(state, Model);
 		}
 
 		public void SetParent(StateMachine stateMachine)

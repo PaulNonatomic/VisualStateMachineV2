@@ -76,13 +76,13 @@ namespace Nonatomic.VSM2.StateGraph.States
 			SubStateMachine.SetParent(StateMachine);
 		}
 
-		protected virtual void OnSubStateComplete(State state)
+		protected virtual void OnSubStateComplete(State state, StateMachineModel model)
 		{
 			#if UNITY_EDITOR
 			{
-				if (ModelSelection.ActiveModel == SubStateMachine.Model)
+				if (ModelSelection.ActiveModel == model)
 				{
-					ModelSelection.ActiveModel = SubStateMachine.Model.Parent;
+					ModelSelection.ActiveModel = model.Parent;
 				}
 			}
 			#endif

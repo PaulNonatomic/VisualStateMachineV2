@@ -21,7 +21,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			base.OnEnterState();
 		}
 		
-		protected override void OnSubStateComplete(State state)
+		protected override void OnSubStateComplete(State state, StateMachineModel model)
 		{
 			switch (CompletionMode)
 			{
@@ -33,7 +33,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 					break;
 			}
 			
-			base.OnSubStateComplete(state);
+			base.OnSubStateComplete(state, model);
 		}
 
 		private void CompletionAllMode()

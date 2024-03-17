@@ -23,6 +23,9 @@ namespace Nonatomic.VSM2.Editor.Utils
 
 		private static T GetInstanceFromList<T>(SerializedProperty property, int index) where T : class
 		{
+			if (property?.serializedObject == null) return default;
+			if (property.serializedObject.targetObject == null) return default;
+			
 			var fieldName = ExtractListFieldName(property.propertyPath);
 			if (fieldName == null)
 			{

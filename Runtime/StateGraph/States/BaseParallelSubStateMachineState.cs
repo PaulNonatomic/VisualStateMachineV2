@@ -81,7 +81,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			}
 		}
 
-		protected virtual void OnSubStateComplete(State state)
+		protected virtual void OnSubStateComplete(State state, StateMachineModel model)
 		{
 			//...
 		}
