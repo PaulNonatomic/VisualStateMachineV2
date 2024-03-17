@@ -17,25 +17,57 @@ namespace Nonatomic.VSM2.Editor.PropertyDrawer
 			
 			var propertyRect = new Rect(position.x, position.y, position.width - 55, position.height);
 			
-			EditorGUIUtility.labelWidth = 1;
+			EditorGUIUtility.labelWidth = PropertyUtils.IsListElement(property)
+				? 1
+				: 100;
+			
 			EditorGUI.PropertyField(propertyRect, property, label, true);
 			EditorGUIUtility.labelWidth = 0;
 
-			DrawOpenButton(position, property);
+			DrawButton(position, property);
 			
 			EditorGUI.EndProperty();
 		}
 
-		private void DrawOpenButton(Rect position, SerializedProperty property)
+		private static void DrawButton(Rect position, SerializedProperty property)
 		{
 			var buttonRect = new Rect(position.x + position.width - 50, position.y, 50, position.height);
 			var instance = PropertyUtils.GetInstance<StateMachineModel>(property);
-			if (instance == null || !GUI.Button(buttonRect, "Open")) return;
+
+			if (instance == null)
+			{
+				DrawNewButton(buttonRect, property);
+			}
+			else
+			{
+				DrawOpenButton(buttonRect, property, instance);
+			}
+		}
+
+		private static void DrawOpenButton(Rect buttonRect, SerializedProperty property, StateMachineModel instance)
+		{
+			if (!GUI.Button(buttonRect, "Open")) return;
+
+			switch (property.serializedObject.targetObject)
+			{
+				case StateMachineController:
+					//don't set parent
+					break;
+				default:
+					var currentModel = ModelSelection.ActiveModel as StateMachineModel;
+					instance.SetParent(currentModel);
+					break;
+			}
 			
-			var currentModel = ModelSelection.ActiveModel as StateMachineModel;
-			instance.SetParent(currentModel);
-				
 			ModelSelection.ActiveModel = instance;
+		}
+
+		private static void DrawNewButton(Rect buttonRect, SerializedProperty property)
+		{
+			if (!GUI.Button(buttonRect, "New")) return;
+			
+			var model = ScriptableObjectUtils.CreateInstanceInProject<StateMachineModel>(selectInstance: false);
+			property.objectReferenceValue = model;
 		}
 	}
 }

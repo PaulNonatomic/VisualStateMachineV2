@@ -15,6 +15,11 @@ namespace Nonatomic.VSM2.Editor.Utils
 				? GetInstanceFromList<T>(property, index) 
 				: property.objectReferenceValue as T;
 		}
+		
+		public static bool IsListElement(SerializedProperty property)
+		{
+			return GetListIndex(property.propertyPath) != -1;
+		}
 
 		private static T GetInstanceFromList<T>(SerializedProperty property, int index) where T : class
 		{

@@ -29,7 +29,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 		public override void OnEnterState()
 		{
 			SubStateMachine.Model.SetParent(SubStateMachine.Model);
-			SubStateMachine.OnComplete += HandleComplete;
+			SubStateMachine.OnComplete += OnSubStateComplete;
 			SubStateMachine.Enter();
 
 			#if UNITY_EDITOR
@@ -59,7 +59,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		public override void OnExitState()
 		{
-			SubStateMachine.OnComplete -= HandleComplete;
+			SubStateMachine.OnComplete -= OnSubStateComplete;
 			SubStateMachine.Exit();
 		}
 
@@ -76,7 +76,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			SubStateMachine.SetParent(StateMachine);
 		}
 
-		protected virtual void HandleComplete(State state)
+		protected virtual void OnSubStateComplete(State state)
 		{
 			#if UNITY_EDITOR
 			{
