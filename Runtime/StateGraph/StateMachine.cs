@@ -69,6 +69,15 @@ namespace Nonatomic.VSM2.StateGraph
 
 			_currentNode.Enter();
 		}
+
+		public void Exit()
+		{
+			if (_currentNode == null) return;
+			
+			UnsubscribeFromNode(_currentNode);
+			_currentNode.Exit();
+			IsComplete = true;
+		}
 		
 		public void JumpTo(JumpId jumpId)
 		{

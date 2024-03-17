@@ -28,6 +28,8 @@ namespace Nonatomic.VSM2.StateGraph.States
 					CompletionAllMode();
 					break;
 			}
+			
+			base.HandleComplete(state);
 		}
 
 		private void CompletionAllMode()

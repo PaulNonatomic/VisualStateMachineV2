@@ -60,7 +60,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 		public override void OnExitState()
 		{
 			SubStateMachine.OnComplete -= HandleComplete;
-			SubStateMachine.OnDestroy();
+			SubStateMachine.Exit();
 		}
 
 		public override void OnDestroyState()

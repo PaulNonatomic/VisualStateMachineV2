@@ -62,7 +62,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			foreach(var subSubStateMachine in _subSubStateMachines)
 			{
 				subSubStateMachine.OnComplete -= HandleComplete;
-				subSubStateMachine.OnDestroy();
+				subSubStateMachine.Exit();
 			}
 		}
 
