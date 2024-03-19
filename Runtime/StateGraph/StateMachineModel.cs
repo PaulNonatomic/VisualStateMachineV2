@@ -3,6 +3,7 @@ using System.Linq;
 using Nonatomic.VSM2.Logging;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.Utils;
+using UnityEditor;
 using UnityEngine;
 
 namespace Nonatomic.VSM2.StateGraph
@@ -31,46 +32,66 @@ namespace Nonatomic.VSM2.StateGraph
 
 		public void AddState(StateNodeModel stateNodeModel)
 		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
+			if (GuardUtils.GuardAgainstRuntimeOperation() || stateNodeModel == null) return;
 			
-			if (TryAddNode(stateNodeModel))
+			EditorApplication.delayCall += () =>
 			{
-				AddSubAsset(stateNodeModel.State);
-			}
+				if (this == null) return;
+
+				if (TryAddNode(stateNodeModel))
+				{
+					AddSubAsset(stateNodeModel.State);
+				}
+			};
 		}
 
 		public void RemoveState(StateNodeModel stateNodeModel)
 		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			
-			if (TryRemoveNode(stateNodeModel))
+			if (GuardUtils.GuardAgainstRuntimeOperation() || stateNodeModel == null) return;
+
+			EditorApplication.delayCall += () =>
 			{
-				RemoveSubAsset(stateNodeModel.State);
-			}
-			
-			ValidateSubAssets();
+				if (this == null) return;
+
+				if (TryRemoveNode(stateNodeModel))
+				{
+					RemoveSubAsset(stateNodeModel.State);
+				}
+
+				ValidateSubAssets();
+			};
 		}
 
 		public void AddTransition(StateTransitionModel stateTransitionModel)
 		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			
-			if (!TryAddTransition(stateTransitionModel))
+			if (GuardUtils.GuardAgainstRuntimeOperation() || stateTransitionModel == null) return;
+
+			EditorApplication.delayCall += () =>
 			{
-				GraphLog.LogWarning("Failed to add transition");
-			}
+				if (this == null) return;
+
+				if (!TryAddTransition(stateTransitionModel))
+				{
+					GraphLog.LogWarning("Failed to add transition");
+				}
+			};
 		}
 		
 		public void RemoveTransition(StateTransitionModel stateTransitionModel)
 		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			
-			if (!TryRemoveTransition(stateTransitionModel))
+			if (GuardUtils.GuardAgainstRuntimeOperation() || stateTransitionModel == null) return;
+
+			EditorApplication.delayCall += () =>
 			{
-				GraphLog.LogWarning("Failed to remove transition");
-			}
-			
-			ValidateSubAssets();
+				if (this == null) return;
+
+				if (!TryRemoveTransition(stateTransitionModel))
+				{
+					GraphLog.LogWarning("Failed to remove transition");
+				}
+
+				ValidateSubAssets();
+			};
 		}
 
 		protected override void ValidateSubAssets()
@@ -143,18 +164,25 @@ namespace Nonatomic.VSM2.StateGraph
 
 		public void Initialize(GameObject gameObject, StateMachine stateMachine)
 		{
+			if (gameObject == null || stateMachine == null) return;
+
 			foreach (var stateNode in Nodes)
 			{
-				stateNode.State = Instantiate(stateNode.State);
-				stateNode.State.GameObject = gameObject;
-				stateNode.State.StateMachine = stateMachine;
+				if (stateNode == null || stateNode.State == null) continue;
+
+				var instantiatedState = Instantiate(stateNode.State);
+				if (instantiatedState == null) continue;
+				
+				instantiatedState.GameObject = gameObject;
+				instantiatedState.StateMachine = stateMachine;
+				stateNode.State = instantiatedState;
 				stateNode.Awake();
 			}
 		}
 
 		public bool TryGetNodeByState<T>(out StateNodeModel stateNodeModel) where T : State
 		{
-			stateNodeModel = Nodes.FirstOrDefault(node => node.State is T);
+			stateNodeModel = Nodes.FirstOrDefault(node => node != null && node.State is T);
 			return stateNodeModel != null;
 		}
 
