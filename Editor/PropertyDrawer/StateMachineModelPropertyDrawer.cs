@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Reflection;
-using Nonatomic.VSM2.Editor.Utils;
+﻿using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
 using UnityEditor;
@@ -13,29 +11,75 @@ namespace Nonatomic.VSM2.Editor.PropertyDrawer
 	{
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
+			if (GuardAgainstDestroyedSerializedObject(property)) return;
+			
 			EditorGUI.BeginProperty(position, label, property);
 			
 			var propertyRect = new Rect(position.x, position.y, position.width - 55, position.height);
 			
-			EditorGUIUtility.labelWidth = 1;
+			EditorGUIUtility.labelWidth = PropertyUtils.IsListElement(property) ? 1 : 100;
+			
 			EditorGUI.PropertyField(propertyRect, property, label, true);
 			EditorGUIUtility.labelWidth = 0;
 
-			DrawOpenButton(position, property);
+			DrawButton(position, property);
 			
 			EditorGUI.EndProperty();
 		}
 
-		private void DrawOpenButton(Rect position, SerializedProperty property)
+		private static void DrawButton(Rect position, SerializedProperty property)
 		{
+			if (GuardAgainstDestroyedSerializedObject(property)) return;
+			
 			var buttonRect = new Rect(position.x + position.width - 50, position.y, 50, position.height);
 			var instance = PropertyUtils.GetInstance<StateMachineModel>(property);
-			if (instance == null || !GUI.Button(buttonRect, "Open")) return;
 			
-			var currentModel = ModelSelection.ActiveModel as StateMachineModel;
-			instance.SetParent(currentModel);
-				
+			if (instance == null)
+			{
+				DrawNewButton(buttonRect, property);
+			}
+			else
+			{
+				DrawOpenButton(buttonRect, property, instance);
+			}
+		}
+
+		private static void DrawOpenButton(Rect buttonRect, SerializedProperty property, StateMachineModel instance)
+		{
+			if (!GUI.Button(buttonRect, "Open")) return;
+			if (GuardAgainstDestroyedSerializedObject(property)) return;
+			
+			switch (property.serializedObject?.targetObject)
+			{
+				case StateMachineController:
+					//don't set parent
+					break;
+				default:
+					var currentModel = ModelSelection.ActiveModel as StateMachineModel;
+					if (currentModel == null) return;
+					
+					instance?.SetParent(currentModel);
+					break;
+			}
+			
 			ModelSelection.ActiveModel = instance;
+		}
+
+		private static void DrawNewButton(Rect buttonRect, SerializedProperty property)
+		{
+			if (!GUI.Button(buttonRect, "New")) return;
+			if (GuardAgainstDestroyedSerializedObject(property)) return;
+			
+			var model = ScriptableObjectUtils.CreateInstanceInProject<StateMachineModel>(selectInstance: false);
+			if (model == null) return;
+			
+			property.objectReferenceValue = model;
+		}
+		
+		private static bool GuardAgainstDestroyedSerializedObject(SerializedProperty property)
+		{
+			return property?.serializedObject == null || 
+					property.serializedObject.targetObject == null;
 		}
 	}
 }

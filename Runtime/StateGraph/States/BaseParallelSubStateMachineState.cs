@@ -4,16 +4,9 @@ using UnityEngine;
 
 namespace Nonatomic.VSM2.StateGraph.States
 {
-	public enum ParallelCompletionMode
-	{
-		Any,
-		All
-	}
-	
 	[NodeColor(NodeColor.Purple), NodeIcon(NodeIcon.V2_Share), NodeWidth(200)]
 	public abstract class BaseParallelSubStateMachineState : State
 	{
-		[SerializeField] protected ParallelCompletionMode CompletionMode = ParallelCompletionMode.Any;
 		[SerializeField] protected List<StateMachineModel> Models;
 		
 		private List<StateMachine> _subSubStateMachines = new();
@@ -36,7 +29,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			foreach(var subSubStateMachine in _subSubStateMachines)
 			{
 				subSubStateMachine.Model.SetParent(subSubStateMachine.Model);
-				subSubStateMachine.OnComplete += HandleComplete;
+				subSubStateMachine.OnComplete += OnSubStateComplete;
 				subSubStateMachine.Enter();
 			}
 		}
@@ -61,8 +54,8 @@ namespace Nonatomic.VSM2.StateGraph.States
 		{
 			foreach(var subSubStateMachine in _subSubStateMachines)
 			{
-				subSubStateMachine.OnComplete -= HandleComplete;
-				subSubStateMachine.OnDestroy();
+				subSubStateMachine.OnComplete -= OnSubStateComplete;
+				subSubStateMachine.Exit();
 			}
 		}
 
@@ -88,7 +81,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			}
 		}
 
-		protected virtual void HandleComplete(State state)
+		protected virtual void OnSubStateComplete(State state, StateMachineModel model)
 		{
 			//...
 		}

@@ -55,14 +55,21 @@ namespace Nonatomic.VSM2.NodeGraph
 		/// <param name="subAsset">The sub-asset to add.</param>
 		protected virtual void AddSubAsset(Object subAsset)
 		{
-			if (SubAssetUtils.TryAddSubAsset(this, subAsset))
+			if (subAsset == null) return;
+
+			EditorApplication.delayCall += () =>
 			{
-				_subAssets.Add(subAsset);
-			}
-			else
-			{
-				GraphLog.LogWarning($"Could not add sub asset {subAsset}");
-			}
+				if (this == null) return;
+
+				if (SubAssetUtils.TryAddSubAsset(this, subAsset))
+				{
+					_subAssets.Add(subAsset);
+				}
+				else
+				{
+					GraphLog.LogWarning($"Could not add sub asset {subAsset}");
+				}
+			};
 		}
 
 		/// <summary>
@@ -71,14 +78,21 @@ namespace Nonatomic.VSM2.NodeGraph
 		/// <param name="subAsset">The sub-asset to remove.</param>
 		protected virtual void RemoveSubAsset(Object subAsset)
 		{
-			if (SubAssetUtils.TryRemoveSubAsset(subAsset))
+			if (subAsset == null) return;
+
+			EditorApplication.delayCall += () =>
 			{
-				_subAssets.Remove(subAsset);
-			}
-			else
-			{
-				GraphLog.LogWarning($"Could not remove sub asset {subAsset}");
-			}
+				if (this == null) return;
+
+				if (SubAssetUtils.TryRemoveSubAsset(subAsset))
+				{
+					_subAssets.Remove(subAsset);
+				}
+				else
+				{
+					GraphLog.LogWarning($"Could not remove sub asset {subAsset}");
+				}
+			};
 		}
 		
 		/// <summary>

@@ -11,7 +11,7 @@ namespace Nonatomic.VSM2.StateGraph
 {
 	public class StateMachine
 	{
-		public event Action<State> OnComplete;
+		public event Action<State, StateMachineModel> OnComplete;
 		
 		public StateMachineModel Model { get; private set; }
 		public bool IsComplete { get; private set; }
@@ -68,6 +68,15 @@ namespace Nonatomic.VSM2.StateGraph
 			SubscribeToNode(_currentNode);
 
 			_currentNode.Enter();
+		}
+
+		public void Exit()
+		{
+			if (_currentNode == null) return;
+			
+			UnsubscribeFromNode(_currentNode);
+			_currentNode.Exit();
+			IsComplete = true;
 		}
 		
 		public void JumpTo(JumpId jumpId)
@@ -237,7 +246,7 @@ namespace Nonatomic.VSM2.StateGraph
 			if(IsComplete) return;
 
 			IsComplete = true;
-			OnComplete?.Invoke(state);
+			OnComplete?.Invoke(state, Model);
 		}
 
 		public void SetParent(StateMachine stateMachine)
