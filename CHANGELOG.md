@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.3.2-beta] - Mar 16, 2024
+- Fix for parallel substate lifespan
+- Adding more resilience against the error SerializedObject target has been destroyed
+- Refactored the substatemachines to make them easier to extend
+- Removed redundant custom editor for StateMachineController
+- Fix for the life span of substates in both SubStateMachine and ParallelSubState machines we now exit the last node state machine and set the statemachine to complete when the parent node completes
+
 ## [0.3.1-beta] - Mar 16, 2024
 - hotfix for JumpIn nodes changing ids at runtime because the node comparison method would fail at runtime.
 - substate and parallel substate machine nodes now destroy substates on exit. This is more important for parallel substates.
