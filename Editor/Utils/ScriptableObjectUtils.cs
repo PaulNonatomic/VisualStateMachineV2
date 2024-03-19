@@ -25,7 +25,7 @@ namespace Nonatomic.VSM2.Editor.Utils
 			AssetDatabase.CreateAsset(asset, assetPathAndName);
 			AssetDatabase.SaveAssets();
 			AssetDatabase.Refresh();
-			EditorUtility.FocusProjectWindow();
+			//EditorUtility.FocusProjectWindow();
 			if(selectInstance) Selection.activeObject = asset;
 
 			return asset;

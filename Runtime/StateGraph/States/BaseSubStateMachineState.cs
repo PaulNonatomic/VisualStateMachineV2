@@ -3,7 +3,6 @@ using Nonatomic.VSM2.StateGraph.Attributes;
 using UnityEngine;
 
 #if UNITY_EDITOR
-using UnityEditor;
 #endif
 
 namespace Nonatomic.VSM2.StateGraph.States
@@ -29,9 +28,9 @@ namespace Nonatomic.VSM2.StateGraph.States
 		public override void OnEnterState()
 		{
 			SubStateMachine.Model.SetParent(SubStateMachine.Model);
-			SubStateMachine.OnComplete += HandleComplete;
+			SubStateMachine.OnComplete += OnSubStateComplete;
 			SubStateMachine.Enter();
-
+			
 			#if UNITY_EDITOR
 			{
 				if (ModelSelection.ActiveModel != StateMachine.Model) return;
@@ -59,8 +58,8 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		public override void OnExitState()
 		{
-			SubStateMachine.OnComplete -= HandleComplete;
-			SubStateMachine.OnDestroy();
+			SubStateMachine.OnComplete -= OnSubStateComplete;
+			SubStateMachine.Exit();
 		}
 
 		public override void OnDestroyState()
@@ -76,13 +75,13 @@ namespace Nonatomic.VSM2.StateGraph.States
 			SubStateMachine.SetParent(StateMachine);
 		}
 
-		protected virtual void HandleComplete(State state)
+		protected virtual void OnSubStateComplete(State state, StateMachineModel model)
 		{
 			#if UNITY_EDITOR
 			{
-				if (ModelSelection.ActiveModel == SubStateMachine.Model)
+				if (ModelSelection.ActiveModel == model)
 				{
-					ModelSelection.ActiveModel = SubStateMachine.Model.Parent;
+					ModelSelection.ActiveModel = model.Parent;
 				}
 			}
 			#endif

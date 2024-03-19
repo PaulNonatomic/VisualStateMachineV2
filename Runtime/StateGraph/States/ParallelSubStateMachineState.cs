@@ -1,12 +1,16 @@
 ﻿using System;
 using Nonatomic.VSM2.NodeGraph;
+using UnityEngine;
 
 namespace Nonatomic.VSM2.StateGraph.States
 {
+	
 	public class ParallelSubStateMachineState : BaseParallelSubStateMachineState
 	{
 		[Transition]
 		public event Action OnComplete;
+		
+		[SerializeField] protected ParallelCompletionMode CompletionMode = ParallelCompletionMode.Any;
 
 		private int _completionCount;
 
@@ -17,7 +21,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			base.OnEnterState();
 		}
 		
-		protected override void HandleComplete(State state)
+		protected override void OnSubStateComplete(State state, StateMachineModel model)
 		{
 			switch (CompletionMode)
 			{
@@ -28,6 +32,8 @@ namespace Nonatomic.VSM2.StateGraph.States
 					CompletionAllMode();
 					break;
 			}
+			
+			base.OnSubStateComplete(state, model);
 		}
 
 		private void CompletionAllMode()
