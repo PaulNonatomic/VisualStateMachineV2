@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.3.4-beta] - Mar 20, 2024
+- Fix for StateMachineModelPropertyDrawer in SubStateMachines not opening the live instance of statemachines at runtime.
+
 ## [0.3.3-beta] - Mar 20, 2024
 - Renamed the StateMachineModel instances produced
 
