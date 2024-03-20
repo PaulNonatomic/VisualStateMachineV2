@@ -18,6 +18,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 		public override void OnAwakeState()
 		{
 			CreateStateMachine();
+			ReplaceModelWithActiveModel();
 		}
 		
 		public override void OnStartState()
@@ -30,25 +31,11 @@ namespace Nonatomic.VSM2.StateGraph.States
 			SubStateMachine.Model.SetParent(SubStateMachine.Model);
 			SubStateMachine.OnComplete += OnSubStateComplete;
 			SubStateMachine.Enter();
-			
-			#if UNITY_EDITOR
-			{
-				if (ModelSelection.ActiveModel != StateMachine.Model) return;
-				ModelSelection.ActiveModel = SubStateMachine.Model;
-			}
-			#endif 
 		}
 
 		public override void OnUpdateState()
 		{
 			SubStateMachine.Update();
-			
-			#if UNITY_EDITOR
-			{
-				if (ModelSelection.ActiveModel != StateMachine.Model) return;
-				ModelSelection.ActiveModel = SubStateMachine.Model;
-			}
-			#endif 
 		}
 
 		public override void OnFixedUpdateState()
@@ -64,6 +51,8 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		public override void OnDestroyState()
 		{
+			ReplaceModelWithOriginalModel();
+			
 			SubStateMachine.OnDestroy();
 		}
 
@@ -77,14 +66,21 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		protected virtual void OnSubStateComplete(State state, StateMachineModel model)
 		{
-			#if UNITY_EDITOR
-			{
-				if (ModelSelection.ActiveModel == model)
-				{
-					ModelSelection.ActiveModel = model.Parent;
-				}
-			}
-			#endif
+			//...
+		}
+		
+		private void ReplaceModelWithActiveModel()
+		{
+			if (SubStateMachine == null) return;
+			
+			_model = SubStateMachine.Model;
+		}
+
+		private void ReplaceModelWithOriginalModel()
+		{
+			if (_model == null) return;
+			
+			_model = _model.Original;
 		}
 	}
 }

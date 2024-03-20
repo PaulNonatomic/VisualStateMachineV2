@@ -7,36 +7,37 @@ namespace Nonatomic.VSM2.StateGraph.States
 	[NodeColor(NodeColor.Purple), NodeIcon(NodeIcon.V2_Share), NodeWidth(200)]
 	public abstract class BaseParallelSubStateMachineState : State
 	{
-		[SerializeField] protected List<StateMachineModel> Models;
+		public List<StateMachine> SubStateMachines { get; private set; }
 		
-		private List<StateMachine> _subSubStateMachines = new();
+		[SerializeField] protected List<StateMachineModel> Models;
 		
 		public override void OnAwakeState()
 		{
 			CreateStateMachines();
+			ReplaceModelsWithActiveModels();
 		}
-		
+
 		public override void OnStartState()
 		{
-			foreach (var subSubStateMachine in _subSubStateMachines)
+			foreach (var subSubStateMachine in SubStateMachines)
 			{
 				subSubStateMachine.Start();
 			}
 		}
-		
+
 		public override void OnEnterState()
 		{
-			foreach(var subSubStateMachine in _subSubStateMachines)
+			foreach(var subSubStateMachine in SubStateMachines)
 			{
 				subSubStateMachine.Model.SetParent(subSubStateMachine.Model);
 				subSubStateMachine.OnComplete += OnSubStateComplete;
 				subSubStateMachine.Enter();
 			}
 		}
-		
+
 		public override void OnUpdateState()
 		{
-			foreach(var subSubStateMachine in _subSubStateMachines)
+			foreach(var subSubStateMachine in SubStateMachines)
 			{
 				subSubStateMachine.Update();
 			}
@@ -44,7 +45,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		public override void OnFixedUpdateState()
 		{
-			foreach(var subSubStateMachine in _subSubStateMachines)
+			foreach(var subSubStateMachine in SubStateMachines)
 			{
 				subSubStateMachine.FixedUpdate();
 			}
@@ -52,7 +53,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		public override void OnExitState()
 		{
-			foreach(var subSubStateMachine in _subSubStateMachines)
+			foreach(var subSubStateMachine in SubStateMachines)
 			{
 				subSubStateMachine.OnComplete -= OnSubStateComplete;
 				subSubStateMachine.Exit();
@@ -61,7 +62,9 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		public override void OnDestroyState()
 		{
-			foreach(var subSubStateMachine in _subSubStateMachines)
+			ReplaceModelsWithOriginalModels();
+				
+			foreach(var subSubStateMachine in SubStateMachines)
 			{
 				subSubStateMachine.OnDestroy();
 			}
@@ -69,7 +72,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		protected virtual void CreateStateMachines()
 		{
-			_subSubStateMachines.Clear();
+			SubStateMachines = new List<StateMachine>();
 			
 			foreach (var model in Models)
 			{
@@ -77,13 +80,31 @@ namespace Nonatomic.VSM2.StateGraph.States
 				
 				var subSubStateMachine = new StateMachine(model, this.GameObject);
 				subSubStateMachine.SetParent(StateMachine);
-				_subSubStateMachines.Add(subSubStateMachine);
+				SubStateMachines.Add(subSubStateMachine);
 			}
 		}
 
 		protected virtual void OnSubStateComplete(State state, StateMachineModel model)
 		{
 			//...
+		}
+
+		private void ReplaceModelsWithActiveModels()
+		{
+			for(var i = Models.Count-1; i >= 0; i--)
+			{
+				if(i >= SubStateMachines.Count) continue;
+				Models[i] = SubStateMachines[i].Model;
+			}
+		}
+
+		private void ReplaceModelsWithOriginalModels()
+		{
+			for(var i = Models.Count-1; i >= 0; i--)
+			{
+				if(Models[i] == null) continue;
+				Models[i] = Models[i].Original;
+			}
 		}
 	}
 }
