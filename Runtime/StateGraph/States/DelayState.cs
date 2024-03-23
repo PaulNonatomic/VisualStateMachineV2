@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 namespace Nonatomic.VSM2.StateGraph.States
 {
-	[NodeWidth(width:190), NodeColor(NodeColor.Teal), NodeIcon(NodeIcon.V2_Clock)]
+	[NodeWidth(width:190), NodeColor(NodeColor.Teal), NodeIcon(NodeIcon.Clock)]
 	public class DelayState : State
 	{
 		[Transition]

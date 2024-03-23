@@ -27,6 +27,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			ColorizeTitle();
 			AddTitleLabel();
 			AddTitleIcon();
+			AddEditButton();
 			AddProgressBar();
 			AddInputPorts(inputContainer);
 			AddOutputPorts(outputContainer);

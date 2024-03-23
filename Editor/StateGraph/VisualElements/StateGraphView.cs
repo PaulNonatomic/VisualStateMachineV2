@@ -33,6 +33,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		public override void PopulateGraph(NodeGraphDataModel model)
 		{
+			if(model == null) return;
+			
 			base.PopulateGraph(model);
 			
 			var stateModel = model as StateMachineModel;
@@ -52,6 +54,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		
 		private void AddEntryNode(StateMachineModel stateModel)
 		{
+			if(stateModel == null) return;
 			if (stateModel.HasState<EntryState>()) return;
 			StateGraphNodeFactory.MakeStateNodeData(stateModel, typeof(EntryState), Vector2.zero);
 		}

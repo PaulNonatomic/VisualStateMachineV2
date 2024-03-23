@@ -110,3 +110,18 @@ flex-direction: column;
     height: 20px;
     flex-direction: row;
 }
+
+#edit-btn {
+    background-color: #1d1d1d;
+    margin:0px;
+    height:100%;
+    width:30px;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+#edit-btn-icon {
+    width: 80%;
+    height: auto;
+}

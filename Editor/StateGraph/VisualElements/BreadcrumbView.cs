@@ -24,7 +24,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		private void HandleClick(EventBase eventBase)
 		{
-			Debug.Log($"Breadcrumb clicked: {_model.ModelName}");
+			if (_model == null) return;
+			
 			ModelSelection.ActiveModel = _model;
 		}
 
@@ -75,6 +76,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		public void SetModel(StateMachineModel model)
 		{
+			if (model == null) return;
+			
 			_model = model;
 			SetText(model.ModelName);
 		}

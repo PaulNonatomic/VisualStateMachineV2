@@ -2,7 +2,7 @@
 
 namespace Nonatomic.VSM2.StateGraph.States
 {
-	[NodeIcon(NodeIcon.V2_Exit)]
+	[NodeIcon(NodeIcon.Exit)]
 	[NodeColor(NodeColor.Red)]
 	public class ExitState : State
 	{

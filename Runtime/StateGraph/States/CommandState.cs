@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Nonatomic.VSM2.StateGraph.States
 {
-	[NodeColor(NodeColor.LightBlue), NodeIcon(NodeIcon.V2_Command)]
+	[NodeColor(NodeColor.LightBlue), NodeIcon(NodeIcon.Command)]
 	public class CommandState : State
 	{
 		[Transition] public event Action OnComplete;

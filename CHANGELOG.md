@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.4.0-beta] - Mar 23, 2024
+- Added an edit button to custom states to enable quicker access to edit state scripts
+- Refactored node icons (Breaking change for anyone using node icons in their custom states)
+
 ## [0.3.4-beta] - Mar 20, 2024
 - Fix for StateMachineModelPropertyDrawer in SubStateMachines not opening the live instance of statemachines at runtime.
 

@@ -68,12 +68,12 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		private void AddBeacon(JumpState state)
 		{
 			var pegIcon = state is JumpOutState 
-				? NodeIcon.V2_BeaconRight 
-				: NodeIcon.V2_BeaconLeft;
+				? NodeIcon.BeaconRight 
+				: NodeIcon.BeaconLeft;
 			
 			var haloIcon = state is JumpOutState 
-				? NodeIcon.V2_BeaconHaloRight 
-				: NodeIcon.V2_BeaconHaloLeft;
+				? NodeIcon.BeaconHaloRight 
+				: NodeIcon.BeaconHaloLeft;
 			
 			_beacon = new Image();
 			_beacon.name = "beacon";
