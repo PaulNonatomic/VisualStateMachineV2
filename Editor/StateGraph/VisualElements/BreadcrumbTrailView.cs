@@ -23,6 +23,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		public void SetModel(StateMachineModel model)
 		{
+			if(model == null) return;
+			
 			_breadcrumbTrail.Clear();
 			this.Clear();
 			
@@ -49,6 +51,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		private void CreateBreadcrumbOrigin(StateMachineModel model)
 		{
+			if(model == null) return;
+			
 			var modelParent = model.Parent;
 			if (modelParent == null) return;
 			if (modelParent == model) return;
@@ -59,6 +63,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		
 		private void CreateBreadcrumb(StateMachineModel model)
 		{
+			if(model == null) return;
+			
 			var breadcrum = new BreadcrumbView();
 			breadcrum.SetModel(model);
 			
