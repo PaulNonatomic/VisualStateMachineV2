@@ -4,7 +4,7 @@ using Nonatomic.VSM2.StateGraph.Attributes;
 
 namespace Nonatomic.VSM2.StateGraph.States
 {
-	[NodeColor(NodeColor.LightBlue), NodeIcon(NodeIcon.V2_Random)]
+	[NodeColor(NodeColor.LightBlue), NodeIcon(NodeIcon.Random)]
 	public class RandomTwoState : State
 	{
 		[Transition] public event Action OnOutcomeA;

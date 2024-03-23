@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using Nonatomic.VSM2.Editor.NodeGraph;
 using Nonatomic.VSM2.Editor.Services;
@@ -14,6 +16,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
+using Debug = UnityEngine.Debug;
 
 namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
@@ -153,7 +156,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			var nodeIcon = AttributeUtils.GetInheritedCustomAttribute<NodeIconAttribute>(stateType);
 			if (nodeIcon == null) return icon;
 			
-			var iconTexture = ImageService.FetchTexture(nodeIcon.Path, nodeIcon.Source);
+			var iconPath = NodeIcon.GetNodeIconPath(nodeIcon.Path);
+			var iconTexture = ImageService.FetchTexture(iconPath, nodeIcon.Source);
 			icon.image = iconTexture;
 			icon.style.opacity = nodeIcon.Opacity;
 			icon.style.display = DisplayStyle.Flex;
@@ -324,7 +328,40 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			var icon = MakeIcon(NodeModel);
 			TitleContainer.Insert(0, icon);
 		}
-		
+
+		protected virtual void AddEditButton()
+		{
+			if(NodeModel?.State == null) return;
+			
+			var stateNamespace = NodeModel.State.GetType().Namespace;
+			if (stateNamespace == "Nonatomic.VSM2.StateGraph.States") return;
+			
+			var editButton = new Button(HandleEditButton);
+			editButton.name = "edit-btn";
+			
+			var icon = new Image();
+			icon.name = "edit-icon";
+			icon.scaleMode = ScaleMode.ScaleToFit;
+
+			var iconPath = NodeIcon.GetNodeIconPath(NodeIcon.Pencil);
+			var iconTexture = ImageService.FetchTexture(iconPath);
+			icon.image = iconTexture;
+			icon.style.display = DisplayStyle.Flex;
+			
+			editButton.Add(icon);
+			TitleContainer.Add(editButton);
+		}
+
+		private void HandleEditButton()
+		{
+			if(NodeModel?.State == null) return;
+			
+			var scriptFilePath = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(NodeModel.State));
+			var absolutePath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", scriptFilePath));
+			
+			Process.Start(absolutePath);
+		}
+
 		protected virtual void AddProgressBar()
 		{
 			var progressBar = new ProgressBar();

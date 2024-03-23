@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Nonatomic.VSM2.StateGraph.States
 {
-	[NodeColor(NodeColor.Purple), NodeIcon(NodeIcon.V2_Share), NodeWidth(200)]
+	[NodeColor(NodeColor.Purple), NodeIcon(NodeIcon.Share), NodeWidth(200)]
 	public abstract class BaseSubStateMachineState : State
 	{
 		public StateMachine SubStateMachine { get; private set; }
