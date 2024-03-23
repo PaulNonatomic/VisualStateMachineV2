@@ -20,8 +20,7 @@ namespace Nonatomic.VSM2.StateGraph
 		private Dictionary<string, StateNodeModel> _nodeLookup = new();
 		private Dictionary<string, List<StateTransitionModel>> _transitionLookup = new();
 		private Dictionary<JumpId, StateNodeModel> _jumpNodeLookup = new();
-		
-		private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+		private CancellationTokenSource _cancellationTokenSource = new();
 		
 		public StateMachine(StateMachineModel model, GameObject gameObject)
 		{
@@ -110,6 +109,8 @@ namespace Nonatomic.VSM2.StateGraph
 				
 				node.OnDestroy();
 			}
+
+			Model = null;
 		}
 
 		private void CreateTransitionLookupTable()

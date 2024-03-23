@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Nonatomic.VSM2.StateGraph
 {
-	[NodeColor(NodeColor.Orange), NodeIcon(NodeIcon.V2_Cube)]
+	[NodeColor(NodeColor.Orange), NodeIcon(NodeIcon.Cube)]
 	public abstract class State : ScriptableObject
 	{
 		public GameObject GameObject { get; set; }

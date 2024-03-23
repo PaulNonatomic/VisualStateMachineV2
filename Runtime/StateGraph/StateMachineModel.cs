@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Nonatomic.VSM2.StateGraph
 {
-	[CreateAssetMenu(fileName = "StateMachine", menuName = Constants.AssetMenuRoot + "/StateMachine")]
+	[CreateAssetMenu(fileName = "StateMachineModel", menuName = Constants.AssetMenuRoot + "/StateMachineModel")]
 	public class StateMachineModel : NodeGraphModel<StateNodeModel, StateTransitionModel>
 	{
 		public StateMachineModel Original { get; private set; }

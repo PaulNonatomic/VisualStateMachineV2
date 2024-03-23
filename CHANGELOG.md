@@ -1,5 +1,15 @@
 # Change Log
 
+## [0.4.0-beta] - Mar 23, 2024
+- Added an edit button to custom states to enable quicker access to edit state scripts
+- Refactored node icons (Breaking change for anyone using node icons in their custom states)
+
+## [0.3.4-beta] - Mar 20, 2024
+- Fix for StateMachineModelPropertyDrawer in SubStateMachines not opening the live instance of statemachines at runtime.
+
+## [0.3.3-beta] - Mar 20, 2024
+- Renamed the StateMachineModel instances produced
+
 ## [0.3.2-beta] - Mar 16, 2024
 - Fix for parallel substate lifespan
 - Adding more resilience against the error SerializedObject target has been destroyed
@@ -11,7 +21,7 @@
 - hotfix for JumpIn nodes changing ids at runtime because the node comparison method would fail at runtime.
 - substate and parallel substate machine nodes now destroy substates on exit. This is more important for parallel substates.
 
-## [0.3.0-beta] - Mar 16, 2024
+## [0.3.0-beta] - Mar 16, 2024[package.json](package.json)
 - Added Parallel Sub State Machine State
 - Added custom property drawer for StateMachineModel to include an open button
 - Removed the now redundant Open button from the SubStateMachine node

@@ -57,8 +57,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			var icon = new Image();
 			icon.name = "toolbtn-icon";
 			icon.scaleMode = ScaleMode.ScaleToFit;
-			
-			var iconTexture = ImageService.FetchTexture(NodeIcon.V2_CenterSquare);
+
+			var iconPath = NodeIcon.GetNodeIconPath(NodeIcon.CenterSquare);
+			var iconTexture = ImageService.FetchTexture(iconPath);
 			icon.image = iconTexture;
 			icon.style.display = DisplayStyle.Flex;
 			

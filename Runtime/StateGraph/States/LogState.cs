@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Nonatomic.VSM2.StateGraph.States
 {
-	[NodeColor(NodeColor.Blue), NodeIcon(NodeIcon.V2_Note)]
+	[NodeColor(NodeColor.Blue), NodeIcon(NodeIcon.Note)]
 	public class LogState : State
 	{
 		[Transition]

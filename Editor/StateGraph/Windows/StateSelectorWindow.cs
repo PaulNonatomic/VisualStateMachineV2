@@ -304,10 +304,15 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 				var firstGroup = groupIndex == 0;
 				var open = firstGroup || nearestGroupToStateMachine == groupIndex || !emptySearchQuery;
-
-				var buttonIcon = firstGroup ? NodeIcon.VsmBlue : NodeIcon.VsmGreen;
+				
+				var buttonIcon = NodeIcon.GetGUIIconPath(firstGroup 
+					? NodeIcon.VsmBlue 
+					: NodeIcon.VsmGreen);
+				
 				var folderName = firstGroup ? BuildInStateDirectoryName : group[0].Namespace;
-				var folderIcon = firstGroup ? NodeIcon.FolderBlue : NodeIcon.FolderGreen;
+				var folderIcon = NodeIcon.GetGUIIconPath(firstGroup 
+					? NodeIcon.FolderBlue 
+					: NodeIcon.FolderGreen);
 				
 				Foldout groupBody = null;
 				for (var stateIndex = 0; stateIndex < group.Count; stateIndex++)

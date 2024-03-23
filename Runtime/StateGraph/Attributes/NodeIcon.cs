@@ -1,50 +1,54 @@
-﻿namespace Nonatomic.VSM2.StateGraph.Attributes
+﻿using System.IO;
+
+namespace Nonatomic.VSM2.StateGraph.Attributes
 {
 	public abstract class NodeIcon
 	{
-		public static string V2_BeaconRight = "Icons/v2/broadcast-right";
-		public static string V2_BeaconLeft = "Icons/v2/broadcast-left";
-		public static string V2_BeaconHaloLeft = "Icons/v2/broadcast-halo-left";
-		public static string V2_BeaconHaloRight = "Icons/v2/broadcast-halo-right";
-		public const string V2_Clock = "Icons/v2/clock";
-		public const string V2_Enter = "Icons/v2/enter";
-		public const string V2_Exit = "Icons/v2/exit";
-		public const string V2_Note = "Icons/v2/note";
-		public const string V2_Share = "Icons/v2/share";
-		public const string V2_Folder = "Icons/v2/folder";
-		public const string V2_Cube = "Icons/v2/cube";
-		public const string V2_Grid = "Icons/v2/grid";
-		public const string V2_Perspective = "Icons/v2/grid-perspective";
-		public const string V2_Triangle = "Icons/v2/triangle";
-		public const string V2_Pentagon = "Icons/v2/pentagon";
-		public const string V2_Hexagon = "Icons/v2/hexagon";
-		public const string V2_Circle = "Icons/v2/circle";
-		public const string V2_Warning = "Icons/v2/warning";
-		public const string V2_Report = "Icons/v2/report";
-		public const string V2_Trophy = "Icons/v2/trophy";
-		public const string V2_Help = "Icons/v2/help";
-		public const string V2_Menu = "Icons/v2/menu";
-		public const string V2_RulerArrows = "Icons/v2/ruler-arrows";
-		public const string V2_Eject = "Icons/v2/eject";
-		public const string V2_Center = "Icons/v2/center";
-		public const string V2_CenterSquare = "Icons/v2/center-square";
-		public const string V2_CenterAlign = "Icons/v2/center-align";
-		public const string V2_Command = "Icons/v2/command";
-		public const string V2_Random = "Icons/v2/random";
+		//Paths
+		public const string IconPath = "Icons/Nodes/";
+		public const string GuiPath = "Icons/GUI/";
 		
-		public const string VsmRecenter = "Icons/recenter-flat-white";
-		public const string VsmFlatRandomWhite = "Icons/random-flat-white";
-		public const string VsmFlatDiceWhite = "Icons/dice-flat-white";
-		public const string VsmFlatDocWhite = "Icons/doc-flat-white";
-		public const string VsmFlatFlagWhite = "Icons/flag-flat-white";
-		public const string VsmFlatTimeWhite = "Icons/time-flat-white";
-		public const string VsmFlatWhite = "Icons/statemachine-flat-white";
+		//Node Icons
+		public const string BeaconRight = "broadcast-right";
+		public const string BeaconLeft = "broadcast-left";
+		public const string BeaconHaloLeft = "broadcast-halo-left";
+		public const string BeaconHaloRight = "broadcast-halo-right";
+		public const string Clock = "clock";
+		public const string Enter = "enter";
+		public const string Exit = "exit";
+		public const string Note = "note";
+		public const string Share = "share";
+		public const string Folder = "folder";
+		public const string Cube = "cube";
+		public const string Grid = "grid";
+		public const string Perspective = "grid-perspective";
+		public const string Triangle = "triangle";
+		public const string Pentagon = "pentagon";
+		public const string Hexagon = "hexagon";
+		public const string Circle = "circle";
+		public const string Warning = "warning";
+		public const string Report = "report";
+		public const string Trophy = "trophy";
+		public const string Help = "help";
+		public const string Menu = "menu";
+		public const string RulerArrows = "ruler-arrows";
+		public const string Eject = "eject";
+		public const string Center = "center";
+		public const string CenterSquare = "center-square";
+		public const string CenterAlign = "center-align";
+		public const string Command = "command";
+		public const string Random = "random";
+		public const string Pencil = "pencil";
+		
+		//GUI Icons
 		public const string VsmGreen = "Icons/statemachine-green";
 		public const string VsmRed = "Icons/statemachine-red";
 		public const string VsmBlue= "Icons/statemachine-blue";
-		
 		public const string FolderGreen = "Icons/folder-green";
 		public const string FolderRed = "Icons/folder-red";
 		public const string FolderBlue = "Icons/folder-blue";
+
+		public static string GetNodeIconPath(string icon) => Path.Combine(IconPath, icon);
+		public static string GetGUIIconPath(string icon) => Path.Combine(GuiPath, icon);
 	}
 }
