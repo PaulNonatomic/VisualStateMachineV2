@@ -41,12 +41,12 @@ namespace Nonatomic.VSM2.StateGraph.Attributes
 		public const string Pencil = "pencil";
 		
 		//GUI Icons
-		public const string VsmGreen = "Icons/statemachine-green";
-		public const string VsmRed = "Icons/statemachine-red";
-		public const string VsmBlue= "Icons/statemachine-blue";
-		public const string FolderGreen = "Icons/folder-green";
-		public const string FolderRed = "Icons/folder-red";
-		public const string FolderBlue = "Icons/folder-blue";
+		public const string VsmGreen = "statemachine-green";
+		public const string VsmRed = "statemachine-red";
+		public const string VsmBlue= "statemachine-blue";
+		public const string FolderGreen = "folder-green";
+		public const string FolderRed = "folder-red";
+		public const string FolderBlue = "folder-blue";
 
 		public static string GetNodeIconPath(string icon) => Path.Combine(IconPath, icon);
 		public static string GetGUIIconPath(string icon) => Path.Combine(GuiPath, icon);

@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.4.1-beta] - Mar 23, 2024
+- hotfix for broken icon path
+
 ## [0.4.0-beta] - Mar 23, 2024
 - Added an edit button to custom states to enable quicker access to edit state scripts
 - Refactored node icons (Breaking change for anyone using node icons in their custom states)
@@ -21,7 +24,7 @@
 - hotfix for JumpIn nodes changing ids at runtime because the node comparison method would fail at runtime.
 - substate and parallel substate machine nodes now destroy substates on exit. This is more important for parallel substates.
 
-## [0.3.0-beta] - Mar 16, 2024[package.json](package.json)
+## [0.3.0-beta] - Mar 16, 2024
 - Added Parallel Sub State Machine State
 - Added custom property drawer for StateMachineModel to include an open button
 - Removed the now redundant Open button from the SubStateMachine node
