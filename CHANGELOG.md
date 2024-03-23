@@ -1,8 +1,26 @@
 # Change Log
 
+## [0.3.2-beta] - Mar 16, 2024
+- Fix for parallel substate lifespan
+- Adding more resilience against the error SerializedObject target has been destroyed
+- Refactored the substatemachines to make them easier to extend
+- Removed redundant custom editor for StateMachineController
+- Fix for the life span of substates in both SubStateMachine and ParallelSubState machines we now exit the last node state machine and set the statemachine to complete when the parent node completes
+
+## [0.3.1-beta] - Mar 16, 2024
+- hotfix for JumpIn nodes changing ids at runtime because the node comparison method would fail at runtime.
+- substate and parallel substate machine nodes now destroy substates on exit. This is more important for parallel substates.
+
+## [0.3.0-beta] - Mar 16, 2024
+- Added Parallel Sub State Machine State
+- Added custom property drawer for StateMachineModel to include an open button
+- Removed the now redundant Open button from the SubStateMachine node
+- Added Random nodes for 2 and 3 outputs
+- Fixed typo in name of DelayUnscaledState (possible breaking change)
+
 ## [0.2.1-beta] - Mar 11, 2024
 - Fix for graph position label not updating when the graph is moved
-- Fix fro the graph state label not updating when in active mode
+- Fix for the graph state label not updating when in active mode
 
 ## [0.2.0-beta] - Mar 09, 2024
 - SubStateMachine now has a button on the Node to open the sub state

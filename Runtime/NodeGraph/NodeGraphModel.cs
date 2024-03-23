@@ -20,17 +20,19 @@ namespace Nonatomic.VSM2.NodeGraph
 
 		protected bool TryAddNode(T1 node)
 		{
-			if (_nodes.Contains(node)) return false;
-			
+			if (node == null || _nodes.Contains(node)) return false;
+
 			_nodes.Add(node);
+			MarkDirty();
 			return true;
 		}
 
 		protected bool TryRemoveNode(T1 node)
 		{
-			if (!_nodes.Contains(node)) return false;
-			
+			if (node == null || !_nodes.Contains(node)) return false;
+
 			_nodes.Remove(node);
+			MarkDirty();
 			return true;
 		}
 
@@ -58,5 +60,14 @@ namespace Nonatomic.VSM2.NodeGraph
 			_transitions.Remove(transition);
 			return true;
 		}
-	}	
+		
+		private void MarkDirty()
+		{
+			#if UNITY_EDITOR
+			{
+				EditorUtility.SetDirty(this);
+			}
+			#endif
+		}
+	}
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.NodeGraph;
-using Nonatomic.VSM2.StateGraph;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -139,7 +138,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			this.AddManipulator(new FreehandSelector());
 		}
 
-		private void HandleGeometryChanged(GeometryChangedEvent evt)
+		protected virtual void HandleGeometryChanged(GeometryChangedEvent evt)
 		{
 			Size = evt.newRect.size;
 			StateManager.LoadState();
