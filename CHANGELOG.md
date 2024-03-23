@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.4.1-beta] - Mar 23, 2024
+- hotfix for broken icon path
+
 ## [0.4.0-beta] - Mar 23, 2024
 - Added an edit button to custom states to enable quicker access to edit state scripts
 - Refactored node icons (Breaking change for anyone using node icons in their custom states)
