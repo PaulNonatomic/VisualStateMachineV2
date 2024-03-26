@@ -69,5 +69,28 @@ namespace Nonatomic.VSM2.NodeGraph
 			}
 			#endif
 		}
+
+		protected override void ValidateSubAssets()
+		{
+			base.ValidateSubAssets();
+			
+			for(var i = _nodes.Count; i >= 0; i--)
+			{
+				var node = _nodes[i];
+				if (node == null)
+				{
+					_nodes.RemoveAt(i);
+				}
+			}
+			
+			for(var i = _transitions.Count; i >= 0; i--)
+			{
+				var transition = _transitions[i];
+				if (transition == null)
+				{
+					_transitions.RemoveAt(i);
+				}
+			}
+		}
 	}
 }

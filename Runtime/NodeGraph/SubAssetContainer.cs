@@ -116,7 +116,8 @@ namespace Nonatomic.VSM2.NodeGraph
 		
 		/// <summary>
 		/// Validates the sub-assets within the container.
-		/// It removes any sub-assets that are either null or of the base Object type.
+		/// It removes any sub-assets that are either null or of the base Object type
+		/// which only happens if it's type has been deleted.
 		/// </summary>
 		protected virtual void ValidateSubAssets()
 		{

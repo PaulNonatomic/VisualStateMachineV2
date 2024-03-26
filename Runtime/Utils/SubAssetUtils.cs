@@ -1,4 +1,5 @@
-﻿using Nonatomic.VSM2.Logging;
+﻿using System.Linq;
+using Nonatomic.VSM2.Logging;
 using UnityEditor;
 using UnityEngine;
 
@@ -108,6 +109,32 @@ namespace Nonatomic.VSM2.Utils
 			#endif
 
 			return result;
+		}
+		
+		public static bool DoesSubAssetExist(Object mainAsset, Object subAsset)
+		{
+			if (mainAsset == null || subAsset == null)
+			{
+				return false;
+			}
+
+			var mainAssetPath = AssetDatabase.GetAssetPath(mainAsset);
+			var allSubAssets = AssetDatabase.LoadAllAssetsAtPath(mainAssetPath);
+
+			return allSubAssets.Any(obj => obj == subAsset);
+		}
+		
+		public static bool DoesSubAssetOfTypeExist<T>(Object mainAsset) where T : Object
+		{
+			if (mainAsset == null)
+			{
+				return false;
+			}
+
+			var mainAssetPath = AssetDatabase.GetAssetPath(mainAsset);
+			var allSubAssets = AssetDatabase.LoadAllAssetsAtPath(mainAssetPath);
+
+			return allSubAssets.OfType<T>().Any();
 		}
 	}
 }

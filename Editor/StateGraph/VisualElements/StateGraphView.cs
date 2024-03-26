@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Nonatomic.VSM2.Editor.Blackboard;
 using Nonatomic.VSM2.Editor.NodeGraph;
 using Nonatomic.VSM2.Editor.StateGraph.Nodes;
 using Nonatomic.VSM2.Editor.Utils;
@@ -18,11 +19,13 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 	{
 		private ToolBarView _toolBar;
 		private FooterBarView _footerBar;
+		private BlackboardView _blackboard;
 		private StateGraphContextMenu _contextMenu;
 
 		public StateGraphView(string id) : base(id)
 		{
 			MakeToolBar();
+			MakeBlackboard();
 			MakeFooterBar();
 		}
 
@@ -48,10 +51,12 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			AddEntryNode(stateModel);
 			AddNodes(stateModel);
 			AddEdges(stateModel);
+			
+			_blackboard.Populate(stateModel);
 
 			HandleRecenter();
 		}
-		
+
 		private void AddEntryNode(StateMachineModel stateModel)
 		{
 			if(stateModel == null) return;
@@ -218,6 +223,12 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				var nodeView = StateGraphNodeFactory.MakeNode(this, nodeData, model);
 				AddElement(nodeView);
 			});
+		}
+
+		private void MakeBlackboard()
+		{
+			_blackboard = new BlackboardView();
+			Add(_blackboard);
 		}
 
 		private void MakeFooterBar()
