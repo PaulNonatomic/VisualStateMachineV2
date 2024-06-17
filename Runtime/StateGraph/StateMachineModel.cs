@@ -34,64 +34,80 @@ namespace Nonatomic.VSM2.StateGraph
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation() || stateNodeModel == null) return;
 			
-			EditorApplication.delayCall += () =>
+			#if UNITY_EDITOR
 			{
-				if (this == null) return;
-
-				if (TryAddNode(stateNodeModel))
+				EditorApplication.delayCall += () =>
 				{
-					AddSubAsset(stateNodeModel.State);
-				}
-			};
+					if (this == null) return;
+
+					if (TryAddNode(stateNodeModel))
+					{
+						AddSubAsset(stateNodeModel.State);
+					}
+				};
+			}
+			#endif
 		}
 
 		public void RemoveState(StateNodeModel stateNodeModel)
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation() || stateNodeModel == null) return;
 
-			EditorApplication.delayCall += () =>
+			#if UNITY_EDITOR
 			{
-				if (this == null) return;
-
-				if (TryRemoveNode(stateNodeModel))
+				EditorApplication.delayCall += () =>
 				{
-					RemoveSubAsset(stateNodeModel.State);
-				}
+					if (this == null) return;
 
-				ValidateSubAssets();
-			};
+					if (TryRemoveNode(stateNodeModel))
+					{
+						RemoveSubAsset(stateNodeModel.State);
+					}
+
+					ValidateSubAssets();
+				};
+			}
+			#endif
 		}
 
 		public void AddTransition(StateTransitionModel stateTransitionModel)
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation() || stateTransitionModel == null) return;
 
-			EditorApplication.delayCall += () =>
+			#if UNITY_EDITOR
 			{
-				if (this == null) return;
-
-				if (!TryAddTransition(stateTransitionModel))
+				EditorApplication.delayCall += () =>
 				{
-					GraphLog.LogWarning("Failed to add transition");
-				}
-			};
+					if (this == null) return;
+
+					if (!TryAddTransition(stateTransitionModel))
+					{
+						GraphLog.LogWarning("Failed to add transition");
+					}
+				};
+			}
+			#endif
 		}
 		
 		public void RemoveTransition(StateTransitionModel stateTransitionModel)
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation() || stateTransitionModel == null) return;
 
-			EditorApplication.delayCall += () =>
+			#if UNITY_EDITOR
 			{
-				if (this == null) return;
-
-				if (!TryRemoveTransition(stateTransitionModel))
+				EditorApplication.delayCall += () =>
 				{
-					GraphLog.LogWarning("Failed to remove transition");
-				}
+					if (this == null) return;
 
-				ValidateSubAssets();
-			};
+					if (!TryRemoveTransition(stateTransitionModel))
+					{
+						GraphLog.LogWarning("Failed to remove transition");
+					}
+
+					ValidateSubAssets();
+				};
+			}
+			#endif
 		}
 
 		protected override void ValidateSubAssets()

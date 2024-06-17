@@ -57,19 +57,23 @@ namespace Nonatomic.VSM2.NodeGraph
 		{
 			if (subAsset == null) return;
 
-			EditorApplication.delayCall += () =>
+			#if UNITY_EDITOR
 			{
-				if (this == null) return;
+				EditorApplication.delayCall += () =>
+				{
+					if (this == null) return;
 
-				if (SubAssetUtils.TryAddSubAsset(this, subAsset))
-				{
-					_subAssets.Add(subAsset);
-				}
-				else
-				{
-					GraphLog.LogWarning($"Could not add sub asset {subAsset}");
-				}
-			};
+					if (SubAssetUtils.TryAddSubAsset(this, subAsset))
+					{
+						_subAssets.Add(subAsset);
+					}
+					else
+					{
+						GraphLog.LogWarning($"Could not add sub asset {subAsset}");
+					}
+				};
+			}
+			#endif
 		}
 
 		/// <summary>
@@ -80,19 +84,23 @@ namespace Nonatomic.VSM2.NodeGraph
 		{
 			if (subAsset == null) return;
 
-			EditorApplication.delayCall += () =>
+			#if UNITY_EDITOR
 			{
-				if (this == null) return;
+				EditorApplication.delayCall += () =>
+				{
+					if (this == null) return;
 
-				if (SubAssetUtils.TryRemoveSubAsset(subAsset))
-				{
-					_subAssets.Remove(subAsset);
-				}
-				else
-				{
-					GraphLog.LogWarning($"Could not remove sub asset {subAsset}");
-				}
-			};
+					if (SubAssetUtils.TryRemoveSubAsset(subAsset))
+					{
+						_subAssets.Remove(subAsset);
+					}
+					else
+					{
+						GraphLog.LogWarning($"Could not remove sub asset {subAsset}");
+					}
+				};
+			}
+			#endif
 		}
 		
 		/// <summary>
