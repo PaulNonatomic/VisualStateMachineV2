@@ -1,4 +1,6 @@
-﻿using Nonatomic.VSM2.Editor.Utils;
+﻿using Nonatomic.VSM2.Editor.NodeGraph;
+using Nonatomic.VSM2.Editor.StateGraph;
+using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
 using UnityEditor;
@@ -18,7 +20,6 @@ namespace Nonatomic.VSM2.Editor.PropertyDrawer
 			var propertyRect = new Rect(position.x, position.y, position.width - 55, position.height);
 			
 			EditorGUIUtility.labelWidth = PropertyUtils.IsListElement(property) ? 1 : 100;
-			
 			EditorGUI.PropertyField(propertyRect, property, label, true);
 			EditorGUIUtility.labelWidth = 0;
 
@@ -48,21 +49,24 @@ namespace Nonatomic.VSM2.Editor.PropertyDrawer
 		{
 			if (!GUI.Button(buttonRect, "Open")) return;
 			if (GuardAgainstDestroyedSerializedObject(property)) return;
-			
-			switch (property.serializedObject?.targetObject)
-			{
-				case StateMachineController:
-					//don't set parent
-					break;
-				default:
-					var currentModel = ModelSelection.ActiveModel as StateMachineModel;
-					if (currentModel == null) return;
-					
-					instance?.SetParent(currentModel);
-					break;
-			}
-			
+
+			NodeGraphEditorWindow.OpenWindow<StateGraphEditorWindow>();
+
+			SetActiveModel(instance);
+			SetModelParent(instance);
+		}
+
+		private static void SetActiveModel(StateMachineModel instance)
+		{
 			ModelSelection.ActiveModel = instance;
+		}
+
+		private static void SetModelParent(StateMachineModel instance)
+		{
+			var currentModel = ModelSelection.ActiveModel as StateMachineModel;
+			if (!currentModel) return;
+			
+			instance?.SetParent(currentModel);
 		}
 
 		private static void DrawNewButton(Rect buttonRect, SerializedProperty property)
