@@ -1,8 +1,11 @@
 # Change Log
 
+## [0.4.3-beta] - Jun 25, 2024
+- hotfix to allow opening the State Machine Editor via the StateMachineModelPropertyDrawer open button regardless of state.
+
 ## [0.4.2-beta] - Jun 17, 2024
 - hotfix to add preprocessors to enable VSM2 in builds
-- 
+ 
 ## [0.4.1-beta] - Mar 23, 2024
 - hotfix for broken icon path
 
