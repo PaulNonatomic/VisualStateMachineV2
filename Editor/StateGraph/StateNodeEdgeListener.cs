@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nonatomic.VSM2.Editor.NodeGraph;
 using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
@@ -68,9 +67,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			if (Application.isPlaying) return;
 			if (edge.output == null || edge.input == null) return;
 			
-			var port = edge.output;
-			var inputNode = edge.input.node as NodeView;
-
 			var originNodeId = edge.output.node.name;
 			var originPortModel = edge.output.userData as PortModel;
 			

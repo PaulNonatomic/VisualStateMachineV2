@@ -9,15 +9,12 @@ namespace Nonatomic.VSM2.Editor.Services
 	{
 		public static Texture2D FetchTexture(string path, ResourceSource source = ResourceSource.Resources)
 		{
-			switch (source)
+			return source switch
 			{
-				case ResourceSource.Resources:
-					return Resources.Load<Texture2D>(path);
-				case ResourceSource.AssetPath:
-					return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
+				ResourceSource.Resources => Resources.Load<Texture2D>(path),
+				ResourceSource.AssetPath => AssetDatabase.LoadAssetAtPath<Texture2D>(path),
+				_ => throw new ArgumentOutOfRangeException()
+			};
 		}
 	}
 }

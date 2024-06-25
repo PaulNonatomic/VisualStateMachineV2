@@ -20,12 +20,12 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			this.name = "toolBar";
 
 			ApplyStyle();
-			AddBreadcrumTrail();
+			AddBreadcrumbTrail();
 			AddButtonContainer();
 			AddRecenterButton();
 		}
 
-		private void AddBreadcrumTrail()
+		private void AddBreadcrumbTrail()
 		{
 			_breadcrumbTrail = new BreadcrumbTrailView();
 			Add(_breadcrumbTrail);
@@ -38,31 +38,40 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		
 		private void ApplyStyle()
 		{
-			var style = UnityEngine.Resources.Load<StyleSheet>(nameof(ToolBarView));
-			styleSheets.Add(style);
+			var styleSheet = UnityEngine.Resources.Load<StyleSheet>(nameof(ToolBarView));
+			styleSheets.Add(styleSheet);
 		}
 
 		private void AddButtonContainer()
 		{
-			_buttonContainer = new VisualElement();
-			_buttonContainer.name = "button-container";
+			_buttonContainer = new VisualElement
+			{
+				name = "button-container"
+			};
 			Add(_buttonContainer);
 		}
 
 		private void AddRecenterButton()
 		{
-			_recenterButton = new Button(() => OnRecenter?.Invoke());
-			_recenterButton.name = "toolbtn";
-			
-			var icon = new Image();
-			icon.name = "toolbtn-icon";
-			icon.scaleMode = ScaleMode.ScaleToFit;
+			_recenterButton = new Button(() => OnRecenter?.Invoke())
+			{
+				name = "toolbtn"
+			};
+
+			var icon = new Image
+			{
+				name = "toolbtn-icon",
+				scaleMode = ScaleMode.ScaleToFit,
+				style =
+				{
+					display = DisplayStyle.Flex
+				}
+			};
 
 			var iconPath = NodeIcon.GetNodeIconPath(NodeIcon.CenterSquare);
 			var iconTexture = ImageService.FetchTexture(iconPath);
 			icon.image = iconTexture;
-			icon.style.display = DisplayStyle.Flex;
-			
+
 			_recenterButton.Add(icon);
 			_buttonContainer.Add(_recenterButton);
 		}

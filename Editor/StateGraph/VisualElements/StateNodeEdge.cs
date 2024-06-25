@@ -9,6 +9,5 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			capRadius = 4f,
 			interceptWidth = 6f
 		};
-		
 	}
 }

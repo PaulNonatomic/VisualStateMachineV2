@@ -8,17 +8,27 @@ namespace Nonatomic.VSM2.Editor.Utils
 	{
 		public static string RemoveStateSuffix(string title)
 		{
-			return !title.EndsWith("State", StringComparison.OrdinalIgnoreCase) ? title : title[..^5];
+			if (title.Length < 5) return title;
+			return !title.EndsWith("State", StringComparison.OrdinalIgnoreCase) 
+				? title : 
+				title[..^5];
 		}
 
 		public static string RemoveOnSuffix(string title)
 		{
-			return !title.StartsWith("On", StringComparison.OrdinalIgnoreCase) ? title : title[2..];
+			if (title.Length < 2) return title;
+			return !title.StartsWith("On", StringComparison.OrdinalIgnoreCase) 
+				? title 
+				: title[2..];
 		}
 		
 		public static string ApplyEllipsis(string text, int maxLength)
 		{
-			return text.Length <= maxLength ? text : text[..(maxLength - 3)] + "...";
+			if (maxLength - 3 < 0 || maxLength - 3 > text.Length) return text;
+			
+			return text.Length <= maxLength
+				? text
+				: text[..(maxLength - 3)] + "...";
 		}
 		
 		public static string PascalCaseToTitleCase(string pascalCaseString)
@@ -46,9 +56,7 @@ namespace Nonatomic.VSM2.Editor.Utils
 				for (var j = 1; j <= m; j++)
 				{
 					var cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
-
-					d[i, j] = Math.Min(Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1),
-									   d[i - 1, j - 1] + cost);
+					d[i, j] = Math.Min(Math.Min(d[i - 1, j] + 1, d[i, j - 1] + 1), d[i - 1, j - 1] + cost);
 				}
 			}
 

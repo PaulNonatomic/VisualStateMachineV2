@@ -38,8 +38,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			NodeModel = nodeModel;
 			StateType = nodeModel.State.GetType();
 			
-			this.name = nodeModel.Id;
-			this.userData = nodeModel;
+			name = nodeModel.Id;
+			userData = nodeModel;
 			
 			RegisterCallback<AttachToPanelEvent>(HandleAttachToPanel);
 			RegisterCallback<DetachFromPanelEvent>(HandleLeavePanel);
@@ -77,14 +77,14 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 
 		protected virtual void ColorizeTitle()
 		{
-			var title = this.Query<VisualElement>("title").First();
-			if (title == null) return;
+			var nodeTitle = this.Query<VisualElement>("title").First();
+			if (nodeTitle == null) return;
 			
 			var stateType = NodeModel.State.GetType();
 			if (!AttributeUtils.TryGetInheritedCustomAttribute<NodeColorAttribute>(stateType, out var colorAtt)) return;
 			if (!ColorUtility.TryParseHtmlString(colorAtt.HexColor, out var color)) return;
 			
-			title.style.backgroundColor = color;
+			nodeTitle.style.backgroundColor = color;
 		}
 
 		protected virtual void ApplyNodeWidth(StateNodeModel nodeModel)
@@ -93,8 +93,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			if (!AttributeUtils.TryGetInheritedCustomAttribute<NodeWidthAttribute>(stateType, out var widthAtt)) return;
 			
 			var width = widthAtt.Width;
-			this.style.maxWidth = width;
-			this.style.width = width;
+			style.maxWidth = width;
+			style.width = width;
 		}
 
 		protected virtual void ApplyStateColorToPortData(StateNodeModel nodeModel, PortModel portModel)
@@ -148,11 +148,16 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		{
 			var stateType = nodeModel.State.GetType();
 			
-			var icon = new Image();
-			icon.name = "title-icon";
-			icon.scaleMode = ScaleMode.ScaleToFit;
-			icon.style.display = DisplayStyle.None;
-			
+			var icon = new Image
+			{
+				name = "title-icon",
+				scaleMode = ScaleMode.ScaleToFit,
+				style =
+				{
+					display = DisplayStyle.None
+				}
+			};
+
 			var nodeIcon = AttributeUtils.GetInheritedCustomAttribute<NodeIconAttribute>(stateType);
 			if (nodeIcon == null) return icon;
 			
@@ -206,34 +211,32 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			return container;
 		}
 		
-		private bool IsSubStateMachineList(SerializedProperty property)
+		private static bool IsSubStateMachineList(SerializedProperty property)
 		{
 			if (!property.isArray) return false;
-			if (property.arrayElementType != "PPtr<$StateMachineModel>") return false;
-			
-			return true;
+			return property.arrayElementType == "PPtr<$StateMachineModel>";
 		}
 
-		private VisualElement CreateCustomSubStateMachineUI(SerializedProperty property)
+		private static VisualElement CreateCustomSubStateMachineUI(SerializedProperty property)
 		{
-			var customUI = new PropertyField(property);
-			
-			return customUI;
+			return new PropertyField(property);
 		}
 		
 		protected virtual void AddStyle(string stylePath)
 		{
-			var style = UnityEngine.Resources.Load<StyleSheet>(stylePath);
-			Assert.IsNotNull(style, $"{stylePath}.uss not found");
-			styleSheets.Add(style);
+			var styleSheet = Resources.Load<StyleSheet>(stylePath);
+			Assert.IsNotNull(styleSheet, $"{stylePath}.uss not found");
+			styleSheets.Add(styleSheet);
 		}
 		
 		protected virtual void AddGlowBorder()
 		{
-			GlowBorder = new VisualElement();
-			GlowBorder.name = "state-border";
-			GlowBorder.pickingMode = PickingMode.Ignore;
-			this.Add(GlowBorder);
+			GlowBorder = new VisualElement
+			{
+				name = "state-border",
+				pickingMode = PickingMode.Ignore
+			};
+			Add(GlowBorder);
 		}
 		
 		protected virtual void UpdateGlowBorder()
@@ -274,11 +277,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		
 		protected virtual void AddOutputPorts(VisualElement portContainer)
 		{
-			var stateType = NodeModel.State.GetType();
-			var events = stateType.GetEvents(BindingFlags.Public | 
-																BindingFlags.Instance |
-																BindingFlags.Static);
-
 			foreach (var t in NodeModel.OutputPorts)
 			{
 				var portData = t;
@@ -309,7 +307,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		protected virtual void AddTitleLabel()
 		{
 			var titleString = StateType.Name;
-			this.title = StringUtils.ProcessNodeTitle(titleString);
+			title = StringUtils.ProcessNodeTitle(titleString);
 			
 			var titleLabel = Title.Query<VisualElement>("title-label").First();
 			TitleContainer.Add(titleLabel);
@@ -318,9 +316,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		protected virtual void RemoveTitleLabel()
 		{
 			var titleLabel = Title.Query<VisualElement>("title-label").First();
-			if (titleLabel == null) return;
-			
-			titleLabel.parent.Remove(titleLabel);
+			titleLabel?.parent.Remove(titleLabel);
 		}
 		
 		protected virtual void AddTitleIcon()
@@ -331,17 +327,21 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 
 		protected virtual void AddEditButton()
 		{
-			if(NodeModel?.State == null) return;
+			if(!NodeModel?.State) return;
 			
 			var stateNamespace = NodeModel.State.GetType().Namespace;
 			if (stateNamespace == "Nonatomic.VSM2.StateGraph.States") return;
 			
-			var editButton = new Button(HandleEditButton);
-			editButton.name = "edit-btn";
-			
-			var icon = new Image();
-			icon.name = "edit-icon";
-			icon.scaleMode = ScaleMode.ScaleToFit;
+			var editButton = new Button(HandleEditButton)
+			{
+				name = "edit-btn"
+			};
+
+			var icon = new Image
+			{
+				name = "edit-icon",
+				scaleMode = ScaleMode.ScaleToFit
+			};
 
 			var iconPath = NodeIcon.GetNodeIconPath(NodeIcon.Pencil);
 			var iconTexture = ImageService.FetchTexture(iconPath);
@@ -354,7 +354,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 
 		private void HandleEditButton()
 		{
-			if(NodeModel?.State == null) return;
+			if(!NodeModel?.State) return;
 			
 			var scriptFilePath = AssetDatabase.GetAssetPath(MonoScript.FromScriptableObject(NodeModel.State));
 			var absolutePath = Path.GetFullPath(Path.Combine(Application.dataPath, "..", scriptFilePath));
@@ -364,11 +364,13 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 
 		protected virtual void AddProgressBar()
 		{
-			var progressBar = new ProgressBar();
-			progressBar.name = "progress-bar";
-			
-			var title = this.Query<VisualElement>("title").First();
-			title.Add(progressBar);
+			var progressBar = new ProgressBar
+			{
+				name = "progress-bar"
+			};
+
+			var nodeTitle = this.Query<VisualElement>("title").First();
+			nodeTitle.Add(progressBar);
 		}
 		
 		protected virtual void CheckCustomWidth()
@@ -377,9 +379,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			var nodeWidth = stateType.GetCustomAttribute<NodeWidthAttribute>();
 			if (nodeWidth == null) return;
 			
-			this.style.maxWidth = nodeWidth.Width;
-			this.style.minWidth = nodeWidth.Width;
-			this.style.width = nodeWidth.Width;
+			style.maxWidth = nodeWidth.Width;
+			style.minWidth = nodeWidth.Width;
+			style.width = nodeWidth.Width;
 		}
 		
 		protected virtual VisualElement CreatePropertyContainer()

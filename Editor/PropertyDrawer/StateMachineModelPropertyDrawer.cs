@@ -35,7 +35,7 @@ namespace Nonatomic.VSM2.Editor.PropertyDrawer
 			var buttonRect = new Rect(position.x + position.width - 50, position.y, 50, position.height);
 			var instance = PropertyUtils.GetInstance<StateMachineModel>(property);
 			
-			if (instance == null)
+			if (!instance)
 			{
 				DrawNewButton(buttonRect, property);
 			}
@@ -75,15 +75,14 @@ namespace Nonatomic.VSM2.Editor.PropertyDrawer
 			if (GuardAgainstDestroyedSerializedObject(property)) return;
 			
 			var model = ScriptableObjectUtils.CreateInstanceInProject<StateMachineModel>(selectInstance: false);
-			if (model == null) return;
+			if (!model) return;
 			
 			property.objectReferenceValue = model;
 		}
 		
 		private static bool GuardAgainstDestroyedSerializedObject(SerializedProperty property)
 		{
-			return property?.serializedObject == null || 
-					property.serializedObject.targetObject == null;
+			return property?.serializedObject == null || !property.serializedObject.targetObject;
 		}
 	}
 }

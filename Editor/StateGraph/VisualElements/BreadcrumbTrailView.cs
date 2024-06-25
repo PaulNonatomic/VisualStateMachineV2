@@ -7,7 +7,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 {
 	public class BreadcrumbTrailView : VisualElement
 	{
-		private List<BreadcrumbView> _breadcrumbTrail = new ();
+		private readonly List<BreadcrumbView> _breadcrumbTrail = new ();
 		
 		public BreadcrumbTrailView()
 		{
@@ -17,17 +17,16 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		
 		private void ApplyStyle()
 		{
-			var style = UnityEngine.Resources.Load<StyleSheet>(nameof(BreadcrumbTrailView));
-			styleSheets.Add(style);
+			var styleSheet = UnityEngine.Resources.Load<StyleSheet>(nameof(BreadcrumbTrailView));
+			styleSheets.Add(styleSheet);
 		}
 
 		public void SetModel(StateMachineModel model)
 		{
-			if(model == null) return;
+			if(!model) return;
 			
 			_breadcrumbTrail.Clear();
-			this.Clear();
-			
+			Clear();
 			CreateBreadcrumb(model);
 			CreateBreadcrumbOrigin(model);
 			AddBreadcrumbsToTrail();
@@ -37,12 +36,14 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			_breadcrumbTrail.Reverse();
 			
-			for (var index = 0; index < _breadcrumbTrail.Count; index++)
+			foreach (var breadcrumb in _breadcrumbTrail)
 			{
-				var breadcrumb = _breadcrumbTrail[index];
-				this.Add(breadcrumb);
+				Add(breadcrumb);
 				
-				if(_breadcrumbTrail.Count > 1) breadcrumb.ToggleTip(true);
+				if (_breadcrumbTrail.Count > 1)
+				{
+					breadcrumb.ToggleTip(true);
+				}
 			}
 			
 			_breadcrumbTrail.First().SetAsOrigin();
@@ -51,24 +52,27 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		private void CreateBreadcrumbOrigin(StateMachineModel model)
 		{
-			if(model == null) return;
-			
-			var modelParent = model.Parent;
-			if (modelParent == null) return;
-			if (modelParent == model) return;
-			
-			CreateBreadcrumb(modelParent);
-			CreateBreadcrumbOrigin(modelParent);
+			while (true)
+			{
+				if (!model) return;
+
+				var modelParent = model.Parent;
+				if (!modelParent) return;
+				if (modelParent == model) return;
+
+				CreateBreadcrumb(modelParent);
+				model = modelParent;
+			}
 		}
-		
+
 		private void CreateBreadcrumb(StateMachineModel model)
 		{
-			if(model == null) return;
+			if(!model) return;
 			
-			var breadcrum = new BreadcrumbView();
-			breadcrum.SetModel(model);
+			var breadcrumb = new BreadcrumbView();
+			breadcrumb.SetModel(model);
 			
-			_breadcrumbTrail.Add(breadcrum);
+			_breadcrumbTrail.Add(breadcrumb);
 		}
 	}
 }

@@ -1,10 +1,9 @@
 ﻿using Nonatomic.VSM2.StateGraph;
-using Nonatomic.VSM2.StateGraph.States;
 using UnityEditor.Experimental.GraphView;
 
 namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
-	public class EntryNodeView : BaseStateNodeView
+	public sealed class EntryNodeView : BaseStateNodeView
 	{
 		public EntryNodeView(GraphView graphView, 
 							 StateMachineModel stateMachineModel,  

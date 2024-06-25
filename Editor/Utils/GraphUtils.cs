@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Nonatomic.VSM2.Editor.Utils
 {
-	public class GraphUtils
+	public static class GraphUtils
 	{
 		public static Vector3 ScreenPointToGraphPoint(Vector2 screenPoint, GraphView graphView)
 		{

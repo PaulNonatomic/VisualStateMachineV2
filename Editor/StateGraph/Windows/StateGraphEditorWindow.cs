@@ -3,7 +3,6 @@ using Nonatomic.VSM2.Editor.NodeGraph;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
 using UnityEditor;
-using UnityEngine;
 
 namespace Nonatomic.VSM2.Editor.StateGraph
 {

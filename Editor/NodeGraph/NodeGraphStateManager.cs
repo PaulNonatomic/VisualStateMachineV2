@@ -18,7 +18,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 		private const string GridPosYKey = "GridPosY";
 		private const string GridScaleXKey = "GridScaleX";
 		private const string GridScaleYKey = "GridScaleY";
-		
+
 		protected string GetKey(string key) => $"{Id}_{key}";
 
 		public NodeGraphStateManager(string id)
@@ -27,7 +27,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			LoadState();
 		}
 
-		public virtual void ResetState()
+		protected virtual void ResetState()
 		{
 			EditorPrefs.DeleteKey(GetKey(GridPosXKey));
 			EditorPrefs.DeleteKey(GetKey(GridPosYKey));
@@ -56,13 +56,16 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 				GridScale = gridScale;
 				changed = true;
 			}
-			
-			if(changed) OnChange?.Invoke();
+
+			if (changed)
+			{
+				OnChange?.Invoke();
+			}
 		}
 
 		public virtual void SaveState()
 		{
-			if (Model == null) return;
+			if (!Model) return;
 
 			var modelPath = AssetDatabase.GetAssetPath(Model);
 			EditorPrefs.SetString(GetKey(ModelPathKey), modelPath);
@@ -122,7 +125,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			var modelPath = EditorPrefs.GetString(GetKey(ModelPathKey));
 			model = AssetDatabase.LoadAssetAtPath<NodeGraphDataModel>(modelPath);
 			
-			return model != null;
+			return model;
 		}
 	}
 }

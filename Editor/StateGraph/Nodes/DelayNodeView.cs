@@ -7,9 +7,9 @@ using UnityEngine.UIElements;
 
 namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
-	public class DelayNodeView : BaseStateNodeView
+	public sealed class DelayNodeView : BaseStateNodeView
 	{
-		private VisualElement _propertyContainer;
+		private readonly VisualElement _propertyContainer;
 		private Image _icon;
 
 		public DelayNodeView(GraphView graphView, 
@@ -42,8 +42,10 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		private void AddDurationField()
 		{
 			var delayState = (DelayState) NodeModel.State;
-			var floatField = new FloatField("");
-			floatField.bindingPath = nameof(delayState.Duration);
+			var floatField = new FloatField("")
+			{
+				bindingPath = nameof(delayState.Duration)
+			};
 			this.Bind(new SerializedObject(delayState));
 
 			_propertyContainer.Add(floatField);

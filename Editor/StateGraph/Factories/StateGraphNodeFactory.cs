@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using Nonatomic.VSM2.Editor.StateGraph.Nodes;
-using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.States;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Nonatomic.VSM2.Editor.StateGraph
 {
 	public static class StateGraphNodeFactory
 	{
-		private static Dictionary<Type, Type> _stateTypeToNodeViewType = new ()
+		private static readonly Dictionary<Type, Type> _stateTypeToNodeViewType = new ()
 		{
 			{typeof(EntryState), typeof(EntryNodeView)},
 			{typeof(ExitState), typeof(ExitNodeView)},
@@ -35,25 +30,26 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			var instance = (BaseStateNodeView)Activator.CreateInstance(viewType, graphView, model, node);
 			return instance;
 		}
-		
-		public static Type GetViewTypeByStateType(Type stateType)
-		{
-			return _stateTypeToNodeViewType.ContainsKey(stateType) 
-				? _stateTypeToNodeViewType[stateType] 
-				: typeof(StateNodeView);
-		}
 
 		public static StateNodeModel MakeStateNodeData(StateMachineModel model, 
-													   Type stateType, 
-													   Vector2 position)
+			Type stateType, 
+			Vector2 position)
 		{
 			var state = ScriptableObject.CreateInstance(stateType) as State;
+			if (!state) return null;
+			
 			state.name = $"{stateType.Name}-{GUID.Generate()}";
-
 			var stateNode = new StateNodeModel(state, position);
 			model.AddState(stateNode);
 
 			return stateNode;
+		}
+
+		private static Type GetViewTypeByStateType(Type stateType)
+		{
+			return _stateTypeToNodeViewType.TryGetValue(stateType, out var value) 
+				? value 
+				: typeof(StateNodeView);
 		}
 	}
 }

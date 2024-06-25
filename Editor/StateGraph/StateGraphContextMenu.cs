@@ -11,12 +11,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		public event Action<NodeView> OnDeleteStateNode;
 		public event Action<StateNodeEdge> OnDeleteEdgeContext;
 
-		private readonly NodeGraphView _graphView;
-
 		public StateGraphContextMenu(NodeGraphView graphView)
 		{
-			_graphView = graphView;
-			_graphView.RegisterCallback<ContextualMenuPopulateEvent>(BuildContextMenu);
+			graphView.RegisterCallback<ContextualMenuPopulateEvent>(BuildContextMenu);
 		}
 
 		private void BuildContextMenu(ContextualMenuPopulateEvent evt)

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Nonatomic.VSM2.Editor.Utils
 {
-	public class FieldUtils
+	public static class FieldUtils
 	{
 		public static IEnumerable<FieldInfo> GetInheritedSerializedFields(Type type)
 		{

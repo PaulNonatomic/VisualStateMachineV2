@@ -30,8 +30,10 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		private void ApplySpacing()
 		{
 			var children = Children();
-			foreach (var child in children) {
-				child.style.marginLeft = 4; // Adjust as needed
+			
+			foreach (var child in children) 
+			{
+				child.style.marginLeft = 4;
 			}
 		}
 
@@ -43,8 +45,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		private void ApplyStyle()
 		{
-			var style = UnityEngine.Resources.Load<StyleSheet>(nameof(FooterBarView));
-			styleSheets.Add(style);
+			var styleSheet = UnityEngine.Resources.Load<StyleSheet>(nameof(FooterBarView));
+			styleSheets.Add(styleSheet);
 		}
 
 		public void SetModel(StateMachineModel model)

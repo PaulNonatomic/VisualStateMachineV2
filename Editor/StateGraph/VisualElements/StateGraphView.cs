@@ -33,7 +33,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		public override void PopulateGraph(NodeGraphDataModel model)
 		{
-			if(model == null) return;
+			if(!model) return;
 			
 			base.PopulateGraph(model);
 			
@@ -52,9 +52,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			HandleRecenter();
 		}
 		
-		private void AddEntryNode(StateMachineModel stateModel)
+		private static void AddEntryNode(StateMachineModel stateModel)
 		{
-			if(stateModel == null) return;
+			if(!stateModel) return;
 			if (stateModel.HasState<EntryState>()) return;
 			StateGraphNodeFactory.MakeStateNodeData(stateModel, typeof(EntryState), Vector2.zero);
 		}
@@ -169,7 +169,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			_footerBar.SetGridPosition(StateManager.GridPosition);
 			
 			if (!Application.isPlaying) return;
-			if (StateManager.Model == null) return;
+			if (!StateManager.Model) return;
 			
 			var nodeViews = this.Query<BaseStateNodeView>().ToList();
 			foreach (var nodeView in nodeViews)
@@ -200,16 +200,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
 			
 			var nodePosition = GraphUtils.ScreenPointToGraphPoint(position, this);
-			var screenPosition = Vector2.zero;
-			
-			if (Event.current != null)
-			{
-				screenPosition = GUIUtility.GUIToScreenPoint(Event.current.mousePosition);
-			}
-			else
-			{
-				screenPosition = GUIUtility.ScreenToGUIPoint(MousePosition);
-			}
+			var screenPosition = Event.current != null 
+				? GUIUtility.GUIToScreenPoint(Event.current.mousePosition) 
+				: GUIUtility.ScreenToGUIPoint(MousePosition);
 			
 			StateSelectorWindow.Open(StateManager.Model, screenPosition, stateType =>
 			{
@@ -225,7 +218,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			_footerBar = new FooterBarView();
 			Add(_footerBar);
 
-			if (StateManager.Model == null) return;
+			if (!StateManager.Model) return;
 			_footerBar.SetModel(StateManager.Model as StateMachineModel);
 		}
 
@@ -234,7 +227,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			_toolBar = new ToolBarView();
 			Insert(2, _toolBar);
 
-			if (StateManager.Model == null) return;
+			if (!StateManager.Model) return;
 			_toolBar.SetModel(StateManager.Model as StateMachineModel);
 		}
 
@@ -253,7 +246,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		protected void HandleSelectionOfGameObject()
 		{
-			if (Selection.activeGameObject == null) return;
+			if (!Selection.activeGameObject) return;
 			if (!Selection.activeGameObject.TryGetComponent(out StateMachineController stateMachineController)) return;
 			
 			ModelSelection.ActiveModel = stateMachineController.Model;

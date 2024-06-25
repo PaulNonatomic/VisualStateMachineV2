@@ -13,9 +13,8 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 	public class NodeGraphView : GraphView
 	{
 		public event Action<Vector2> OnGridPositionChanged;
-		
+
 		protected NodeGraphStateManager StateManager;
-		protected Vector2 Size;
 		protected Vector2 MousePosition;
 
 		public NodeGraphView(string id)
@@ -34,7 +33,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 
 		public virtual void PopulateGraph(NodeGraphDataModel model)
 		{
-			if (model == null) return;
+			if (!model) return;
 			
 			StateManager.SetModel(model);
 			ClearGraph();
@@ -45,7 +44,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			StateManager = new NodeGraphStateManager(id);
 		}
 
-		protected virtual void HandleMouseMove(MouseMoveEvent evt)
+		private void HandleMouseMove(MouseMoveEvent evt)
 		{
 			MousePosition = evt.localMousePosition;
 		}
@@ -73,7 +72,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			return compatiblePorts;
 		}
 
-		protected virtual void HandleStateChange()
+		private void HandleStateChange()
 		{
 			EditorApplication.delayCall += () =>
 			{
@@ -110,27 +109,27 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 
 		protected virtual void HandleUpdate()
 		{
-			if (StateManager.Model == null) return;
+			if (!StateManager.Model) return;
 		}
 
-		protected virtual void HandleModelChanged(NodeGraphDataModel model)
+		private void HandleModelChanged(NodeGraphDataModel model)
 		{
 			PopulateGraph(model);
 		}
 
-		protected virtual void ClearGraph()
+		private void ClearGraph()
 		{
 			DeleteElements(graphElements);
 		}
 
-		protected virtual void MakeGrid()
+		private void MakeGrid()
 		{
 			var grid = new GridBackground();
 			grid.name = "grid";
 			Insert(0, grid);
 		}
 
-		protected virtual void AddManipulators()
+		private void AddManipulators()
 		{
 			this.AddManipulator(new ContentDragger());
 			this.AddManipulator(new SelectionDragger());
@@ -138,19 +137,23 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			this.AddManipulator(new FreehandSelector());
 		}
 
-		protected virtual void HandleGeometryChanged(GeometryChangedEvent evt)
+		private void HandleGeometryChanged(GeometryChangedEvent evt)
 		{
-			Size = evt.newRect.size;
 			StateManager.LoadState();
 		}
 
 		private void MakeGridShadow()
 		{
-			var shadow = new VisualElement();
-			shadow.name = "gridShadow";
-			shadow.style.backgroundImage= Resources.Load<Texture2D>("DropShadowSliced2");
-			shadow.pickingMode = PickingMode.Ignore;
-			
+			var shadow = new VisualElement
+			{
+				name = "gridShadow",
+				style =
+				{
+					backgroundImage = Resources.Load<Texture2D>("DropShadowSliced2")
+				},
+				pickingMode = PickingMode.Ignore
+			};
+
 			Add(shadow);
 		}
 
