@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 
 namespace Nonatomic.VSM2.Editor.Utils
 {
-	public class ElementUtils
+	public static class ElementUtils
 	{
 		public static bool BothContainClass(VisualElement elementA, VisualElement elementB, string className)
 		{

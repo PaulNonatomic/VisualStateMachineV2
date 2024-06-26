@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
-	public class SubStateNodeView : BaseStateNodeView
+	public sealed class SubStateNodeView : BaseStateNodeView
 	{
 		private readonly StateMachineModel _model;
 		private readonly Type _stateType;

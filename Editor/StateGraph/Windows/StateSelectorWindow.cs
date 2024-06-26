@@ -16,7 +16,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 	{
 		public Action<Type> OnTypeSelected;
 		
-		private Dictionary<Button, Type> _buttons = new ();
+		private readonly Dictionary<Button, Type> _buttons = new ();
 		private int _currentSelectedIndex = -1;
 		private NodeGraphDataModel _model;
 		private const string HighlightClass = "highlighted-button-style";
@@ -117,45 +117,55 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			if (index < 0 || index >= _buttons.Count) return;
 
 			var button = _buttons.Keys.ElementAt(index);
-			var scrollView = rootVisualElement.Q<ScrollView>(); // Replace with your ScrollView's name if different
-
-			if (scrollView == null || button == null)
-				return;
+			var scrollView = rootVisualElement.Q<ScrollView>();
+			if (scrollView == null || button == null) return;
 
 			// Calculate the position of the button within the ScrollView
 			var buttonWorldPos = button.worldBound;
 			var scrollViewWorldPos = scrollView.worldBound;
+			var value = 0f;
 
 			// Check if the button is above or below the visible area of the ScrollView
 			if (buttonWorldPos.yMin < scrollViewWorldPos.yMin)
 			{
 				// Scroll up to the button
-				scrollView.scrollOffset = new Vector2(scrollView.scrollOffset.x, scrollView.scrollOffset.y - (scrollViewWorldPos.yMin - buttonWorldPos.yMin));
+				value = scrollViewWorldPos.yMin - buttonWorldPos.yMin;
 			}
 			else if (buttonWorldPos.yMax > scrollViewWorldPos.yMax)
 			{
 				// Scroll down to the button
-				scrollView.scrollOffset = new Vector2(scrollView.scrollOffset.x, scrollView.scrollOffset.y + (buttonWorldPos.yMax - scrollViewWorldPos.yMax));
+				value = buttonWorldPos.yMax - scrollViewWorldPos.yMax;
 			}
+			
+			ScrollBy(value);
+		}
+
+		private void ScrollBy(float value)
+		{
+			var scrollView = rootVisualElement.Q<ScrollView>();
+			if (scrollView == null) return;
+			
+			scrollView.scrollOffset = new Vector2(scrollView.scrollOffset.x, scrollView.scrollOffset.y + value);
 		}
 		
 		private void HighlightButton(int index)
 		{
-			if (index >= 0 && index < _buttons.Count)
+			if (index < 0 || index >= _buttons.Count) return;
+			
+			// Reset all button styles
+			foreach (var kvp in _buttons)
 			{
-				// Reset all button styles
-				foreach (var kvp in _buttons)
-				{
-					// Apply normal style
-					kvp.Key.RemoveFromClassList(HighlightClass);
-				}
+				// Apply normal style
+				kvp.Key.RemoveFromClassList(HighlightClass);
+			}
 
-				// Apply highlighted style
-				// You can change the style as per your UI design
-				var button = _buttons.Keys.ElementAt(index);
-				button.AddToClassList(HighlightClass);
+			// Apply highlighted style
+			// You can change the style as per your UI design
+			var button = _buttons.Keys.ElementAt(index);
+			button.AddToClassList(HighlightClass);
 
-				var foldout = button.parent as Foldout;
+			if (button.parent is Foldout foldout)
+			{
 				foldout.value = true;
 			}
 		}
@@ -179,11 +189,10 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		
 		private void ActivateSelectedButton()
 		{
-			if (_currentSelectedIndex >= 0 && _currentSelectedIndex < _buttons.Count)
-			{
-				var state = _buttons.Values.ElementAt(_currentSelectedIndex);
-				SelectState(state);
-			}
+			if (_currentSelectedIndex < 0 || _currentSelectedIndex >= _buttons.Count) return;
+			
+			var state = _buttons.Values.ElementAt(_currentSelectedIndex);
+			SelectState(state);
 		}
 
 		private void SelectState(Type stateType)
@@ -207,7 +216,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			return groupedStates;
 		}
 
-		public List<Type> GetFilteredListOfStates(List<Type> filterOut = null)
+		private List<Type> GetFilteredListOfStates(List<Type> filterOut = null)
 		{
 			var derivedTypes = AssetUtils.GetAllDerivedTypes<State>();
 			if (filterOut == null) return derivedTypes;
@@ -215,8 +224,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			derivedTypes.RemoveAll(item => filterOut.Contains(item));
 			return derivedTypes;
 		}
-		
-		public static void MoveListWithNamespaceToFront(List<List<Type>> lists, string namespaceName)
+
+		private static void MoveListWithNamespaceToFront(List<List<Type>> lists, string namespaceName)
 		{
 			var matchingList = lists.FirstOrDefault(list => list.Any() && list[0].Namespace == namespaceName);
 			if (matchingList == null) return;
@@ -225,9 +234,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			lists.Insert(0, matchingList);
 		}
 		
-		private int FindNearestNamespaceToSO(ScriptableObject so, IReadOnlyList<List<Type>> groupedStates)
+		private static int FindNearestNamespaceToSo(ScriptableObject so, IReadOnlyList<List<Type>> groupedStates)
 		{
-			if (so == null) return -1;
+			if (!so) return -1;
 			
 			var closestMatch = 0;
 			var smallestDistance = int.MaxValue;
@@ -247,8 +256,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 			return closestMatch;
 		}
-		
-		public static string GetScriptPath(Type type)
+
+		private static string GetScriptPath(Type type)
 		{
 			var monoScript = MonoScript.FromScriptableObject(ScriptableObject.CreateInstance(type));
 			var path = AssetDatabase.GetAssetPath(monoScript);
@@ -256,7 +265,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			return path;
 		}
 		
-		private Foldout MakeGroupFoldout(int groupIndex, string groupName, string icon, bool foldedState = false)
+		private static Foldout MakeGroupFoldout(int groupIndex, string groupName, string icon, bool foldedState = false)
 		{
 			var groupBody = new Foldout();
 			groupBody.value = foldedState;
@@ -273,7 +282,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			return groupBody;
 		}
 		
-		private Image MakeGroupIcon(string icon)
+		private static Image MakeGroupIcon(string icon)
 		{
 			return new Image()
 			{
@@ -296,7 +305,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			container.Clear();
 
 			var groupedStates = GetGroupedStates(filterOut);
-			var nearestGroupToStateMachine = FindNearestNamespaceToSO(model, groupedStates);
+			var nearestGroupToStateMachine = FindNearestNamespaceToSo(model, groupedStates);
 			
 			for (var groupIndex = 0; groupIndex < groupedStates.Count; groupIndex++)
 			{
@@ -337,8 +346,10 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		private Button MakeStateButton(Type stateType, int index, string icon)
 		{
 			var isEven = index % 2 == 0;
-			var button = new Button(() => SelectState(stateType)) { };
-			button.name = "state-button";
+			var button = new Button(() => SelectState(stateType))
+			{
+				name = "state-button"
+			};
 
 			if (isEven) button.AddToClassList("even");
 
@@ -348,7 +359,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				scaleMode = ScaleMode.ScaleToFit
 			});
 
-			var stateNamespace = stateType.Namespace;
 			var stateName = ProcessStateName(stateType.Name);
 
 			button.Add(new Label()

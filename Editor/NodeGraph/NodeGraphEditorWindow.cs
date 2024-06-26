@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using Nonatomic.VSM2.NodeGraph;
+﻿using Nonatomic.VSM2.NodeGraph;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -12,17 +10,17 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 	public abstract class NodeGraphEditorWindow : GraphViewEditorWindow
 	{
 		public delegate NodeGraphEditorWindow WindowOpener(NodeGraphDataModel model);
-		public static WindowOpener OpenWindowDelegate;
+		public bool IsInitialized { get; private set;}
 		
+		protected static WindowOpener OpenWindowDelegate;
 		protected static string Title = "Node Graph Editor";
-		private static Vector2 _windowDefaultSize = new (800, 600);
 		
-		protected StyleSheet WindowStyle;
+		private StyleSheet _windowStyle;
+		private static readonly Vector2 _windowDefaultSize = new (800, 600);
 		private static NodeGraphEditorWindow _window;
 
-		public bool IsInitialized { get; private set;}
 
-		public NodeGraphEditorWindow(string title)
+		protected NodeGraphEditorWindow(string title)
 		{
 			Title = title;
 		}
@@ -44,7 +42,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			return (T)_window;
 		}
 
-		public static T OpenWindow<T>(NodeGraphDataModel model) where T : NodeGraphEditorWindow
+		protected static T OpenWindow<T>(NodeGraphDataModel model) where T : NodeGraphEditorWindow
 		{
 			var windows = Resources.FindObjectsOfTypeAll<T>();
 			if (windows != null && windows.Length > 0)
@@ -77,7 +75,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			HandleDoubleClick();
 		}
 
-		public static void HandleDoubleClick()
+		private static void HandleDoubleClick()
 		{
 			if (Event.current?.type != EventType.MouseDown || Event.current?.clickCount != 2) return;
 			if (Selection.activeObject is not NodeGraphDataModel) return;
@@ -85,8 +83,8 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			ModelSelection.ActiveModel = Selection.activeObject as NodeGraphDataModel;
 			OpenWindowDelegate?.Invoke(ModelSelection.ActiveModel);
 		}
-		
-		public virtual void Initialize()
+
+		protected virtual void Initialize()
 		{
 			if (IsInitialized) return;
 			IsInitialized = true;
@@ -95,7 +93,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			AddGraphView();
 		}
 
-		public virtual void InitializeWithData(NodeGraphDataModel model)
+		protected virtual void InitializeWithData(NodeGraphDataModel model)
 		{
 			if (IsInitialized)
 			{
@@ -125,11 +123,11 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			AssemblyReloadEvents.afterAssemblyReload -= HandleAfterAssemblyReload;
 		}
 
-		public void Reposition()
+		private void Reposition()
 		{
 			if (IsInitialized) return;
 			
-			var rect = this.position;
+			var rect = position;
 			rect.width = _windowDefaultSize.x;
 			rect.height = _windowDefaultSize.y;
 			rect.center = new Rect(0, 0, Screen.currentResolution.width, Screen.currentResolution.height).center;
@@ -157,10 +155,10 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 
 		protected virtual void ApplyWindowStyle()
 		{
-			WindowStyle ??= UnityEngine.Resources.Load<StyleSheet>("NodeGraphEditor");
-			Assert.IsNotNull(WindowStyle, "NodeGraphEditor.uss not found");
+			_windowStyle ??= Resources.Load<StyleSheet>("NodeGraphEditor");
+			Assert.IsNotNull(_windowStyle, "NodeGraphEditor.uss not found");
 			
-			rootVisualElement.styleSheets.Add(WindowStyle);
+			rootVisualElement.styleSheets.Add(_windowStyle);
 		}
 
 		private void HandleAfterAssemblyReload()

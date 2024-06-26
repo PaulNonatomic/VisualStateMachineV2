@@ -1,6 +1,5 @@
 ﻿using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Nonatomic.VSM2.Editor.StateGraph
@@ -22,9 +21,23 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			this.AddManipulator(new Clickable(HandleClick));
 		}
 
+		public void ToggleTip(bool show)
+		{
+			AddToClassList(show ? "show-tip" : "hide-tip");
+			RemoveFromClassList(show ? "hide-tip" : "show-tip");
+		}
+
+		public void SetModel(StateMachineModel model)
+		{
+			if (!model) return;
+			
+			_model = model;
+			SetText(model.ModelName);
+		}
+
 		private void HandleClick(EventBase eventBase)
 		{
-			if (_model == null) return;
+			if (!_model) return;
 			
 			ModelSelection.ActiveModel = _model;
 		}
@@ -44,9 +57,11 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			pickingMode = PickingMode.Position;
 			
-			_title = new Label();
-			_title.name = "breadcrumb-title";
-			_title.pickingMode = PickingMode.Ignore;
+			_title = new Label
+			{
+				name = "breadcrumb-title",
+				pickingMode = PickingMode.Ignore
+			};
 			Add(_title);
 			
 			_tip = new VisualElement();
@@ -60,29 +75,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			styleSheets.Add(styleSheet);
 		}
 
-		public void ToggleTip(bool show)
-		{
-			if (show)
-			{
-				AddToClassList("show-tip");
-				RemoveFromClassList("hide-tip");
-			}
-			else
-			{
-				AddToClassList("hide-tip");
-				RemoveFromClassList("show-tip");
-			}
-		}
-
-		public void SetModel(StateMachineModel model)
-		{
-			if (model == null) return;
-			
-			_model = model;
-			SetText(model.ModelName);
-		}
-
-		public void SetText(string txt)
+		private void SetText(string txt)
 		{
 			_title.text = txt;
 		}

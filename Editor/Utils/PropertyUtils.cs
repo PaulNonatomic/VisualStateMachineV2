@@ -63,8 +63,11 @@ namespace Nonatomic.VSM2.Editor.Utils
 			for (var i = 0; i < parts.Length - 1; i++)
 			{
 				if (parts[i + 1] == "Array")
+				{
 					return parts[i];
+				}
 			}
+			
 			return null;
 		}
 	}

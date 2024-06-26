@@ -23,7 +23,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			var stateMachines = GameObject.FindObjectsByType<StateMachineController>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
 			var stateMachineController = stateMachines.FirstOrDefault(smc => smc.Id == StateControllerId);
-			if (stateMachineController == null) return;
+			if (!stateMachineController) return;
 
 			SetModel(stateMachineController.Model);
 		}
@@ -34,7 +34,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			SaveState();
 		}
 		
-		public override void ResetState()
+		protected override void ResetState()
 		{
 			base.ResetState();
 			EditorPrefs.DeleteKey(GetKey(StateMachineControllerIdKey));
@@ -51,7 +51,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			base.SaveState();
 			
-			if (Model == null) return;
+			if (!Model) return;
 
 			EditorPrefs.SetString(GetKey(StateMachineControllerIdKey), StateControllerId);
 		}

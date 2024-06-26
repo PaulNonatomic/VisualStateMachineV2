@@ -12,7 +12,7 @@ using UnityEngine.UIElements;
 
 namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
-	public class JumpNodeView : BaseStateNodeView
+	public sealed class JumpNodeView : BaseStateNodeView
 	{
 		private PopupField<string> _idDropdown;
 		private JumpState _jumpState;
@@ -75,14 +75,18 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 				? NodeIcon.BeaconHaloRight 
 				: NodeIcon.BeaconHaloLeft;
 			
-			_beacon = new Image();
-			_beacon.name = "beacon";
-			_beacon.image = ImageService.FetchTexture(pegIcon, ResourceSource.Resources);
+			_beacon = new Image
+			{
+				name = "beacon",
+				image = ImageService.FetchTexture(pegIcon, ResourceSource.Resources)
+			};
 			Add(_beacon);
 
-			_halo = new Image();
-			_halo.name = "halo";
-			_halo.image = ImageService.FetchTexture(haloIcon, ResourceSource.Resources);
+			_halo = new Image
+			{
+				name = "halo",
+				image = ImageService.FetchTexture(haloIcon, ResourceSource.Resources)
+			};
 			Add(_halo);
 
 			UpdateBeaconGlow();
@@ -157,7 +161,10 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 				if (node.NodeModel.State is not JumpInState) continue;
 				
 				var jumpIn = node.NodeModel.State as JumpInState;
-				ids.Remove(jumpIn.JumpId.ToString());
+				if (jumpIn != null)
+				{
+					ids.Remove(jumpIn.JumpId.ToString());
+				}
 			}
 			
 			return ids;

@@ -21,14 +21,17 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		private void ApplyStyle()
 		{
-			var style = UnityEngine.Resources.Load<StyleSheet>(nameof(GridPositionView));
-			styleSheets.Add(style);
+			var styleSheet = UnityEngine.Resources.Load<StyleSheet>(nameof(GridPositionView));
+			styleSheets.Add(styleSheet);
 		}
 
 		private void AddGridPositionLabel()
 		{ 
-			_gridPositionLabel = new Label();
-			_gridPositionLabel.name = "grid-position-label";
+			_gridPositionLabel = new Label
+			{
+				name = "grid-position-label"
+			};
+
 			Add(_gridPositionLabel);
 		}
 	}

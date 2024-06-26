@@ -1,12 +1,9 @@
-﻿using Nonatomic.VSM2.Editor.Utils;
-using Nonatomic.VSM2.StateGraph;
+﻿using Nonatomic.VSM2.StateGraph;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
-	public class ExitNodeView : BaseStateNodeView
+	public sealed class ExitNodeView : BaseStateNodeView
 	{
 
 		public ExitNodeView(GraphView graphView, 

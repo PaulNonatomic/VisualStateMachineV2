@@ -15,11 +15,13 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			name = "state-label-view";
 			
-			var style = UnityEngine.Resources.Load<StyleSheet>(nameof(StateLabelView));
-			styleSheets.Add(style);
+			var styleSheet = UnityEngine.Resources.Load<StyleSheet>(nameof(StateLabelView));
+			styleSheets.Add(styleSheet);
 			
-			_label = new Label();
-			_label.name = "state-label-txt";
+			_label = new Label
+			{
+				name = "state-label-txt"
+			};
 			Add(_label);
 
 			EditMode();
@@ -51,7 +53,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			if(index < 0 || index >= _stateClasses.Length) return;
 			
-			this.AddToClassList(_stateClasses[index]);
+			AddToClassList(_stateClasses[index]);
 			_label.text = _stateLabels[index];
 		}
 
@@ -60,9 +62,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			_model = model;
 		}
 
-		public void Update()
+		private void Update()
 		{
-			if(_model == null) return;
+			if(!_model) return;
 			
 			if (!Application.isPlaying)
 			{
@@ -70,7 +72,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			}
 			else
 			{
-				if (_model.Original == null || (_model.Original.name == _model.name))
+				if (!_model.Original || (_model.Original.name == _model.name))
 				{
 					PlayMode();
 				}
