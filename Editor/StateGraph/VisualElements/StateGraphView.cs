@@ -35,21 +35,22 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			if(!model) return;
 			
-			base.PopulateGraph(model);
-			
 			var stateModel = model as StateMachineModel;
 			ModelSelection.ActiveModel = model;
-			StateManager.SetModel(stateModel);
+			
+			if (StateManager.Model != stateModel)
+			{
+				EditorApplication.delayCall += HandleRecenter;
+			}
 			
 			_toolBar.SetModel(stateModel);
 			_footerBar.SetGridPosition(StateManager.GridPosition);
 			_footerBar.SetModel(stateModel);
 
+			base.PopulateGraph(model);
 			AddEntryNode(stateModel);
 			AddNodes(stateModel);
 			AddEdges(stateModel);
-
-			HandleRecenter();
 		}
 		
 		private static void AddEntryNode(StateMachineModel stateModel)
