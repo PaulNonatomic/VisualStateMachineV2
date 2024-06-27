@@ -39,6 +39,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			_window.Initialize();
 			_window.Show();
 			_window.Reposition();
+			
 			return (T)_window;
 		}
 

@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.4.5-beta] - Jun 27, 2024
+- Fix for overtly recentering
+- Fix for double deletion
+
 ## [0.4.4-beta] - Jun 26, 2024
 - Code refactor
 

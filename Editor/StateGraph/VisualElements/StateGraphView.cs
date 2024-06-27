@@ -35,21 +35,22 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			if(!model) return;
 			
-			base.PopulateGraph(model);
-			
 			var stateModel = model as StateMachineModel;
 			ModelSelection.ActiveModel = model;
-			StateManager.SetModel(stateModel);
+			
+			if (StateManager.Model != stateModel)
+			{
+				EditorApplication.delayCall += HandleRecenter;
+			}
 			
 			_toolBar.SetModel(stateModel);
 			_footerBar.SetGridPosition(StateManager.GridPosition);
 			_footerBar.SetModel(stateModel);
 
+			base.PopulateGraph(model);
 			AddEntryNode(stateModel);
 			AddNodes(stateModel);
 			AddEdges(stateModel);
-
-			HandleRecenter();
 		}
 		
 		private static void AddEntryNode(StateMachineModel stateModel)
@@ -91,7 +92,10 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				model.RemoveState(nodeData);
 			}
 			
-			PopulateGraph(model);
+			EditorApplication.delayCall += () =>
+			{
+				PopulateGraph(model);
+			};
 		}
 
 		private void AddNodes(StateMachineModel stateMachineModel)
@@ -186,7 +190,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		private void HandleDeleteStateNode(NodeView nodeView)
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			DeleteNodes(new List<NodeView>(){nodeView});
+
+			var nodesToDelete = new List<NodeView>() { nodeView };
+			DeleteNodes(nodesToDelete);
 		}
 
 		private void HandleDeleteEdge(StateNodeEdge edge)
