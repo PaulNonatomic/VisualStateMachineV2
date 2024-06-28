@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.4.6-beta] - Jun 28, 2024
+- Fix for State Machine Editor title
+- Grid position label now scales to fit content and is reduced in precision to a single decimal place.
+
 ## [0.4.5-beta] - Jun 27, 2024
 - Fix for overtly recentering
 - Fix for double deletion
