@@ -174,7 +174,10 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 
 		private void HandlePlayModeStateChanged(PlayModeStateChange stateChange)
 		{
-			if(NeedsReinitialization()) ForceReinitialization();
+			if (NeedsReinitialization())
+			{
+				ForceReinitialization();
+			}
 		}
 		
 		private void ForceReinitialization()

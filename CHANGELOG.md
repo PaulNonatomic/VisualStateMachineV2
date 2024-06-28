@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.4.6-beta] - Jun 28, 2024
+- Fix for State Machine Editor title
+
 ## [0.4.5-beta] - Jun 27, 2024
 - Fix for overtly recentering
 - Fix for double deletion
