@@ -8,6 +8,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 {
 	public class StateGraphEditorWindow : NodeGraphEditorWindow
 	{
+		protected static string WindowTitle = "State Machine Editor";
+		
 		public StateGraphEditorWindow() : base("State Machine Editor")
 		{
 			
@@ -16,7 +18,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		[MenuItem("Window/State Machine Editor")]
 		public static void OpenWindow()
 		{
-			NodeGraphEditorWindow.OpenWindow<StateGraphEditorWindow>();
+			var window = NodeGraphEditorWindow.OpenWindow<StateGraphEditorWindow>();
+			window.titleContent.text = WindowTitle;
 		}
 		
 		public override void OnEnable()
@@ -40,8 +43,10 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			if (model is not StateMachineModel) return null;
 
-			Title = "State Machine Editor";
-			return OpenWindow<StateGraphEditorWindow>(model);
+			var window = OpenWindow<StateGraphEditorWindow>(model);
+			window.titleContent.text = WindowTitle;
+
+			return window;
 		}
 		
 		protected override NodeGraphView AddGraphView()
