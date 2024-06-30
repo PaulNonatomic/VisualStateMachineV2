@@ -1,12 +1,19 @@
 # Change Log
 
+## [0.4.6-beta] - Jun 30, 2024
+- Added a tool for flagging all StateMachineModels as dirty when the project is saved.
+- 
+## [0.4.6-beta] - Jun 28, 2024
+- Fix for State Machine Editor title
+- Grid position label now scales to fit content and is reduced in precision to a single decimal place.
+
 ## [0.4.5-beta] - Jun 27, 2024
 - Fix for overtly recentering
 - Fix for double deletion
 
 ## [0.4.4-beta] - Jun 26, 2024
 - Code refactor
-
+[JumpNodeView.cs](Editor%2FStateGraph%2FNodes%2FJumpNodeView.cs)
 ## [0.4.3-beta] - Jun 25, 2024
 - hotfix to allow opening the State Machine Editor via the StateMachineModelPropertyDrawer open button regardless of state.
 
