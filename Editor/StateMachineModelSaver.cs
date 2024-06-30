@@ -19,11 +19,9 @@ namespace VisualStateMachine.Editor.Utils
 			{
 				var path = AssetDatabase.GUIDToAssetPath(guid);
 				var stateMachineModel = AssetDatabase.LoadAssetAtPath<StateMachineModel>(path);
-				if (stateMachineModel != null)
-				{
-					Debug.Log($"Save: {stateMachineModel.name}");
-					EditorUtility.SetDirty(stateMachineModel);
-				}
+				if (!stateMachineModel) continue;
+				
+				EditorUtility.SetDirty(stateMachineModel);
 			}
 
 			AssetDatabase.SaveAssets();

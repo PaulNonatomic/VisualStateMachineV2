@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.4.6-beta] - Jun 30, 2024
+- Added a tool for flagging all StateMachineModels as dirty when the project is saved.
+- 
 ## [0.4.6-beta] - Jun 28, 2024
 - Fix for State Machine Editor title
 - Grid position label now scales to fit content and is reduced in precision to a single decimal place.
