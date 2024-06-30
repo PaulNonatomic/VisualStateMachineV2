@@ -13,7 +13,7 @@
 
 ## [0.4.4-beta] - Jun 26, 2024
 - Code refactor
-
+[JumpNodeView.cs](Editor%2FStateGraph%2FNodes%2FJumpNodeView.cs)
 ## [0.4.3-beta] - Jun 25, 2024
 - hotfix to allow opening the State Machine Editor via the StateMachineModelPropertyDrawer open button regardless of state.
 

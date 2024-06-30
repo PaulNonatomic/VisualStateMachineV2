@@ -61,14 +61,18 @@ Port Label {
 
 .jump-out PopupField {
     margin-left: -6px;
-    margin-right: 5px;
-    height: 30px;
+    margin-right: 11px;
+    height: 20px;
+    background-color: #2a2a2a;
+    border-radius: 5;
 }
 
 .jump-in PopupField {
-    margin-left: -3px;
-    margin-right: -3px;
-    height: 30px;
+    margin-left: 6px;
+    margin-right: -3px;    
+    height: 20px;
+    background-color: #2a2a2a;
+    border-radius: 5;
 }
 
 PopupField .unity-base-field__input {
@@ -76,15 +80,18 @@ PopupField .unity-base-field__input {
     border-top-width: 0px;
     border-left-width: 0px;
     border-right-width: 0px;
+    min-width: 47px;
 }
 
 PopupTextElement {
-    font-size: 14px;
-    margin-left: 10px;
-    margin-right: 10px;
+    font-size: 12px;
     flex-grow: 1;
     -unity-text-align: middle-center;
     -unity-font-style: Bold;
+}
+
+PopupField .unity-text-element {
+    max-width: 27px;
 }
 
 .jump-out #beacon {
