@@ -156,6 +156,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		private void HandlePlayModeStateChanged(PlayModeStateChange stateChange)
 		{
 			var stateManager = (StateNodeGraphStateManager) StateManager;
+			var gridPos = stateManager.GridPosition;
 			
 			switch (stateChange)
 			{
@@ -165,6 +166,18 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 					PopulateGraph(StateManager.Model);
 					break;
 			}
+			
+			EditorApplication.delayCall += ()=>
+			{
+				SetGridPosition(gridPos);
+			};
+		}
+
+		private void SetGridPosition(Vector2 gridPos)
+		{
+			viewTransform.position = contentRect.center + gridPos;
+			StateManager.SetGridPosition(contentRect.center, viewTransform.position);
+			HandleGridPositionChanged(viewTransform.position);
 		}
 
 		protected override void HandleUpdate()
