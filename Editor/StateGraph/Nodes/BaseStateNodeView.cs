@@ -30,7 +30,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		protected Type StateType;
 		protected VisualElement Title;
 		protected VisualElement TitleContainer;
-
+		
 		public BaseStateNodeView(GraphView graphView, StateMachineModel stateMachineModel, StateNodeModel nodeModel)
 		{
 			GraphView = graphView;

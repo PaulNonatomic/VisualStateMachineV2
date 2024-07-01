@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.4.7-beta] - Jul 01, 2024
+- Added support for flashing edges as transitions are executed
+
 ## [0.4.6-beta] - Jun 30, 2024
 - Changed the style of the jump nodes to better identify the draggable area of the node.
 - Added a tool for flagging all StateMachineModels as dirty when the project is saved.
