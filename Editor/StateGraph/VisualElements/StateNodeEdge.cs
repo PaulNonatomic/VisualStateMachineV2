@@ -36,7 +36,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		private void HandleFlash()
 		{
 			if (!ColorUtility.TryParseHtmlString("#4CAF50", out var color)) return;
-			FlashEdge(color, 1.0f);
+			FlashEdge(color, 0.75f);
 		}
 
 		protected override EdgeControl CreateEdgeControl() => new EdgeControl()
@@ -72,11 +72,17 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			var elapsed = (float)EditorApplication.timeSinceStartup - _flashStartTime;
 			var halfFlashDuration = _flashDuration * 0.5f;
 
-			if (elapsed < _flashDuration)
+			if (elapsed < halfFlashDuration)
 			{
-				var t = Mathf.PingPong(elapsed, halfFlashDuration) / halfFlashDuration;
-				var currentInputColor = Color.Lerp(_originalInputColor, _targetColor, t);
-				var currentOutputColor = Color.Lerp(_originalOutputColor, _targetColor, t);
+				// Jump straight to the target color (green)
+				SetEdgeColor(_targetColor, _targetColor);
+			}
+			else if (elapsed < _flashDuration)
+			{
+				// Fade back to the original color
+				var t = (elapsed - halfFlashDuration) / halfFlashDuration;
+				var currentInputColor = Color.Lerp(_targetColor, _originalInputColor, t);
+				var currentOutputColor = Color.Lerp(_targetColor, _originalOutputColor, t);
 				SetEdgeColor(currentInputColor, currentOutputColor);
 			}
 			else
