@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.4.8-beta] - Jul 01, 2024
+- Hot fix for grid position changing when entering/exiting runtime.
+
 ## [0.4.7-beta] - Jul 01, 2024
 - Added support for flashing edges as transitions are executed
 
