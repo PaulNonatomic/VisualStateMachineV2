@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Nonatomic.VSM2.Logging;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph.States;
@@ -80,12 +82,11 @@ namespace Nonatomic.VSM2.StateGraph
 		
 		public void JumpTo(JumpId jumpId)
 		{
-			if (!_jumpNodeLookup.ContainsKey(jumpId))
+			if (!_jumpNodeLookup.TryGetValue(jumpId, out var nextNode))
 			{
 				throw new Exception($"There is no JumpIn state with the id:{jumpId} in {this.Model.name}");
 			}
-			
-			var nextNode = _jumpNodeLookup[jumpId];
+
 			if (nextNode == null) return;
 
 			TriggerAsyncTransition(nextNode);
@@ -105,9 +106,7 @@ namespace Nonatomic.VSM2.StateGraph
 			{
 				var nodeId = kvp.Key;
 				var node = _nodeLookup[nodeId];
-				if (node == null) continue;
-				
-				node.OnDestroy();
+				node?.OnDestroy();
 			}
 
 			Model = null;
@@ -135,14 +134,11 @@ namespace Nonatomic.VSM2.StateGraph
 
 			foreach (var node in Model.Nodes)
 			{
-				if (node.State == null) continue;
+				if (!node.State) continue;
 				_nodeLookup.Add(node.Id, node);
-				
-				if (node.State is JumpInState)
-				{
-					var jumpIn = node.State as JumpInState;
-					_jumpNodeLookup.Add(jumpIn.JumpId, node);
-				}
+
+				if (node.State is not JumpInState jumpIn) continue;
+				_jumpNodeLookup.Add(jumpIn.JumpId, node);
 			}
 		}
 
@@ -153,9 +149,8 @@ namespace Nonatomic.VSM2.StateGraph
 				throw new NullReferenceException("SubStateMachine cannot subscribe to null node");
 			}
 
-			if (!_transitionLookup.ContainsKey(node.Id)) return;
-			
-			var transitions = _transitionLookup[node.Id];
+			if (!_transitionLookup.TryGetValue(node.Id, out var transitions)) return;
+
 			foreach (var transition in transitions)
 			{
 				ToggleEventSubscriptionByName(node.State, transition, true);
@@ -189,9 +184,8 @@ namespace Nonatomic.VSM2.StateGraph
 				throw new NullReferenceException("SubStateMachine cannot unsubscribe to null node");
 			}
 			
-			if (!_transitionLookup.ContainsKey(node.Id)) return;
+			if (!_transitionLookup.TryGetValue(node.Id, out var transitions)) return;
 
-			var transitions = _transitionLookup[node.Id];
 			foreach (var transition in transitions)
 			{
 				ToggleEventSubscriptionByName(node.State, transition, false);
@@ -223,6 +217,9 @@ namespace Nonatomic.VSM2.StateGraph
 				UnsubscribeFromNode(_currentNode);
 				_currentNode.Exit();
 				
+				var transition = GetTransitionForCurrentNode(_currentNode, nextNode);
+				transition?.TriggerTransition();
+				
 				if (!Application.isPlaying) return;
 				
 				if(frameDelay > 0)
@@ -252,8 +249,15 @@ namespace Nonatomic.VSM2.StateGraph
 
 		public void SetParent(StateMachine stateMachine)
 		{
-			Debug.Log($"SubStateMachine.SetParent: {stateMachine?.Model.name}");
 			Model.SetParent(stateMachine.Model);
+		}
+		
+		[CanBeNull]
+		private StateTransitionModel GetTransitionForCurrentNode(StateNodeModel currentNode, StateNodeModel nextNode)
+		{
+			return _transitionLookup.TryGetValue(currentNode.Id, out var transitions) 
+				? transitions.FirstOrDefault(t => t.DestinationNodeId == nextNode.Id) 
+				: null;
 		}
 	}
 }

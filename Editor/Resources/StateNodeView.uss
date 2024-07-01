@@ -41,7 +41,7 @@ flex-direction: column;
     left: 0;
     top: 0;
     bottom: 0;
-    border-color: green;
+    border-color: #4CAF50;
     border-width: 2px;
     border-radius: 8px;
     opacity:0;
