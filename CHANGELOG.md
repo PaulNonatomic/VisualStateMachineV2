@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.4.9-beta] - Jul 03, 2024
+- Extracted the scriptable command feature out into it's own package
+- Added support for the Scriptable Command package when included in the project
+
 ## [0.4.8-beta] - Jul 01, 2024
 - Hot fix for grid position changing when entering/exiting runtime.
 
