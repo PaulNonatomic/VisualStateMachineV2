@@ -19,9 +19,12 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		private ToolBarView _toolBar;
 		private FooterBarView _footerBar;
 		private StateGraphContextMenu _contextMenu;
+		private readonly float _creationTime;
 
 		public StateGraphView(string id) : base(id)
 		{
+			_creationTime = Time.time;
+			
 			MakeToolBar();
 			MakeFooterBar();
 		}
@@ -31,18 +34,20 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			StateManager = new StateNodeGraphStateManager(id);
 		}
 
-		public override void PopulateGraph(NodeGraphDataModel model)
+		public void PopulateGraph(NodeGraphDataModel model, bool recentre)
 		{
 			if(!model) return;
 			
 			var stateModel = model as StateMachineModel;
+			var activeTime = Time.time - _creationTime;
 			ModelSelection.ActiveModel = model;
-			
-			if (StateManager.Model != stateModel)
+
+			if (recentre)
 			{
+				HandleRecenter();
 				EditorApplication.delayCall += HandleRecenter;
 			}
-			
+
 			_toolBar.SetModel(stateModel);
 			_footerBar.SetGridPosition(StateManager.GridPosition);
 			_footerBar.SetModel(stateModel);
@@ -51,6 +56,11 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			AddEntryNode(stateModel);
 			AddNodes(stateModel);
 			AddEdges(stateModel);
+		}
+
+		public override void PopulateGraph(NodeGraphDataModel model)
+		{
+			PopulateGraph(model, recentre: true);
 		}
 		
 		private static void AddEntryNode(StateMachineModel stateModel)
@@ -80,7 +90,10 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				model.RemoveTransition(transitionData);
 			}
 
-			PopulateGraph(model);
+			EditorApplication.delayCall += () =>
+			{
+				PopulateGraph(model, recentre: false);
+			};
 		}
 
 		private void DeleteNodes(List<NodeView> stateNodeViews)
@@ -94,7 +107,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			EditorApplication.delayCall += () =>
 			{
-				PopulateGraph(model);
+				PopulateGraph(model, recentre: false);
 			};
 		}
 
@@ -163,7 +176,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				case PlayModeStateChange.EnteredPlayMode:
 				case PlayModeStateChange.EnteredEditMode:
 					stateManager.LoadModelFromStateController();
-					PopulateGraph(StateManager.Model);
+					PopulateGraph(StateManager.Model, recentre: true);
 					break;
 			}
 			

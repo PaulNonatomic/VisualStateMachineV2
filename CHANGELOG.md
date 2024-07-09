@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.4.11-beta] - Jul 09, 2024
+- Fix for recentering the graph view at the appropriate time
+- Fix for drawing the DelayUnscaledState with the wrong view
+  - Added a BaseDelayState
+
+## [0.4.10-beta] - Jul 03, 2024
+- hotfix for asmdef file issues
+
 ## [0.4.9-beta] - Jul 03, 2024
 - Extracted the scriptable command feature out into it's own package
 - Added support for the Scriptable Command package when included in the project
