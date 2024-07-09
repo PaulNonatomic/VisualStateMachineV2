@@ -17,6 +17,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 							 StateNodeModel nodeModel) 
 							 : base(graphView, stateMachineModel, nodeModel)
 		{
+
 			AddStyle("DelayNodeView");
 			AddTitleContainer();
 			ColorizeTitle();
@@ -41,7 +42,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 
 		private void AddDurationField()
 		{
-			var delayState = (DelayState) NodeModel.State;
+			var delayState = (BaseDelayState) NodeModel.State;
 			var floatField = new FloatField("")
 			{
 				bindingPath = nameof(delayState.Duration)

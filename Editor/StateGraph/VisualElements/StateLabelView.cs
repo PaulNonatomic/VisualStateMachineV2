@@ -6,7 +6,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 {
 	public class StateLabelView : VisualElement
 	{
-		private readonly string[] _stateLabels = {"Edit Mode", "Play Mode", "Active Mode"};
+		private readonly string[] _stateLabels = {"Edit Mode", "View Mode", "Active Mode"};
 		private readonly string[] _stateClasses = {"edit-mode", "play-mode", "active-mode"};
 		private readonly Label _label;
 		private StateMachineModel _model;

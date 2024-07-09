@@ -2,19 +2,15 @@
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph.Attributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Nonatomic.VSM2.StateGraph.States
 {
 	[NodeWidth(width:190)]
-	[NodeColor(NodeColor.Teal), NodeIcon(NodeIcon.Clock)]
-	public class DelayUnscaledState : State
+	[NodeColor(NodeColor.Pink), NodeIcon(NodeIcon.Clock)]
+	public class DelayUnscaledState : BaseDelayState
 	{
 		[Transition]
 		public event Action OnComplete;
-		
-		[SerializeField, Tooltip("Duration in seconds")] 
-		public float Duration = 1f;
 		
 		[NonSerialized]
 		private float _elapsedTime;
