@@ -1,5 +1,14 @@
 # Change Log
 
+## [0.5.0-beta] - Jul 17, 2024
+- Removal of the StateMachineController.Model setter.
+  - Switching models requires the model to go through the Unity lifecycle which wasn't and should not occur via a setter.
+  - Added a dedicated SwitchModel method which sets the model, creates a new instance and runs it through the unity life cycle. 
+- Added method level comments to the StateMachineController to clarify it`s functionality.
+- Updated the sample
+  - Remove the traffic light sample
+  - Fixed the animation example
+  
 ## [0.4.11-beta] - Jul 09, 2024
 - Fix for recentering the graph view at the appropriate time
 - Fix for drawing the DelayUnscaledState with the wrong view
