@@ -31,7 +31,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			if (windows != null && windows.Length > 0)
 			{
 				_window = windows[0];
-				_window.Focus();
+				_window?.Focus();
 				return (T)_window;
 			}
 
