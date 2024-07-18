@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.5.1-beta] - Jul 18, 2024
+- Added a protected setter to the Model accessor of BaseSubStateMachineState
+    - This will allow for derived states to switch the model in the OnAwakeState
+
 ## [0.5.0-beta] - Jul 17, 2024
 - Removal of the StateMachineController.Model setter.
   - Switching models requires the model to go through the Unity lifecycle which wasn't and should not occur via a setter.

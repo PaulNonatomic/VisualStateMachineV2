@@ -11,8 +11,13 @@ namespace Nonatomic.VSM2.StateGraph.States
 	public abstract class BaseSubStateMachineState : State
 	{
 		public StateMachine SubStateMachine { get; private set; }
-		public StateMachineModel Model => _model;
-		
+
+		public StateMachineModel Model
+		{
+			get => _model;
+			protected set => _model = value;
+		}
+
 		[SerializeField] private StateMachineModel _model;
 
 		public override void OnAwakeState()
@@ -58,7 +63,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		protected virtual void CreateStateMachine()
 		{
-			if(_model == null) return;
+			if(!_model) return;
 			
 			SubStateMachine = new StateMachine(_model, this.GameObject);
 			SubStateMachine.SetParent(StateMachine);
@@ -78,7 +83,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		private void ReplaceModelWithOriginalModel()
 		{
-			if (_model == null) return;
+			if (!_model) return;
 			
 			_model = _model.Original;
 		}
