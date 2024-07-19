@@ -28,6 +28,8 @@ namespace Nonatomic.VSM2.StateGraph
 
 		public void Awake()
 		{
+			if (Enabled) return;
+			
 			Enabled = true;
 			State?.OnAwakeState();
 		}
@@ -39,6 +41,8 @@ namespace Nonatomic.VSM2.StateGraph
 
 		public void Enter()
 		{
+			if (Active) return;
+			
 			Active = true;
 			LastActive = Time.time;
 			State?.OnEnterState();
@@ -58,6 +62,8 @@ namespace Nonatomic.VSM2.StateGraph
 
 		public void Exit()
 		{
+			if (!Active) return;
+			
 			LastActive = Time.time;
 			Active = false;
 			State?.OnExitState();
@@ -65,6 +71,8 @@ namespace Nonatomic.VSM2.StateGraph
 
 		public void OnDestroy()
 		{
+			if (!Enabled) return;
+			
 			Active = false;
 			Enabled = false;
 			State?.OnDestroyState();
