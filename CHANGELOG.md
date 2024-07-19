@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.5.2-beta] - Jul 19, 2024
+- Added guards to StateNodeModel to prevent Awake being called when already Awake, Exit being called having already exited and OnDestroy being called having already been destroyed.
+
 ## [0.5.1-beta] - Jul 18, 2024
 - Added a protected setter to the Model accessor of BaseSubStateMachineState
     - This will allow for derived states to switch the model in the OnAwakeState
