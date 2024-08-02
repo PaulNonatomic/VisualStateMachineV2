@@ -5,7 +5,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 {
 	public class JumpInState : JumpState
 	{
-		[Transition(frameDelay:0)] 
+		[Transition(frameDelay:600)] 
 		public event Action OnExit;
 		
 		public override void OnEnterState()

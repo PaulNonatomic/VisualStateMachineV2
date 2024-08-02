@@ -224,7 +224,7 @@ namespace Nonatomic.VSM2.StateGraph
 				
 				if(frameDelay > 0)
 				{
-					await Task.Delay(TimeSpan.FromSeconds(Time.deltaTime), _cancellationTokenSource.Token);
+					await Task.Delay(TimeSpan.FromSeconds(frameDelay * Time.deltaTime), _cancellationTokenSource.Token);
 				}
 				
 				_currentNode = nextNode;

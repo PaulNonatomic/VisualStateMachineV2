@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Nonatomic.VSM2.NodeGraph
 {
@@ -15,6 +16,7 @@ namespace Nonatomic.VSM2.NodeGraph
 		
 		public void Transition()
 		{
+			Debug.Log($"Transition: {OriginPort.PortLabel}, {OriginPort.FrameDelay} => {DestinationPort.PortLabel}, {DestinationPort.FrameDelay}");
 			OnTransition?.Invoke(this);
 		}
 	}

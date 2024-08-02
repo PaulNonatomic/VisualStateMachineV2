@@ -5,6 +5,7 @@ using Nonatomic.VSM2.Editor.StateGraph.Nodes;
 using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
+using Nonatomic.VSM2.StateGraph.Attributes;
 using Nonatomic.VSM2.StateGraph.States;
 using Nonatomic.VSM2.Utils;
 using UnityEditor;
@@ -136,6 +137,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			EditorApplication.playModeStateChanged += HandlePlayModeStateChanged;
 			OnGridPositionChanged += HandleGridPositionChanged;
 			_toolBar.OnRecenter += HandleRecenter;
+			_toolBar.OnSave += HandleSave;
 			_contextMenu = new StateGraphContextMenu(this);
 			_contextMenu.OnCreateNewStateNode += HandleCreateNewStateNode;
 			_contextMenu.OnDeleteEdgeContext += HandleDeleteEdge;
@@ -149,9 +151,24 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			EditorApplication.playModeStateChanged -= HandlePlayModeStateChanged;
 			OnGridPositionChanged -= HandleGridPositionChanged;
 			_toolBar.OnRecenter -= HandleRecenter;
+			_toolBar.OnSave -= HandleSave;
 			_contextMenu.OnCreateNewStateNode -= HandleCreateNewStateNode;
 			_contextMenu.OnDeleteEdgeContext -= HandleDeleteEdge;
 			_contextMenu.OnDeleteStateNode -= HandleDeleteStateNode;
+		}
+		
+		private void HandleSave()
+		{
+			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
+
+			var model = (StateMachineModel) StateManager.Model;
+			model = StateGraphPortFactory.UpdatePortDataInModel(model);
+			
+			EditorUtility.SetDirty(model);
+			EditorApplication.delayCall += () =>
+			{
+				AssetDatabase.SaveAssets();
+			};
 		}
 
 		private void HandleRecenter()
