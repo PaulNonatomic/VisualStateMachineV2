@@ -222,9 +222,14 @@ namespace Nonatomic.VSM2.StateGraph
 				
 				if (!Application.isPlaying) return;
 				
-				if(frameDelay > 0)
+				for (var i = 0; i < frameDelay; i++)
 				{
-					await Task.Delay(TimeSpan.FromSeconds(frameDelay * Time.deltaTime), _cancellationTokenSource.Token);
+					if (_cancellationTokenSource.Token.IsCancellationRequested)
+					{
+						return;
+					}
+						
+					await Task.Yield();
 				}
 				
 				_currentNode = nextNode;
