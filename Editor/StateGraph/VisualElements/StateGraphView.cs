@@ -162,7 +162,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
 
 			var model = (StateMachineModel) StateManager.Model;
-			model = StateGraphPortFactory.UpdatePortDataInModel(model);
+			model = StateMachineModelUtils.UpdatePortDataInModel(model);
 			
 			EditorUtility.SetDirty(model);
 			EditorApplication.delayCall += () =>

@@ -1,7 +1,6 @@
 namespace VisualStateMachine.Editor.Utils
 {
 	using UnityEditor;
-	using UnityEngine;
 	using Nonatomic.VSM2.StateGraph;
 
 	[InitializeOnLoad]
