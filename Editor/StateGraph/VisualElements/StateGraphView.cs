@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Nonatomic.VSM2.Editor.NodeGraph;
+using Nonatomic.VSM2.Editor.Persistence;
 using Nonatomic.VSM2.Editor.StateGraph.Nodes;
 using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.NodeGraph;
@@ -163,12 +164,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 			var model = (StateMachineModel) StateManager.Model;
 			model = StateMachineModelUtils.UpdatePortDataInModel(model);
-			
-			EditorUtility.SetDirty(model);
-			EditorApplication.delayCall += () =>
-			{
-				AssetDatabase.SaveAssets();
-			};
+
+			StateMachineModelSaver.Save(model);
 		}
 
 		private void HandleRecenter()
