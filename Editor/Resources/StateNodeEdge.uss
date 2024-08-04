@@ -9,3 +9,7 @@
     color: grey;
     -unity-font-style: Bold;
 }
+
+.unity-disabled #durationLabel {
+    opacity: 0;
+}

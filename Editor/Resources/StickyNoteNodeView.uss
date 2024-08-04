@@ -1,0 +1,112 @@
+﻿/* *********** Node *********** */
+
+.node {
+    min-width: 280px;
+    max-width: 340px;
+}
+
+.node #title {
+    flex-direction: column;
+}
+
+.node #title-label {
+    font-size: 14px;
+    margin-left: 10px;
+    margin-right: 10px;
+    flex-grow: 1;
+    -unity-text-align: middle-center;
+    -unity-font-style: Bold;
+}
+
+.node #title-container {
+    padding-left: 10px;
+    padding-right: 10px;
+    align-items: center;
+    margin-top: 6px;
+    margin-bottom: 0px;
+    flex-direction: row;
+    width: 100%
+}
+
+.node #title-icon {
+    min-width:22px;
+    min-height:22px;
+    width: 22px;
+    height:22px;
+}
+
+.node #state-border {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-color: #4CAF50;
+    border-width: 2px;
+    border-radius: 8px;
+    opacity:0;
+    margin:1px;
+}
+
+/* *********** Progress Bar *********** */
+
+.node #progress-bar {
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    translate: 0px 2px;
+}
+
+.node .unity-progress-bar__background {
+    background-color: #252525;
+}
+
+.unity-progress-bar__progress {
+    visibility: hidden;
+}
+
+.active-node .unity-progress-bar__progress {
+    visibility: visible;
+}
+
+#progress-bar {
+    height: 6px;
+    margin:2px;
+}
+
+.unity-progress-bar__progress {
+    background-color: #4CAF50;
+}
+
+/* *********** Property Container *********** */
+#property-container {
+    background-color: #2E2E2E;
+    width: auto;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    max-height: 100px;
+}
+
+#property-container.has-properties {
+    width: auto;
+}
+
+#property-container.has-properties #unity-content-viewport{
+    padding-top:2px;
+    padding-bottom:2px;
+    padding-left:2px;
+    padding-right:2px;
+}
+
+#property-container.relay {
+    width: 120px;
+}
+
+#unity-content {
+    margin:2px;
+}
+
+#field-container {
+    height: 20px;
+    flex-direction: row;
+}
