@@ -2,7 +2,7 @@
 
 ## [0.6.1-beta] - Aug -4, 2024
 - FrameDelay labels are hidden on ghost edges
-- Added support for Stick Notes
+- Added support for Sticky Notes
 
 ## [0.6.0-beta] - Aug 04, 2024
 - EntryState OnEntry transition has a FrameDelay value of 0
