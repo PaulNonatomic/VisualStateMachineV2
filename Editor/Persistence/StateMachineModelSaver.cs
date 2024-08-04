@@ -13,6 +13,7 @@ namespace Nonatomic.VSM2.Editor.Persistence
 	{
 		static StateMachineModelSaver()
 		{
+			AssemblyReloadEvents.afterAssemblyReload += SaveAll;
 			EditorApplication.projectChanged += SaveAll;
 		}
 

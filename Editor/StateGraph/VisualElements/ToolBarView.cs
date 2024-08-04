@@ -24,8 +24,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			ApplyStyle();
 			AddBreadcrumbTrail();
 			AddButtonContainer();
-			AddRecenterButton();
 			AddSaveButton();
+			AddRecenterButton();
 		}
 
 		private void AddBreadcrumbTrail()

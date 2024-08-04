@@ -55,13 +55,13 @@ namespace Nonatomic.VSM2.NodeGraph
 		/// <param name="subAsset">The sub-asset to add.</param>
 		protected virtual void AddSubAsset(Object subAsset)
 		{
-			if (subAsset == null) return;
+			if (!subAsset) return;
 
 			#if UNITY_EDITOR
 			{
 				EditorApplication.delayCall += () =>
 				{
-					if (this == null) return;
+					if (!this) return;
 
 					if (SubAssetUtils.TryAddSubAsset(this, subAsset))
 					{
@@ -82,13 +82,13 @@ namespace Nonatomic.VSM2.NodeGraph
 		/// <param name="subAsset">The sub-asset to remove.</param>
 		protected virtual void RemoveSubAsset(Object subAsset)
 		{
-			if (subAsset == null) return;
+			if (!subAsset) return;
 
 			#if UNITY_EDITOR
 			{
 				EditorApplication.delayCall += () =>
 				{
-					if (this == null) return;
+					if (!this) return;
 
 					if (SubAssetUtils.TryRemoveSubAsset(subAsset))
 					{
@@ -133,7 +133,7 @@ namespace Nonatomic.VSM2.NodeGraph
 			for (var i = 0; i < _subAssets.Count; i++)
 			{
 				var subAsset = _subAssets[i];
-				if (subAsset == null || subAsset.GetType() == typeof(Object))
+				if (!subAsset || subAsset.GetType() == typeof(Object))
 				{
 					invalidAssetIndices.Add(i);
 				}
@@ -142,7 +142,9 @@ namespace Nonatomic.VSM2.NodeGraph
 			for (var i = invalidAssetIndices.Count - 1; i >= 0; i--)
 			{
 				var index = invalidAssetIndices[i];
-				if (SubAssetUtils.TryRemoveSubAsset(_subAssets[index]))
+				var subAsset = _subAssets[index];
+				
+				if (SubAssetUtils.TryRemoveSubAsset(subAsset))
 				{
 					GraphLog.LogWarning($"Removed invalid sub-asset at index {i}");
 					_subAssets.RemoveAt(index);

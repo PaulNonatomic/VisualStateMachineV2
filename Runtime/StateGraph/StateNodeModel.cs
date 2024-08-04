@@ -31,6 +31,7 @@ namespace Nonatomic.VSM2.StateGraph
 			if (Enabled) return;
 			
 			Enabled = true;
+			LastActive = -1;
 			State?.OnAwakeState();
 		}
 
@@ -56,7 +57,6 @@ namespace Nonatomic.VSM2.StateGraph
 
 		public void FixedUpdate()
 		{
-			LastActive = Time.time;
 			State?.OnFixedUpdateState();
 		}
 

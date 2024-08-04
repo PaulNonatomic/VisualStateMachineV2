@@ -49,19 +49,6 @@ namespace Nonatomic.VSM2.NodeGraph
 				GraphLog.LogWarning($"Correcting Id of TransitionData.DestinationPort from {transition.DestinationPort.Id} to {destinationPort.Id}");
 				transition.DestinationPort.Id = destinationPort.Id;
 			}
-			
-			//sync frame delay's
-			if (transition.OriginPort.FrameDelay != originPort.FrameDelay)
-			{
-				GraphLog.LogWarning($"Correcting FrameDelay of TransitionData.OriginPort from {transition.OriginPort.FrameDelay} to {originPort.FrameDelay}");
-				transition.OriginPort.FrameDelay = originPort.FrameDelay;
-			}
-						
-			if (transition.DestinationPort.FrameDelay != destinationPort.FrameDelay)
-			{
-				GraphLog.LogWarning($"Correcting FrameDelay of TransitionData.DestinationPort from {transition.DestinationPort.FrameDelay} to {destinationPort.FrameDelay}");
-				transition.DestinationPort.FrameDelay = destinationPort.FrameDelay;
-			}
 		}
 	}
 }

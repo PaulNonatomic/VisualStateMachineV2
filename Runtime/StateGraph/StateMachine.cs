@@ -221,7 +221,7 @@ namespace Nonatomic.VSM2.StateGraph
 				transition?.TriggerTransition();
 				
 				if (!Application.isPlaying) return;
-				
+
 				for (var i = 0; i < frameDelay; i++)
 				{
 					if (_cancellationTokenSource.Token.IsCancellationRequested)
