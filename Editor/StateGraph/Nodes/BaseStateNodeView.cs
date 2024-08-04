@@ -211,13 +211,13 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			return container;
 		}
 		
-		private static bool IsSubStateMachineList(SerializedProperty property)
+		protected static bool IsSubStateMachineList(SerializedProperty property)
 		{
 			if (!property.isArray) return false;
 			return property.arrayElementType == "PPtr<$StateMachineModel>";
 		}
 
-		private static VisualElement CreateCustomSubStateMachineUI(SerializedProperty property)
+		protected static VisualElement CreateCustomSubStateMachineUI(SerializedProperty property)
 		{
 			return new PropertyField(property);
 		}
@@ -308,6 +308,14 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		{
 			var titleString = StateType.Name;
 			title = StringUtils.ProcessNodeTitle(titleString);
+			
+			var titleLabel = Title.Query<VisualElement>("title-label").First();
+			TitleContainer.Add(titleLabel);
+		}
+		
+		protected virtual void AddTitleLabel(string label)
+		{
+			title = StringUtils.ProcessNodeTitle(label);
 			
 			var titleLabel = Title.Query<VisualElement>("title-label").First();
 			TitleContainer.Add(titleLabel);
@@ -404,6 +412,15 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			{
 				container.AddToClassList("has-properties");
 			}
+		}
+		
+		protected virtual void RemovePortContainer()
+		{
+			var top = this.Query<VisualElement>("top").First();
+			top?.parent.Remove(top);
+			
+			var divider = this.Query<VisualElement>("divider").First();
+			divider?.parent.Remove(divider);
 		}
 	}
 }

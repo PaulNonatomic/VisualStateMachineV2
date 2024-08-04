@@ -58,6 +58,8 @@ namespace Nonatomic.VSM2.StateGraph.Attributes
 		public const string Pencil = "pencil";
 		public const string Pentagon = "pentagon";
 		public const string Perspective = "grid-perspective";
+		public const string Post = "post";
+		public const string PostSolid = "post-solid";
 		public const string Random = "random";
 		public const string Report = "report";
 		public const string RulerArrows = "ruler-arrows";

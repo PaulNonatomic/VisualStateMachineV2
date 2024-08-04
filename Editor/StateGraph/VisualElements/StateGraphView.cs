@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Nonatomic.VSM2.Editor.NodeGraph;
 using Nonatomic.VSM2.Editor.Persistence;
@@ -141,6 +142,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			_toolBar.OnSave += HandleSave;
 			_contextMenu = new StateGraphContextMenu(this);
 			_contextMenu.OnCreateNewStateNode += HandleCreateNewStateNode;
+			_contextMenu.OnCreateNewStickyNote += HandleCreateNewStickyNote;
 			_contextMenu.OnDeleteEdgeContext += HandleDeleteEdge;
 			_contextMenu.OnDeleteStateNode += HandleDeleteStateNode;
 		}
@@ -154,6 +156,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			_toolBar.OnRecenter -= HandleRecenter;
 			_toolBar.OnSave -= HandleSave;
 			_contextMenu.OnCreateNewStateNode -= HandleCreateNewStateNode;
+			_contextMenu.OnCreateNewStickyNote -= HandleCreateNewStickyNote;
 			_contextMenu.OnDeleteEdgeContext -= HandleDeleteEdge;
 			_contextMenu.OnDeleteStateNode -= HandleDeleteStateNode;
 		}
@@ -241,22 +244,34 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			DeleteEdges(new List<Edge>(){edge});
 		}
 
+		private void HandleCreateNewStickyNote(Vector2 position)
+		{
+			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
+			
+			CreateNewStateNode(position, typeof(StickyNoteState));
+		}
+
 		private void HandleCreateNewStateNode(Vector2 position)
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
 			
-			var nodePosition = GraphUtils.ScreenPointToGraphPoint(position, this);
 			var screenPosition = Event.current != null 
 				? GUIUtility.GUIToScreenPoint(Event.current.mousePosition) 
 				: GUIUtility.ScreenToGUIPoint(MousePosition);
 			
 			StateSelectorWindow.Open(StateManager.Model, screenPosition, stateType =>
 			{
-				var model = (StateMachineModel) StateManager.Model;
-				var nodeData = StateGraphNodeFactory.MakeStateNodeData(model, stateType, nodePosition);
-				var nodeView = StateGraphNodeFactory.MakeNode(this, nodeData, model);
-				AddElement(nodeView);
+				CreateNewStateNode(position, stateType);
 			});
+		}
+
+		private void CreateNewStateNode(Vector2 position, Type stateType)
+		{
+			var nodePosition = GraphUtils.ScreenPointToGraphPoint(position, this);
+			var model = (StateMachineModel) StateManager.Model;
+			var nodeData = StateGraphNodeFactory.MakeStateNodeData(model, stateType, nodePosition);
+			var nodeView = StateGraphNodeFactory.MakeNode(this, nodeData, model);
+			AddElement(nodeView);
 		}
 
 		private void MakeFooterBar()
