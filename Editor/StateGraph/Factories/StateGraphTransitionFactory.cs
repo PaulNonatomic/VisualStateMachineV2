@@ -62,11 +62,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			var outputPort = originNode.Q<Port>(transitionModel.OriginPort.Id, "port", "output");
 			if(outputPort == null) throw new Exception("Failed to create edge because of missing output port");
 
-			var frameDelay = transitionModel.OriginPort.FrameDelay;
-			Debug.Log($"{originNode.name}, {destinationNode.name}, {transitionModel.OriginPort.FrameDelay}, {transitionModel.DestinationPort.FrameDelay}");
 			var edge = new StateNodeEdge()
 			{
-				FrameDelay = frameDelay,
 				input = inputPort,
 				output = outputPort,
 				userData = transitionModel

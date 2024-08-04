@@ -7,19 +7,31 @@ namespace Nonatomic.VSM2.StateGraph
 	[Serializable]
 	public class StateTransitionModel : TransitionModel, IEqualityComparer<TransitionModel>
 	{
-		public event Action OnTransitionTriggered;
+		public event Action OnTransitionBegin;
+		public event Action OnTransitionUpdate;
+		public event Action OnTransitionEnd;
 
-		public void TriggerTransition()
-		{
-			OnTransitionTriggered?.Invoke();
-		}
-		
 		public StateTransitionModel(string originNodeId, PortModel originPort, string destinationNodeId, PortModel destinationPort)
 		{
 			OriginNodeId = originNodeId;
 			OriginPort = originPort;
 			DestinationNodeId = destinationNodeId;
 			DestinationPort = destinationPort;
+		}
+
+		public void Start()
+		{
+			OnTransitionBegin?.Invoke();
+		}
+		
+		public void Update()
+		{
+			OnTransitionUpdate?.Invoke();
+		}
+
+		public void End()
+		{
+			OnTransitionEnd?.Invoke();
 		}
 
 		public bool Equals(TransitionModel x, TransitionModel y)

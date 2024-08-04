@@ -218,7 +218,7 @@ namespace Nonatomic.VSM2.StateGraph
 				_currentNode.Exit();
 				
 				var transition = GetTransitionForCurrentNode(_currentNode, nextNode);
-				transition?.TriggerTransition();
+				transition?.Start();
 				
 				if (!Application.isPlaying) return;
 
@@ -226,11 +226,15 @@ namespace Nonatomic.VSM2.StateGraph
 				{
 					if (_cancellationTokenSource.Token.IsCancellationRequested)
 					{
+						transition?.End();
 						return;
 					}
 						
 					await Task.Yield();
+					transition?.Update();
 				}
+				
+				transition?.End();
 				
 				_currentNode = nextNode;
 				if (_currentNode == null) return;
