@@ -10,11 +10,13 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 	public class ToolBarView : VisualElement
 	{
 		public event Action OnRecenter;
+		public event Action OnSave;
 		
 		private Button _recenterButton;
+		private Button _saveButton;
 		private VisualElement _buttonContainer;
 		private BreadcrumbTrailView _breadcrumbTrail;
-		
+
 		public ToolBarView()
 		{
 			this.name = "toolBar";
@@ -22,6 +24,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			ApplyStyle();
 			AddBreadcrumbTrail();
 			AddButtonContainer();
+			AddSaveButton();
 			AddRecenterButton();
 		}
 
@@ -35,7 +38,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			_breadcrumbTrail.SetModel(model);
 		}
-		
+
 		private void ApplyStyle()
 		{
 			var styleSheet = UnityEngine.Resources.Load<StyleSheet>(nameof(ToolBarView));
@@ -49,6 +52,31 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				name = "button-container"
 			};
 			Add(_buttonContainer);
+		}
+
+		private void AddSaveButton()
+		{
+			_saveButton = new Button(() => OnSave?.Invoke())
+			{
+				name = "toolbtn"
+			};
+
+			var icon = new Image
+			{
+				name = "toolbtn-icon",
+				scaleMode = ScaleMode.ScaleToFit,
+				style =
+				{
+					display = DisplayStyle.Flex
+				}
+			};
+
+			var iconPath = NodeIcon.GetNodeIconPath(NodeIcon.FloppyDisk);
+			var iconTexture = ImageService.FetchTexture(iconPath);
+			icon.image = iconTexture;
+
+			_saveButton.Add(icon);
+			_buttonContainer.Add(_saveButton);
 		}
 
 		private void AddRecenterButton()

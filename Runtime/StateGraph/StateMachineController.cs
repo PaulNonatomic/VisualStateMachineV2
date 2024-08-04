@@ -72,6 +72,7 @@ namespace Nonatomic.VSM2.StateGraph
 		public void Start()
 		{
 			if(!_activated) return;
+			
 			_stateMachine?.Start();
 			_stateMachine?.Enter();
 			_started = true;

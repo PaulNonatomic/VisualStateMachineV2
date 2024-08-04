@@ -16,7 +16,10 @@ namespace Nonatomic.VSM2.NodeGraph
 			return new PortModel()
 			{
 				Id = Id,
-				Index = Index
+				Index = Index,
+				FrameDelay = FrameDelay,
+				PortLabel = PortLabel,
+				PortColor = PortColor
 			};
 		}
 	}

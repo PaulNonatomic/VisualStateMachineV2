@@ -217,15 +217,24 @@ namespace Nonatomic.VSM2.StateGraph
 				UnsubscribeFromNode(_currentNode);
 				_currentNode.Exit();
 				
-				var transition = GetTransitionForCurrentNode(_currentNode, nextNode);
-				transition?.TriggerTransition();
+				var stateTransitionModel = GetTransitionForCurrentNode(_currentNode, nextNode);
+				stateTransitionModel?.Start();
 				
 				if (!Application.isPlaying) return;
-				
-				if(frameDelay > 0)
+
+				for (var i = 0; i < frameDelay; i++)
 				{
-					await Task.Delay(TimeSpan.FromSeconds(Time.deltaTime), _cancellationTokenSource.Token);
+					if (_cancellationTokenSource.Token.IsCancellationRequested)
+					{
+						stateTransitionModel?.End();
+						return;
+					}
+						
+					await Task.Yield();
+					stateTransitionModel?.Update();
 				}
+				
+				stateTransitionModel?.End();
 				
 				_currentNode = nextNode;
 				if (_currentNode == null) return;

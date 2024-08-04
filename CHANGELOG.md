@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.6.0-beta] - Aug 04, 2024
+- EntryState OnEntry transition has a FrameDelay value of 0
+- JumpInStates OnExit transition has a FrameDelay value of 0
+- Fixed FrameDelay behaviour
+- Enabled edge glow to be effected by FrameDelay duration
+- Added FrameDelay labels to each transition edge
+- Added additional icons
+
 ## [0.5.2-beta] - Jul 19, 2024
 - Added guards to StateNodeModel to prevent Awake being called when already Awake, Exit being called having already exited and OnDestroy being called having already been destroyed.
 

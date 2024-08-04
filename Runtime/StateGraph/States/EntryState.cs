@@ -8,7 +8,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 	[HideInStateSelector, NodeColor(NodeColor.Green)]
 	public class EntryState : State
 	{
-		[Transition(portColor:NodeColor.Green)] 
+		[Transition(portColor:NodeColor.Green, frameDelay:0)] 
 		public event Action OnEntry;
 
 		public override void OnEnterState()

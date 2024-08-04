@@ -245,7 +245,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			
 			var timeElapsed = Time.time - NodeModel.LastActive;
 			var timeOpacity = 1.0f - Mathf.Clamp01(timeElapsed / 1f);
-			var opacity = NodeModel.LastActive == 0 ? 0 : timeOpacity;
+			var opacity = Mathf.Approximately(NodeModel.LastActive, -1f) ? 0 : timeOpacity;
 			GlowBorder.style.opacity = opacity;
 		}
 		
