@@ -16,7 +16,9 @@ namespace Nonatomic.VSM2.StateGraph.Attributes
 		public const string Purple = "#4a0e99";
 		public const string Violet = "#740e99";
 		public const string Pink = "#750b55";
-		
+		public const string Cantera = "#551C25";
+		public const string Dijon = "#a89d46";
+
 		public const string Black = "#000000";
 		public const string White = "#ffffff";
 	}
