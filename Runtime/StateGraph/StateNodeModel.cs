@@ -159,8 +159,14 @@ namespace Nonatomic.VSM2.StateGraph
 				var newIndex = eventInfoIndices[eventInfo.Name];
 				if (usedIndices.Contains(newIndex)) continue;
 				
+				var attributes = eventInfo.GetCustomAttributes(typeof(TransitionAttribute), false);
+				if (attributes.Length == 0) continue;
+				
 				GraphLog.LogWarning($"Adding missing PortData for EventInfo '{eventInfo.Name}' at index {newIndex}.");
-				portDatas.Add(new PortModel { Id = eventInfo.Name, Index = newIndex });
+				var attribute = (TransitionAttribute) attributes[0];
+				var portModel = attribute.GetPortData(eventInfo, newIndex);
+				
+				portDatas.Add(portModel);
 				usedIndices.Add(newIndex);
 			}
 		}
@@ -229,13 +235,12 @@ namespace Nonatomic.VSM2.StateGraph
 			for (var index = 0; index < events.Length; index++)
 			{
 				var eventInfo = events[index];
-				var port = new PortModel()
-				{
-					Id = eventInfo.Name,
-					Index = index
-				};
+				var attributes = eventInfo.GetCustomAttributes(typeof(TransitionAttribute), false);
+				if (attributes.Length == 0) continue;
 				
-				OutputPorts.Add(port);
+				var attribute = (TransitionAttribute) attributes[0];
+				var portModel = attribute.GetPortData(eventInfo, index);
+				OutputPorts.Add(portModel);
 			}
 		}
 	}

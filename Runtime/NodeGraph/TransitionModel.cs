@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 namespace Nonatomic.VSM2.NodeGraph
 {
