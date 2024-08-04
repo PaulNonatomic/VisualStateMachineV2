@@ -1,4 +1,5 @@
-﻿using Nonatomic.VSM2.StateGraph;
+﻿using System;
+using Nonatomic.VSM2.StateGraph;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -8,17 +9,45 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 {
 	public class StateNodeEdge : Edge
 	{
+		public int FrameDelay
+		{
+			get => _frameDelay;
+			set
+			{
+				_frameDelay = value;
+				_durationLabel.text = $"{value}";
+			}
+		}
+		
 		private Color _originalInputColor;
 		private Color _originalOutputColor;
 		private Color _targetColor;
 		private bool _isFlashing;
 		private float _flashDuration;
 		private float _flashStartTime;
+		private Label _durationLabel;
+		private int _frameDelay;
 
 		public StateNodeEdge() : base()
 		{
 			RegisterCallback<AttachToPanelEvent>(new EventCallback<AttachToPanelEvent>(HandleAttach));
 			RegisterCallback<DetachFromPanelEvent>(new EventCallback<DetachFromPanelEvent>(HandleDetach));
+
+			ApplyStyle();
+			CreateDurationLabel();
+		}
+
+		private void ApplyStyle()
+		{
+			var styleSheet = Resources.Load<StyleSheet>(nameof(StateNodeEdge));
+			styleSheets.Add(styleSheet);
+		}
+
+		private void CreateDurationLabel()
+		{
+			_durationLabel = new Label();
+			_durationLabel.name = "durationLabel";
+			this.Add(_durationLabel);
 		}
 
 		private void HandleDetach(DetachFromPanelEvent evt)
@@ -39,11 +68,12 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			FlashEdge(color, 0.75f);
 		}
 
-		protected override EdgeControl CreateEdgeControl() => new EdgeControl()
+		protected override EdgeControl CreateEdgeControl() 
 		{
-			capRadius = 4f,
-			interceptWidth = 6f
-		};
+			var edgeController = new EdgeControl() { capRadius = 4f, interceptWidth = 6f };
+			edgeController.RegisterCallback<GeometryChangedEvent>(UpdateLabelPosition);
+			return edgeController;
+		}
 		
 		public virtual void SetEdgeColor(Color inputColor, Color outputColor)
 		{
@@ -74,12 +104,10 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 			if (elapsed < halfFlashDuration)
 			{
-				// Jump straight to the target color (green)
 				SetEdgeColor(_targetColor, _targetColor);
 			}
 			else if (elapsed < _flashDuration)
 			{
-				// Fade back to the original color
 				var t = (elapsed - halfFlashDuration) / halfFlashDuration;
 				var currentInputColor = Color.Lerp(_targetColor, _originalInputColor, t);
 				var currentOutputColor = Color.Lerp(_targetColor, _originalOutputColor, t);
@@ -91,6 +119,13 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				_isFlashing = false;
 				EditorApplication.update -= UpdateFlash;
 			}
+		}
+		
+		private void UpdateLabelPosition(GeometryChangedEvent evt)
+		{
+			var midPoint = (edgeControl.controlPoints[0] + edgeControl.controlPoints[3]) * 0.5f;
+			_durationLabel.style.left = midPoint.x - (_durationLabel.contentRect.width * 0.5f);
+			_durationLabel.style.top = midPoint.y - (_durationLabel.contentRect.height * 0.5f);
 		}
 	}
 }

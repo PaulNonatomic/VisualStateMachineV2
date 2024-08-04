@@ -9,6 +9,7 @@ namespace Nonatomic.VSM2.StateGraph.Attributes
 		public const string GuiPath = "Icons/GUI/";
 		
 		//Node Icons
+		public const string FloppyDisk = "floppy-disk";
 		public const string BeaconRight = "broadcast-right";
 		public const string BeaconLeft = "broadcast-left";
 		public const string BeaconHaloLeft = "broadcast-halo-left";

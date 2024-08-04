@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Nonatomic.VSM2.Logging;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.Utils;
@@ -13,7 +12,7 @@ namespace Nonatomic.VSM2.StateGraph
 	{
 		public StateMachineModel Original { get; private set; }
 		public StateMachineModel Parent { get; private set; }
-		public string ModelName => Original == null ? name : Original.name;
+		public string ModelName => !Original ? name : Original.name;
 		
 		public bool HasState<T>() where T : State
 		{
@@ -24,10 +23,18 @@ namespace Nonatomic.VSM2.StateGraph
 		public static StateMachineModel CreateInstance(StateMachineModel model)
 		{
 			var instance = Instantiate(model);
-			instance.name = instance.name;// + instance.GetInstanceID();
+			instance.name = instance.name;
 			instance.Original = model;
 			
 			return instance;
+		}
+
+		/**
+		 * Will validate the subassets of the model asset
+		 */
+		public void SelfValidate()
+		{
+			ValidateSubAssets();
 		}
 
 		public void AddState(StateNodeModel stateNodeModel)
@@ -38,7 +45,7 @@ namespace Nonatomic.VSM2.StateGraph
 			{
 				EditorApplication.delayCall += () =>
 				{
-					if (this == null) return;
+					if (!this) return;
 
 					if (TryAddNode(stateNodeModel))
 					{
@@ -57,7 +64,7 @@ namespace Nonatomic.VSM2.StateGraph
 			{
 				EditorApplication.delayCall += () =>
 				{
-					if (this == null) return;
+					if (!this) return;
 
 					if (TryRemoveNode(stateNodeModel))
 					{
@@ -78,7 +85,7 @@ namespace Nonatomic.VSM2.StateGraph
 			{
 				EditorApplication.delayCall += () =>
 				{
-					if (this == null) return;
+					if (!this) return;
 
 					if (!TryAddTransition(stateTransitionModel))
 					{
@@ -97,7 +104,7 @@ namespace Nonatomic.VSM2.StateGraph
 			{
 				EditorApplication.delayCall += () =>
 				{
-					if (this == null) return;
+					if (!this) return;
 
 					if (!TryRemoveTransition(stateTransitionModel))
 					{
@@ -153,8 +160,7 @@ namespace Nonatomic.VSM2.StateGraph
 			
 			foreach (var node in Nodes)
 			{
-				var stateNode = node as StateNodeModel;
-				stateNode.ValidatePorts();
+				node.ValidatePorts();
 			}
 		}
 
@@ -162,14 +168,8 @@ namespace Nonatomic.VSM2.StateGraph
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
 			
-			var invalidNodes = new List<StateNodeModel>();
-			
-			foreach (var node in Nodes)
-			{
-				var stateNode = node as StateNodeModel;
-				if (stateNode.State == null) invalidNodes.Add(stateNode);
-			}
-			
+			var invalidNodes = Nodes.Where(node => !node.State).ToList();
+
 			foreach (var node in invalidNodes)
 			{
 				Debug.LogWarning(TryRemoveNode(node)
@@ -180,14 +180,14 @@ namespace Nonatomic.VSM2.StateGraph
 
 		public void Initialize(GameObject gameObject, StateMachine stateMachine)
 		{
-			if (gameObject == null || stateMachine == null) return;
+			if (!gameObject || stateMachine == null) return;
 
 			foreach (var stateNode in Nodes)
 			{
-				if (stateNode == null || stateNode.State == null) continue;
+				if (stateNode == null || !stateNode.State) continue;
 
 				var instantiatedState = Instantiate(stateNode.State);
-				if (instantiatedState == null) continue;
+				if (!instantiatedState) continue;
 				
 				instantiatedState.GameObject = gameObject;
 				instantiatedState.StateMachine = stateMachine;
@@ -198,7 +198,13 @@ namespace Nonatomic.VSM2.StateGraph
 
 		public bool TryGetNodeByState<T>(out StateNodeModel stateNodeModel) where T : State
 		{
-			stateNodeModel = Nodes.FirstOrDefault(node => node != null && node.State is T);
+			stateNodeModel = Nodes.FirstOrDefault(node => node is { State: T });
+			return stateNodeModel != null;
+		}
+		
+		public bool TryGetNodeById(string id, out StateNodeModel stateNodeModel)
+		{
+			stateNodeModel = Nodes.FirstOrDefault(node => node.Id.Equals(id));
 			return stateNodeModel != null;
 		}
 
