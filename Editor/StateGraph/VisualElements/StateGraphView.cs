@@ -267,7 +267,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		private void CreateNewStateNode(Vector2 position, Type stateType)
 		{
-			var nodePosition = GraphUtils.ScreenPointToGraphPoint(position, this);
+			var nodePosition = GraphUtils.ScreenPointToGraphPointWithZoom(position, this);
 			var model = (StateMachineModel) StateManager.Model;
 			var nodeData = StateGraphNodeFactory.MakeStateNodeData(model, stateType, nodePosition);
 			var nodeView = StateGraphNodeFactory.MakeNode(this, nodeData, model);
