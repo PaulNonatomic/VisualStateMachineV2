@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.6.1-beta] - Aug -4, 2024
+## [0.6.1-beta] - Aug 04, 2024
 - FrameDelay labels are hidden on ghost edges
 - Added support for Sticky Notes
 
