@@ -45,20 +45,20 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			var activeTime = Time.time - _creationTime;
 			ModelSelection.ActiveModel = model;
 
-			if (recentre)
-			{
-				HandleRecenter();
-				EditorApplication.delayCall += HandleRecenter;
-			}
-
 			_toolBar.SetModel(stateModel);
 			_footerBar.SetGridPosition(StateManager.GridPosition);
 			_footerBar.SetModel(stateModel);
 
 			base.PopulateGraph(model);
 			AddEntryNode(stateModel);
-			AddNodes(stateModel);
-			AddEdges(stateModel);
+
+			EditorApplication.delayCall += () =>
+			{
+				AddNodes(stateModel);
+				AddEdges(stateModel);
+				
+				if (recentre) HandleRecenter();
+			};
 		}
 
 		public override void PopulateGraph(NodeGraphDataModel model)
