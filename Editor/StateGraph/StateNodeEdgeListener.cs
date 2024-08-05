@@ -36,7 +36,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			var droppedEdgeOutput = edge.output;
 			var droppedEdgeUserData = edge.output.userData;
 			var screenPosition = GUIUtility.GUIToScreenPoint(position);
-			var nodePosition = GraphUtils.ScreenPointToGraphPoint(position, _graphView);
+			var nodePosition = GraphUtils.ScreenPointToGraphPointWithZoom(position, _graphView);
 			var filterOut = new List<Type>()
 			{
 				typeof(JumpInState)

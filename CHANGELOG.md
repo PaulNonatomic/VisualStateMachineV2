@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.6.2-beta] - Aug 05, 2024
+- Fix for the Entry node often missing from new StateMachineModels when first created 
+- Fix for positioning new nodes correctly irrespective of zoom level
+- 
 ## [0.6.1-beta] - Aug 04, 2024
 - FrameDelay labels are hidden on ghost edges
 - Added support for Sticky Notes
