@@ -2,6 +2,7 @@
 
 ## [0.6.3-beta] - Aug 10, 2024
 - Added Counter State
+- Fix: When scenes with multiple StateMachineControllers load the selected controller and the first controller in the scene were both loaded into the same StateMachineEditor
 
 ## [0.6.2-beta] - Aug 05, 2024
 - Fix for the Entry node often missing from new StateMachineModels when first created 
