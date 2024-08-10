@@ -18,6 +18,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			{typeof(JumpInState), typeof(JumpNodeView)},
 			{typeof(JumpOutState), typeof(JumpNodeView)},
 			{typeof(DelayState), typeof(DelayNodeView)},
+			{typeof(CounterState), typeof(CounterNodeView)},
 			{typeof(DelayUnscaledState), typeof(DelayNodeView)},
 			{typeof(SubStateMachineState), typeof(SubStateNodeView)},
 			{typeof(StickyNoteState), typeof(StickyNoteNodeView)}

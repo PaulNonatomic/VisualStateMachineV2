@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.6.3-beta] - Aug 10, 2024
+- Added Counter State
+
 ## [0.6.2-beta] - Aug 05, 2024
 - Fix for the Entry node often missing from new StateMachineModels when first created 
 - Fix for positioning new nodes correctly irrespective of zoom level
