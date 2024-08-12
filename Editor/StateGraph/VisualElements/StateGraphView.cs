@@ -192,7 +192,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			{
 				case PlayModeStateChange.EnteredPlayMode:
 				case PlayModeStateChange.EnteredEditMode:
-					stateManager.LoadModelFromStateController();
+					if(!StateManager.Model) stateManager.LoadModelFromStateController();
 					PopulateGraph(StateManager.Model, recentre: true);
 					break;
 			}
