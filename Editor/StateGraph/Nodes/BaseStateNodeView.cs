@@ -338,7 +338,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			if(!NodeModel?.State) return;
 			
 			var stateNamespace = NodeModel.State.GetType().Namespace;
-			if (stateNamespace == "Nonatomic.VSM2.StateGraph.States") return;
+			if (stateNamespace == "Nonatomic.VSM2.StateGraph.States~") return;
 			
 			var editButton = new Button(HandleEditButton)
 			{

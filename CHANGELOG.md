@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.6.4-beta] - Aug 10, 2024
+- Fix for rogue tilda
+
 ## [0.6.3-beta] - Aug 10, 2024
 - Added Counter State
 - Fix: When scenes with multiple StateMachineControllers load the selected controller and the first controller in the scene were both loaded into the same StateMachineEditor
