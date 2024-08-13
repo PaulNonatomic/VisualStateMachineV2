@@ -23,7 +23,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			
 			var contents = this.Query<VisualElement>("contents").First();
 			
-			AddStyle("StateNodeView");
+			AddStyle(nameof(StateNodeView));
 			AddTitleContainer();
 			ColorizeTitle();
 			AddTitleLabel();

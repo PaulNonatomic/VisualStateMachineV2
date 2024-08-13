@@ -1,51 +1,44 @@
 .node #title {
     flex-direction: row;
-    height:50px;
+    height: 19px;
+}
+
+.node Port {
+    height: 19px;
+    padding-top:0px;
+}
+
+.port.input {
+    background-color: #555555;
+}
+
+.port.output {
+    background-color: #777777;
+}
+
+.port.input #connector {
+    border-left-color: white;
 }
 
 .node #title-label {
     font-size: 14px;
-    margin-left: 18px;
-    margin-right: 5px;
+    margin-left: 0px;
+    margin-right: 0px;
     flex-grow: 1;
     -unity-text-align: middle-center;
     -unity-font-style: Bold;
 }
 
 .node #title-container {
-    /*padding-left: 0px;*/
-    /*padding-right: 0px;*/
-    /*align-items: center;*/
-    margin-top: 6px;
-    margin-bottom: 6px;
+    margin-top: 0px;
+    margin-bottom: 0px;
     flex-direction: row;
-    /*width: 100%;*/
-    /*height: 100%;*/
-}
-
-.node FloatField {
-    min-width: 40px;
-}
-
-.unity-text-element {
-    -unity-text-align: middle-center;
 }
 
 .node #title-button-container {
     visibility: hidden;
     width:0;
     height:0;
-}
-
-.node #title-icon {
-    min-width:18px;
-    min-height:18px;
-    width: 18px;
-    height:18px;
-    margin-left: 3px;
-    margin-right: 6px;
-    margin-bottom: 3px;
-    align-self: center;
 }
 
 .node #state-border {
@@ -65,7 +58,7 @@ Port {
     height: 100%;
     width: 25px;
     min-width: 25px;
-    padding-top:12px;
+    padding-top:8px;
 }
 
 Port Label {
@@ -74,8 +67,4 @@ Port Label {
 
 .node #contents {
     display: none;
-}
-
-.node #property-container {
-    flex-direction: column;
 }

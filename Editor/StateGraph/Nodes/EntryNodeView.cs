@@ -11,7 +11,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 							: base(graphView, stateMachineModel, nodeModel)
 		{
 			
-			AddStyle("EntryNodeView");
+			AddStyle(nameof(EntryNodeView));
 			AddTitleContainer();
 			ColorizeTitle();
 			AddTitleLabel();

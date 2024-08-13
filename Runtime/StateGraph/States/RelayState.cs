@@ -1,7 +1,22 @@
-﻿namespace Nonatomic.VSM2.StateGraph.States
+﻿using System;
+using Nonatomic.VSM2.NodeGraph;
+using Nonatomic.VSM2.StateGraph.Attributes;
+
+namespace Nonatomic.VSM2.StateGraph.States
 {
-	public class RelayState
+	[NodeColor(NodeColor.Blue)]
+	public class RelayState : State
 	{
+		[Transition(frameDelay:0)] public event Action OnComplete;
 		
+		public override void OnEnterState()
+		{
+			OnComplete?.Invoke();
+		}
+
+		public override void OnExitState()
+		{
+			//...
+		}
 	}
 }

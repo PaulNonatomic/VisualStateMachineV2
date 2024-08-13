@@ -26,7 +26,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		{
 			_jumpState = NodeModel.State as JumpState;
 
-			AddStyle("JumpNodeView");
+			AddStyle(nameof(JumpNodeView));
 			AddToClassList(NodeModel.State is JumpOutState ? "jump-out" : "jump-in");
 			AddBeacon(_jumpState);
 			AddTitleContainer();
