@@ -5,7 +5,7 @@ using Nonatomic.VSM2.StateGraph.Attributes;
 namespace Nonatomic.VSM2.StateGraph.States
 {
 	/**
-	 * Remember that States are derived from ScriptableObject so
+	 * Remember that States~ are derived from ScriptableObject so
 	 * it's important to flag that the Count value should not be
 	 * serialized, although we reset the value on awake any way.
 	 */

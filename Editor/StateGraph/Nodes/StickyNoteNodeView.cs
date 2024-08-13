@@ -13,7 +13,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		{
 			var contents = this.Query<VisualElement>("contents").First();
 			
-			AddStyle("StickyNoteNodeView");
+			AddStyle(nameof(StickyNoteNodeView));
 			AddTitleContainer();
 			ColorizeTitle();
 			AddTitleLabel("Note");

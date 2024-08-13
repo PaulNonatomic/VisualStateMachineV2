@@ -3,20 +3,19 @@ using UnityEditor.Experimental.GraphView;
 
 namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
-	public sealed class EntryNodeView : BaseStateNodeView
+	public class RelayNodeView : BaseStateNodeView
 	{
-		public EntryNodeView(GraphView graphView, 
-							 StateMachineModel stateMachineModel,  
+		public RelayNodeView(GraphView graphView, 
+							 StateMachineModel stateMachineModel, 
 							 StateNodeModel nodeModel) 
 							: base(graphView, stateMachineModel, nodeModel)
 		{
-			
-			AddStyle(nameof(EntryNodeView));
+			AddStyle(nameof(RelayNodeView));
 			AddTitleContainer();
 			ColorizeTitle();
-			AddTitleLabel();
+			RemoveTitleLabel();
 			AddGlowBorder();
-			AddTitleIcon();
+			AddInputPorts(TitleContainer);
 			AddOutputPorts(TitleContainer);
 			UpdatePosition();
 		}

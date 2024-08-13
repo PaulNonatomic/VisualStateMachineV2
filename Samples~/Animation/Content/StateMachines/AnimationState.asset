@@ -363,7 +363,7 @@ MonoBehaviour:
     OriginPort:
       Id: OnEntry
       Index: 0
-      FrameDelay: 1
+      FrameDelay: 0
       PortLabel: 
       PortColor: '#116f1c'
     DestinationPort:
@@ -377,7 +377,7 @@ MonoBehaviour:
     OriginPort:
       Id: OnExit
       Index: 0
-      FrameDelay: 1
+      FrameDelay: 0
       PortLabel: 
       PortColor: '#B06101'
     DestinationPort:
@@ -405,7 +405,7 @@ MonoBehaviour:
     OriginPort:
       Id: OnExit
       Index: 0
-      FrameDelay: 1
+      FrameDelay: 0
       PortLabel: 
       PortColor: '#B06101'
     DestinationPort:
@@ -475,7 +475,7 @@ MonoBehaviour:
     OriginPort:
       Id: OnExit
       Index: 0
-      FrameDelay: 1
+      FrameDelay: 0
       PortLabel: 
       PortColor: '#B06101'
     DestinationPort:
@@ -489,7 +489,7 @@ MonoBehaviour:
     OriginPort:
       Id: OnExit
       Index: 0
-      FrameDelay: 1
+      FrameDelay: 0
       PortLabel: 
       PortColor: '#B06101'
     DestinationPort:

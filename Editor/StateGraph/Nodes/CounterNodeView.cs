@@ -20,7 +20,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 
 			_counterState = (BaseCounterState) nodeModel.State;
 			
-			AddStyle("CounterNodeView");
+			AddStyle(nameof(CounterNodeView));
 			AddTitleContainer();
 			ColorizeTitle();
 			RemoveTitleLabel();

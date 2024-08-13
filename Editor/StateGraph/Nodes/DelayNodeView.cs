@@ -18,7 +18,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 							 : base(graphView, stateMachineModel, nodeModel)
 		{
 
-			AddStyle("DelayNodeView");
+			AddStyle(nameof(DelayNodeView));
 			AddTitleContainer();
 			ColorizeTitle();
 			RemoveTitleLabel();
