@@ -2,6 +2,7 @@
 
 ## [0.6.4-beta] - Aug 12, 2024
 - Fix for rogue tilda
+- Added relay states
 
 ## [0.6.3-beta] - Aug 10, 2024
 - Added Counter State
