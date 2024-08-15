@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.6.5-beta] - Aug 16, 2024
+- Updated frame delay of DelayState transition to 0
+
 ## [0.6.4-beta] - Aug 12, 2024
 - Fix for rogue tilda
 - Added relay states
