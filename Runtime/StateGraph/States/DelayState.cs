@@ -22,16 +22,14 @@ namespace Nonatomic.VSM2.StateGraph.States
 		public override void OnUpdateState()
 		{
 			_elapsedTime += Time.deltaTime;
-			
-			if (_elapsedTime >= Duration)
-			{
-				OnComplete?.Invoke();
-			}
+
+			if (_elapsedTime < Duration) return;
+			OnComplete?.Invoke();
 		}
 
 		public override void OnExitState()
 		{
-			
+			//...
 		}
 	}
 }
