@@ -28,11 +28,13 @@ namespace Nonatomic.VSM2.StateGraph.States
 		
 		public override void OnStartState()
 		{
-			SubStateMachine.Start();
+			SubStateMachine?.Start();
 		}
 
 		public override void OnEnterState()
 		{
+			if(SubStateMachine == null) return;
+			
 			SubStateMachine.Model.SetParent(SubStateMachine.Model);
 			SubStateMachine.OnComplete += OnSubStateComplete;
 			SubStateMachine.Enter();
@@ -40,16 +42,18 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		public override void OnUpdateState()
 		{
-			SubStateMachine.Update();
+			SubStateMachine?.Update();
 		}
 
 		public override void OnFixedUpdateState()
 		{
-			SubStateMachine.FixedUpdate();
+			SubStateMachine?.FixedUpdate();
 		}
 
 		public override void OnExitState()
 		{
+			if(SubStateMachine == null) return;
+			
 			SubStateMachine.OnComplete -= OnSubStateComplete;
 			SubStateMachine.Exit();
 		}
@@ -58,7 +62,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 		{
 			ReplaceModelWithOriginalModel();
 			
-			SubStateMachine.OnDestroy();
+			SubStateMachine?.OnDestroy();
 		}
 
 		protected virtual void CreateStateMachine()

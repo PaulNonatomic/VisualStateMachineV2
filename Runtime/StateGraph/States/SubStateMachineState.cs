@@ -5,7 +5,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 {
 	public class SubStateMachineState : BaseSubStateMachineState
 	{
-		[Transition]
+		[Transition(frameDelay:0)]
 		public event Action OnComplete;
 		
 		protected override void OnSubStateComplete(State state, StateMachineModel model)

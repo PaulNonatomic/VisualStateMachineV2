@@ -33,8 +33,6 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 
 		public virtual void PopulateGraph(NodeGraphDataModel model)
 		{
-			if (!model) return;
-			
 			StateManager.SetModel(model);
 			ClearGraph();
 		}
@@ -117,7 +115,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			PopulateGraph(model);
 		}
 
-		private void ClearGraph()
+		protected virtual void ClearGraph()
 		{
 			DeleteElements(graphElements);
 		}
