@@ -48,12 +48,17 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			_toolBar.SetModel(stateModel);
 			_footerBar.SetGridPosition(StateManager.GridPosition);
 			_footerBar.SetModel(stateModel);
-
+		
 			base.PopulateGraph(model);
 			AddEntryNode(stateModel);
 
+			//A delay is required to allow the entry node time to be added
 			EditorApplication.delayCall += () =>
 			{
+				//It's possible that the delayCall is invoked multiple times when entering run time
+				//This just prevents adding the nodes multiple times
+				if (nodes.ToList().Count > 0) return;
+				
 				AddNodes(stateModel);
 				AddEdges(stateModel);
 				

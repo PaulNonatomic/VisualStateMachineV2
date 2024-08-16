@@ -8,7 +8,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 	[NodeWidth(width:190), NodeColor(NodeColor.Teal), NodeIcon(NodeIcon.Clock)]
 	public class DelayState : BaseDelayState
 	{
-		[Transition]
+		[Transition(frameDelay:0)]
 		public event Action OnComplete;
 		
 		[NonSerialized]
@@ -22,16 +22,14 @@ namespace Nonatomic.VSM2.StateGraph.States
 		public override void OnUpdateState()
 		{
 			_elapsedTime += Time.deltaTime;
-			
-			if (_elapsedTime >= Duration)
-			{
-				OnComplete?.Invoke();
-			}
+
+			if (_elapsedTime < Duration) return;
+			OnComplete?.Invoke();
 		}
 
 		public override void OnExitState()
 		{
-			
+			//...
 		}
 	}
 }

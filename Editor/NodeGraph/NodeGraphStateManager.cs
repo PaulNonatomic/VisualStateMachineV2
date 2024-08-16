@@ -77,6 +77,8 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 
 		public void SetModel(NodeGraphDataModel model)
 		{
+			if (!model) return;
+			
 			Model = model;
 			SaveState();
 		}
