@@ -9,6 +9,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 	{
 		public event Action<Vector2> OnCreateNewStateNode;
 		public event Action<Vector2> OnCreateNewStickyNote;
+		public event Action<Vector2> OnCreateNewStack;
 		public event Action<NodeView> OnDeleteStateNode;
 		public event Action<StateNodeEdge> OnDeleteEdgeContext;
 
@@ -54,6 +55,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			evt.menu.AppendAction("Add Sticky Note", action
 				=> OnCreateNewStickyNote?.Invoke(action.eventInfo.mousePosition));
+			
+			evt.menu.AppendAction("Add Stack", action
+				=> OnCreateNewStack?.Invoke(action.eventInfo.mousePosition));
 		}
 	}
 }

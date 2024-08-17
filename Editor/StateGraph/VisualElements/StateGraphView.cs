@@ -4,6 +4,7 @@ using System.Linq;
 using Nonatomic.VSM2.Editor.NodeGraph;
 using Nonatomic.VSM2.Editor.Persistence;
 using Nonatomic.VSM2.Editor.StateGraph.Nodes;
+using Nonatomic.VSM2.Editor.StateGraph.Stacks;
 using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
@@ -148,6 +149,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			_contextMenu = new StateGraphContextMenu(this);
 			_contextMenu.OnCreateNewStateNode += HandleCreateNewStateNode;
 			_contextMenu.OnCreateNewStickyNote += HandleCreateNewStickyNote;
+			_contextMenu.OnCreateNewStack += HandleCreateNewStack;
 			_contextMenu.OnDeleteEdgeContext += HandleDeleteEdge;
 			_contextMenu.OnDeleteStateNode += HandleDeleteStateNode;
 		}
@@ -162,6 +164,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			_toolBar.OnSave -= HandleSave;
 			_contextMenu.OnCreateNewStateNode -= HandleCreateNewStateNode;
 			_contextMenu.OnCreateNewStickyNote -= HandleCreateNewStickyNote;
+			_contextMenu.OnCreateNewStack -= HandleCreateNewStack;
 			_contextMenu.OnDeleteEdgeContext -= HandleDeleteEdge;
 			_contextMenu.OnDeleteStateNode -= HandleDeleteStateNode;
 		}
@@ -255,6 +258,13 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			CreateNewStateNode(position, typeof(StickyNoteState));
 		}
+		
+		private void HandleCreateNewStack(Vector2 position)
+		{
+			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
+			
+			CreateNewStack(position);
+		}
 
 		private void HandleCreateNewStateNode(Vector2 position)
 		{
@@ -277,6 +287,18 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			var nodeData = StateGraphNodeFactory.MakeStateNodeData(model, stateType, nodePosition);
 			var nodeView = StateGraphNodeFactory.MakeNode(this, nodeData, model);
 			AddElement(nodeView);
+		}
+		
+		private void CreateNewStack(Vector2 position)
+		{
+			var nodePosition = GraphUtils.ScreenPointToGraphPointWithZoom(position, this);
+			var stackView = new BaseStackNodeView();
+			
+			var rect = stackView.GetPosition();
+			rect.position = nodePosition;
+			stackView.SetPosition(rect);
+			
+			AddElement(stackView);
 		}
 
 		private void MakeFooterBar()
