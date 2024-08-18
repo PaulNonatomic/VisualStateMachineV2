@@ -7,7 +7,6 @@ using Nonatomic.VSM2.Editor.StateGraph.Nodes;
 using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
-using Nonatomic.VSM2.StateGraph.Attributes;
 using Nonatomic.VSM2.StateGraph.States;
 using Nonatomic.VSM2.Utils;
 using UnityEditor;
@@ -150,6 +149,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			_contextMenu.OnCreateNewStickyNote += HandleCreateNewStickyNote;
 			_contextMenu.OnDeleteEdgeContext += HandleDeleteEdge;
 			_contextMenu.OnDeleteStateNode += HandleDeleteStateNode;
+			_contextMenu.OnCopyStateNode += HandleCopyStateNode;
 		}
 
 		protected override void HandleLeavePanel(DetachFromPanelEvent evt)
@@ -164,6 +164,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			_contextMenu.OnCreateNewStickyNote -= HandleCreateNewStickyNote;
 			_contextMenu.OnDeleteEdgeContext -= HandleDeleteEdge;
 			_contextMenu.OnDeleteStateNode -= HandleDeleteStateNode;
+			_contextMenu.OnCopyStateNode -= HandleCopyStateNode;
 		}
 		
 		private void HandleSave()
@@ -233,6 +234,17 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		private void HandleGridPositionChanged(Vector2 position)
 		{
 			_footerBar.SetGridPosition(StateManager.GridPosition);
+		}
+
+		private void HandleCopyStateNode()
+		{
+			var selectedNodeModels = selection
+				.OfType<BaseStateNodeView>()
+				.Select(node => node.NodeModel)
+				.ToList();
+
+			var copy = new CopiedData(selectedNodeModels);
+			var data = copy.Serialize();
 		}
 
 		private void HandleDeleteStateNode(NodeView nodeView)

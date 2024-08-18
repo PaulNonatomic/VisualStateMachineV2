@@ -10,11 +10,15 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		public event Action<Vector2> OnCreateNewStateNode;
 		public event Action<Vector2> OnCreateNewStickyNote;
 		public event Action<NodeView> OnDeleteStateNode;
+		public event Action OnCopyStateNode;
 		public event Action<StateNodeEdge> OnDeleteEdgeContext;
+		
+		private readonly NodeGraphView _graphView;
 
 		public StateGraphContextMenu(NodeGraphView graphView)
 		{
-			graphView.RegisterCallback<ContextualMenuPopulateEvent>(BuildContextMenu);
+			_graphView = graphView;
+			_graphView.RegisterCallback<ContextualMenuPopulateEvent>(BuildContextMenu);
 		}
 
 		private void BuildContextMenu(ContextualMenuPopulateEvent evt)
@@ -39,6 +43,12 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			evt.menu.AppendAction("Delete", action 
 				=> OnDeleteStateNode?.Invoke(nodeView));
+
+			if (_graphView.selection.Count > 0)
+			{
+				evt.menu.AppendAction("Copy", action 
+					=> OnCopyStateNode?.Invoke());
+			}
 		}
 
 		private void BuildStateEdgeContext(ContextualMenuPopulateEvent evt, StateNodeEdge edge)
@@ -54,6 +64,12 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			evt.menu.AppendAction("Add Sticky Note", action
 				=> OnCreateNewStickyNote?.Invoke(action.eventInfo.mousePosition));
+			
+			if (_graphView.selection.Count > 0)
+			{
+				evt.menu.AppendAction("Copy", action 
+					=> OnCopyStateNode?.Invoke());
+			}
 		}
 	}
 }
