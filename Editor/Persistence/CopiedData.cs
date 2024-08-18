@@ -9,10 +9,12 @@ namespace Nonatomic.VSM2.Editor.Persistence
 	public class CopiedData
 	{
 		public List<StateNodeModel> SelectedNodes;
+		public List<StateTransitionModel> SelectedTransitions;
 
-		public CopiedData(List<StateNodeModel> selectedNodes)
+		public CopiedData(List<StateNodeModel> selectedNodes, List<StateTransitionModel> selectedTransitions)
 		{
 			SelectedNodes = selectedNodes;
+			SelectedTransitions = selectedTransitions;
 		}
 
 		public string Serialize()

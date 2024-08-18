@@ -5,6 +5,7 @@ using System.Reflection;
 using Nonatomic.VSM2.Logging;
 using Nonatomic.VSM2.NodeGraph;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Nonatomic.VSM2.StateGraph
 {
@@ -84,6 +85,30 @@ namespace Nonatomic.VSM2.StateGraph
 			var events = type.GetEvents(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
 			
 			SynchronizePortData(events, OutputPorts);
+		}
+		
+		public StateNodeModel Clone()
+		{
+			var clone = (StateNodeModel) this.MemberwiseClone();
+			
+			if (State)
+			{
+				clone.State = Object.Instantiate(State);
+			}
+
+			clone.InputPorts = new List<PortModel>();
+			foreach (var inputPort in InputPorts)
+			{
+				clone.InputPorts.Add(inputPort.Clone());
+			}
+
+			clone.OutputPorts = new List<PortModel>();
+			foreach (var outputPort in OutputPorts)
+			{
+				clone.OutputPorts.Add(outputPort.Clone()); // Assuming PortModel has a Clone method
+			}
+
+			return clone;
 		}
 		
 		private void ToggleEventSubscriptionByName(object targetObject, string eventName, StateTransitionModel transition, bool subscribe)

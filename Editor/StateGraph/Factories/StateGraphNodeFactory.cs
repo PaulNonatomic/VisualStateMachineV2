@@ -41,14 +41,19 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			var state = ScriptableObject.CreateInstance(stateType) as State;
 			if (!state) return null;
-			
-			state.name = $"{stateType.Name}-{GUID.Generate()}";
+
+			state.name = GenerateStateName(stateType);
 			var stateNode = new StateNodeModel(state, position);
 			model.AddState(stateNode);
 
 			return stateNode;
 		}
 
+		public static string GenerateStateName(Type stateType)
+		{
+			return  $"{stateType.Name}-{GUID.Generate()}";
+		}
+		
 		private static Type GetViewTypeByStateType(Type stateType)
 		{
 			return _stateTypeToNodeViewType.TryGetValue(stateType, out var value) 

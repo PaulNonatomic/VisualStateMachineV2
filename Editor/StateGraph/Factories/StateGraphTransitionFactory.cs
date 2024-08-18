@@ -66,7 +66,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			{
 				input = inputPort,
 				output = outputPort,
-				userData = transitionModel
+				userData = transitionModel,
+				name = GenerateEdgeName(inputPort, outputPort)
 			};
 		
 			var position = edge.GetPosition();
@@ -78,6 +79,16 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			graphView.AddElement(edge);
 
 			return edge;
+		}
+
+		public static string GenerateEdgeName(TransitionModel model)
+		{
+			return  $"Edge-{model.OriginNodeId}-{model.DestinationNodeId}";
+		}
+		
+		public static string GenerateEdgeName(Port inputPort, Port outputPort)
+		{
+			return  $"Edge-{inputPort.node.name}-{outputPort.node.name}";
 		}
 	}
 }

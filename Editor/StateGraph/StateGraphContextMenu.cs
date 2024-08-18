@@ -10,7 +10,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		public event Action<Vector2> OnCreateNewStateNode;
 		public event Action<Vector2> OnCreateNewStickyNote;
 		public event Action<NodeView> OnDeleteStateNode;
-		public event Action OnCopyStateNode;
+		public event Action OnDeleteSelection;
+		public event Action OnCopySelected;
+		public event Action OnPasteSelected;
 		public event Action<StateNodeEdge> OnDeleteEdgeContext;
 		
 		private readonly NodeGraphView _graphView;
@@ -47,7 +49,13 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			if (_graphView.selection.Count > 0)
 			{
 				evt.menu.AppendAction("Copy", action 
-					=> OnCopyStateNode?.Invoke());
+					=> OnCopySelected?.Invoke());
+			}
+			
+			if (CopyPasteHelper.LastCopy != null)
+			{
+				evt.menu.AppendAction("Paste", action 
+					=> OnPasteSelected?.Invoke());
 			}
 		}
 
@@ -68,7 +76,16 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			if (_graphView.selection.Count > 0)
 			{
 				evt.menu.AppendAction("Copy", action 
-					=> OnCopyStateNode?.Invoke());
+					=> OnCopySelected?.Invoke());
+				
+				evt.menu.AppendAction("Delete", action 
+					=> OnDeleteSelection?.Invoke());
+			}
+
+			if (CopyPasteHelper.LastCopy != null)
+			{
+				evt.menu.AppendAction("Paste", action 
+					=> OnPasteSelected?.Invoke());
 			}
 		}
 	}
