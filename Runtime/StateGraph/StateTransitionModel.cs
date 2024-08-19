@@ -10,7 +10,7 @@ namespace Nonatomic.VSM2.StateGraph
 		public event Action OnTransitionBegin;
 		public event Action OnTransitionUpdate;
 		public event Action OnTransitionEnd;
-
+		
 		public StateTransitionModel(string originNodeId, PortModel originPort, string destinationNodeId, PortModel destinationPort)
 		{
 			OriginNodeId = originNodeId;
@@ -50,6 +50,12 @@ namespace Nonatomic.VSM2.StateGraph
 		public int GetHashCode(TransitionModel obj)
 		{
 			return HashCode.Combine(obj.OriginNodeId, obj.DestinationNodeId, obj.OriginPort, obj.DestinationPort);
+		}
+		
+		public StateTransitionModel Clone()
+		{
+			var clone = new StateTransitionModel(this.OriginNodeId, this.OriginPort, this.DestinationNodeId, this.DestinationPort);
+			return clone;
 		}
 	}
 }

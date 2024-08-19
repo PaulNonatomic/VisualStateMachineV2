@@ -13,8 +13,8 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 	public class NodeGraphView : GraphView
 	{
 		public event Action<Vector2> OnGridPositionChanged;
-
-		protected NodeGraphStateManager StateManager;
+		public NodeGraphStateManager StateManager;
+		
 		protected Vector2 MousePosition;
 
 		public NodeGraphView(string id)
