@@ -34,7 +34,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 																				destinationNodeId, 
 																				destinationPortModel);
 			
-			var transitionView = StateGraphTransitionFactory.MakeTransitionView(graphView, transitionData);
+			StateGraphTransitionFactory.MakeTransitionView(graphView, transitionData);
 		}
 		
 		public static StateTransitionModel MakeTransitionData(Edge edge)
@@ -51,16 +51,32 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		public static StateNodeEdge MakeTransitionView(GraphView graphView, StateTransitionModel transitionModel)
 		{
 			var originNode = graphView.contentViewContainer.Q<NodeView>(transitionModel.OriginNodeId);
-			if(originNode == null) throw new Exception("Failed to create edge because of missing origin node");
+			if (originNode == null)
+			{
+				Debug.LogWarning($"Failed to create transition because of missing origin node with id:{transitionModel.OriginNodeId}");
+				return null;
+			}
 				
 			var destinationNode = graphView.contentViewContainer.Q<NodeView>(transitionModel.DestinationNodeId);
-			if(destinationNode == null) throw new Exception("Failed to create edge because of missing destination node");
+			if (destinationNode == null)
+			{
+				Debug.LogWarning($"Failed to create transition because of missing destination node with id:{transitionModel.DestinationNodeId}");
+				return null;
+			}
 				
 			var inputPort = destinationNode.Q<Port>(transitionModel.DestinationPort.Id, "port", "input");
-			if(inputPort == null) throw new Exception("Failed to create edge because of missing input port");
+			if (inputPort == null)
+			{
+				Debug.LogWarning($"Failed to create transition because of missing input port with id:{transitionModel.DestinationPort.Id}");
+				return null;
+			}
 				
 			var outputPort = originNode.Q<Port>(transitionModel.OriginPort.Id, "port", "output");
-			if(outputPort == null) throw new Exception("Failed to create edge because of missing output port");
+			if (outputPort == null)
+			{
+				Debug.LogWarning($"Failed to create transition because of missing output port with id:{transitionModel.OriginPort.Id}");
+				return null;
+			}
 
 			var edge = new StateNodeEdge()
 			{

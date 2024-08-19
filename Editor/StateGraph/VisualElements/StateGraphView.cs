@@ -242,101 +242,14 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		private void HandleCopySelected()
 		{
-			var selectedNodeModels = selection
-				.OfType<BaseStateNodeView>()
-				.Select(node => node.NodeModel)
-				.ToList();
-			
-			var selectedTransitions = selection
-				.OfType<StateNodeEdge>()
-				.Select(edge => (StateTransitionModel) edge.userData)
-				.ToList();
-
-			var copy = new CopiedData(selectedNodeModels, selectedTransitions);
-			CopyPasteHelper.CacheCopiedData(copy);
+			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
+			CopyPasteHelper.Copy(this);
 		}
 
 		private void HandlePasteSelected()
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			if (CopyPasteHelper.LastCopy == null) return;
-
-			var model = StateManager.Model as StateMachineModel;
-			if (!model) return;
-			
-			var copy = CopyPasteHelper.LastCopy;
-			var clonedNodes = copy.SelectedNodes.Select(node => node.Clone()).ToList();
-			var clonedTransition = copy.SelectedTransitions.Select(trans => trans.Clone()).ToList();
-
-			//rename node states
-			foreach (var node in clonedNodes)
-			{
-				//prevent copying entry nodes
-				if (node.State is EntryState) continue;
-				
-				//Provide new GUIDs for the pasted node models
-				node.Id = node.State.name = StateGraphNodeFactory.GenerateStateName(node.State.GetType());
-				
-				//Offset node positions so the pasted nodes don't overlap
-				node.Position.x += 50;
-				node.Position.y += 50;
-				
-				//Save nodes
-				model.AddState(node);
-			}
-			
-			//remap transitions
-			foreach (var transition in clonedTransition)
-			{
-				var originNodeIndex = copy.SelectedNodes.FindIndex(node => node.Id.Equals(transition.OriginNodeId));
-				if (originNodeIndex > -1)
-				{
-					var clonedOriginNode = clonedNodes[originNodeIndex];
-					transition.OriginNodeId = clonedOriginNode.Id;
-					transition.OriginPort = clonedOriginNode.OutputPorts.FirstOrDefault(port => port.Id.Equals(transition.OriginPort.Id));
-				}
-				else
-				{
-					var existingOriginNode = contentViewContainer.Q<BaseStateNodeView>(transition.OriginNodeId);
-					if (existingOriginNode == null) continue;
-					
-					transition.OriginNodeId = existingOriginNode.NodeModel.Id;
-					transition.OriginPort = existingOriginNode.NodeModel.OutputPorts.FirstOrDefault(port => port.Id.Equals(transition.OriginPort.Id));
-				}
-				
-				var destinationNodeIndex = copy.SelectedNodes.FindIndex(node => node.Id.Equals(transition.DestinationNodeId));
-				if (destinationNodeIndex > -1)
-				{
-					var clonedDestinationNode = clonedNodes[destinationNodeIndex];
-					transition.DestinationNodeId = clonedDestinationNode.Id;
-					transition.DestinationPort = clonedDestinationNode.InputPorts.FirstOrDefault(port => port.Id.Equals(transition.DestinationPort.Id));
-				}
-				else
-				{
-					var existingDestinationNode = contentViewContainer.Q<BaseStateNodeView>(transition.DestinationNodeId);
-					if (existingDestinationNode == null) continue;
-					
-					transition.OriginNodeId = existingDestinationNode.NodeModel.Id;
-					transition.OriginPort = existingDestinationNode.NodeModel.OutputPorts.FirstOrDefault(port => port.Id.Equals(transition.DestinationPort.Id));
-				}
-				
-				//Save transition
-				model.AddTransition(transition);
-			}
-			
-			PopulateGraph(model);
-			
-			//Select the pasted nodes
-			EditorApplication.delayCall += () =>
-			{
-				selection.Clear();
-				
-				foreach (var node in clonedNodes)
-				{
-					var originNode = contentViewContainer.Q<NodeView>(node.Id);
-					originNode?.Select(this, true);
-				}
-			};
+			CopyPasteHelper.Paste(this);
 		}
 		
 		private void HandleDeleteSelection()
