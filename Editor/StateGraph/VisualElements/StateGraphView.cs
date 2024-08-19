@@ -29,11 +29,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			MakeToolBar();
 			MakeFooterBar();
-		}
-
-		protected override void MakeStateManager(string id)
-		{
-			StateManager = new StateNodeGraphStateManager(id);
+			RegisterCallback<KeyDownEvent>(OnKeyDown);
 		}
 
 		public void PopulateGraph(NodeGraphDataModel model, bool recentre)
@@ -69,7 +65,34 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			PopulateGraph(model, recentre: true);
 		}
-		
+
+		protected override void MakeStateManager(string id)
+		{
+			StateManager = new StateNodeGraphStateManager(id);
+		}
+
+		private void OnKeyDown(KeyDownEvent evt)
+		{
+			HandleCopyAndPasteKeys(evt);
+		}
+
+		private void HandleCopyAndPasteKeys(KeyDownEvent evt)
+		{
+			if (!evt.ctrlKey && !evt.commandKey) return;
+			
+			switch (evt.keyCode)
+			{
+				case KeyCode.C:
+					HandleCopySelected();
+					evt.StopPropagation();
+					break;
+				case KeyCode.V:
+					HandlePasteSelected();
+					evt.StopPropagation();
+					break;
+			}
+		}
+
 		private static void AddEntryNode(StateMachineModel stateModel)
 		{
 			if(!stateModel) return;
