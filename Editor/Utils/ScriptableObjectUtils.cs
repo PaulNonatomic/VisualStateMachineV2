@@ -30,5 +30,18 @@ namespace Nonatomic.VSM2.Editor.Utils
 
 			return asset;
 		}
+		
+		/// <summary>
+		/// Clones the specified ScriptableObject.
+		/// </summary>
+		/// <typeparam name="T">Type of the ScriptableObject.</typeparam>
+		/// <param name="original">The original ScriptableObject to clone.</param>
+		/// <returns>A deep copy of the original ScriptableObject.</returns>
+		public static T Clone<T>(T original) where T : ScriptableObject
+		{
+			if (!original) return null;
+			
+			return Object.Instantiate(original);
+		}
 	}
 }
