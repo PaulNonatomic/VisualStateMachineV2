@@ -76,6 +76,12 @@ it could cause a stack overflow. To prevent this a delay of 1 frame has been add
 can be configured on a per transition bases by passing a frameDelay value through the Transition attribute, but please use
 with caution as a frameDelay of 0 can cause a stack overflow.
 
+## Copy & Paste
+The State Machine Editor supports copy and paste within and between state machines.
+
+https://github.com/user-attachments/assets/09c1b644-c519-4bfd-8c29-4b0771d8d8b6
+
+
 ## License
 VisualStateMachineV2 is licensed under the MIT license
 
