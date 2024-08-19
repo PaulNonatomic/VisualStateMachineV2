@@ -20,27 +20,24 @@ To install Visual State Machine in your Unity project, follow these steps:
 1. Create a state machine asset from the project panel. Right click -> Create -> State Machine -> State Machine
 2. Either right click and select "Add State" or drag out from the Entry State
 
-![Unity_EQDqu8DdM8](https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/b8d9f18e-d168-49c1-9e02-f0df852ba086)
+https://github.com/user-attachments/assets/ff8fb491-fc7a-4658-8ee0-de0ddb2e8c0b
 
 3. The State Selection window appears listing all available states.
     - States are grouped by namespace with the inbuilt states appearing at the top.
     - The group of states nearest to the location of the state machine asset will open by default but all states remain accessible.
 
-![Unity_X0jYSx6JRS](https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/4eadac81-df9d-4793-943b-144a704d409a)
+![Unity_QcTKNF3bSr](https://github.com/user-attachments/assets/05eb3410-81ef-4085-860c-d95683d24b8b)
 
 4. Create a custom state. Here's the built in DelayState as an example.
 - Add a Transition attribute to an exposed event Action in order for it to appear upon the states node in the State Machine Editor
 - Serialized and public properties are also exposed in the states node in the State Machine Editor. Note fields should be populated with value types and assets and not scene types.
 
 ```cs
-[NodeWidth(width:190), NodeColor(NodeColor.Teal), NodeIcon(NodeIcon.V2_Clock)]
-public class DelayState : State
+[NodeWidth(width:190), NodeColor(NodeColor.Teal), NodeIcon(NodeIcon.Clock)]
+public class DelayState : BaseDelayState
 {
-    [Transition]
+    [Transition(frameDelay:0)]
     public event Action OnComplete;
-    
-    [SerializeField, Tooltip("Duration in seconds")] 
-    public float Duration = 1f;
     
     [NonSerialized]
     private float _elapsedTime;
@@ -53,16 +50,14 @@ public class DelayState : State
     public override void OnUpdateState()
     {
         _elapsedTime += Time.deltaTime;
-        
-        if (_elapsedTime >= Duration)
-        {
-            OnComplete?.Invoke();
-        }
+
+        if (_elapsedTime < Duration) return;
+        OnComplete?.Invoke();
     }
 
     public override void OnExitState()
     {
-        
+        //...
     }
 }
 ```
@@ -73,7 +68,7 @@ public class DelayState : State
 ## Loops with Jump Nodes
 Add JumpOutState state and set it's Id. Then create a JumpInState with the corresponding Id to jump from one node to another.
 
-https://github.com/PaulNonatomic/VisualStateMachineV2/assets/4581647/17fbb675-1a77-4117-bd2b-1c0f9c3e79a5
+https://github.com/user-attachments/assets/35715234-e532-464b-9031-4b7780efd3ef
 
 ## Transition Delay
 The process of transitioning between nodes originally incurred no delay at all but when wiring up a looping state machine
