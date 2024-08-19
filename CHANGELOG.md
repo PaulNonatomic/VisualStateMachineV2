@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.6.6-beta] - Aug 18, 2024
+## [0.7.0-beta] - Aug 19, 2024
 - Added support for copy & paste
 
 ## [0.6.5-beta] - Aug 16, 2024
