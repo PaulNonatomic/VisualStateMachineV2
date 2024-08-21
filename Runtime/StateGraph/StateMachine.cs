@@ -206,7 +206,7 @@ namespace Nonatomic.VSM2.StateGraph
 			}
 			catch (Exception ex)
 			{
-				throw new Exception(ex.Message);
+				throw ex;
 			}
 		}
 

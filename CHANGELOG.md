@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.7.1-beta] - Aug 21, 2024
+- Amended the exception forwarding of StateMachine to throw the original exception rather than wrapping it. This improves debugging errors in states.
+
 ## [0.7.0-beta] - Aug 19, 2024
 - Added support for copy & paste
 
