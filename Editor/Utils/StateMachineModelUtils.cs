@@ -1,4 +1,5 @@
-﻿using Nonatomic.VSM2.NodeGraph;
+﻿using System;
+using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
 
 namespace Nonatomic.VSM2.Editor.Utils
@@ -28,6 +29,9 @@ namespace Nonatomic.VSM2.Editor.Utils
 		
 		public static PortModel UpdateTransitionPortDataFromState(StateNodeModel nodeModel, PortModel currentPortModel)
 		{
+			if (nodeModel == null) return currentPortModel;
+			if (!nodeModel.State) return currentPortModel;
+			
 			var stateType = nodeModel.State.GetType();
 			
 			var eventInfo = stateType.GetEvent(currentPortModel.Id);
