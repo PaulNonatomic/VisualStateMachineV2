@@ -15,6 +15,7 @@ namespace Nonatomic.VSM2.StateGraph
 	{
 		public event Action<State, StateMachineModel> OnComplete;
 		
+		public State State => _currentNode?.State;
 		public StateMachineModel Model { get; private set; }
 		public bool IsComplete { get; private set; }
 		
