@@ -46,6 +46,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		
 			base.PopulateGraph(model);
 			AddEntryNode(stateModel);
+			AddAnyNode(stateModel);
 
 			//A delay is required to allow the entry node time to be added
 			EditorApplication.delayCall += () =>
@@ -98,6 +99,13 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			if(!stateModel) return;
 			if (stateModel.HasState<EntryState>()) return;
 			StateGraphNodeFactory.MakeStateNodeData(stateModel, typeof(EntryState), Vector2.zero);
+		}
+
+		private static void AddAnyNode(StateMachineModel stateModel)
+		{
+			if(!stateModel) return;
+			if (stateModel.HasState<AnyState>()) return;
+			StateGraphNodeFactory.MakeStateNodeData(stateModel, typeof(AnyState), new Vector2(0,-75));
 		}
 
 		public override EventPropagation DeleteSelection()

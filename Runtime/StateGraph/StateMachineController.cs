@@ -27,6 +27,11 @@ namespace Nonatomic.VSM2.StateGraph
 		private bool _activated;
 		private bool _started;
 
+		public void TransitionTo(string id)
+		{
+			//would need to some how transition from the any state to a connected node based on the destination node id
+		}
+
 		/// <summary>
 		/// Changes the StateMachineModel and reinitializes the state machine.
 		/// If the GameObject is active and has already started, it will also call Start and Enter on the new state machine.

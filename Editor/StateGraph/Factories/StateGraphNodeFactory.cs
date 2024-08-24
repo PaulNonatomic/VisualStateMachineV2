@@ -14,6 +14,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		private static readonly Dictionary<Type, Type> _stateTypeToNodeViewType = new ()
 		{
 			{typeof(EntryState), typeof(EntryNodeView)},
+			{typeof(AnyState), typeof(AnyNodeView)},
 			{typeof(ExitState), typeof(ExitNodeView)},
 			{typeof(JumpInState), typeof(JumpNodeView)},
 			{typeof(JumpOutState), typeof(JumpNodeView)},

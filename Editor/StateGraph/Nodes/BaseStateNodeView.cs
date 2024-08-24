@@ -10,6 +10,7 @@ using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.Attributes;
 using Nonatomic.VSM2.Utils;
+using NUnit.Framework.Interfaces;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
@@ -242,6 +243,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		protected virtual void UpdateGlowBorder()
 		{
 			if (GlowBorder == null) return;
+			if (NodeModel.LastActive == 0) return;
 			
 			var timeElapsed = Time.time - NodeModel.LastActive;
 			var timeOpacity = 1.0f - Mathf.Clamp01(timeElapsed / 1f);
