@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.8.1-beta] - Aug 25, 2024
+- Refactored the CommandState (Available when using the ScriptableCommands package) to better handle exceptions and clean up of cancellation tokens.
+
 ## [0.8.0-beta] - Aug 25, 2024
 - Added support for shared data between states. The SharedData object is a generic data store.
   - States can access shared data via `this.SharedData`
