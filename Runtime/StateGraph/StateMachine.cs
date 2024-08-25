@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Nonatomic.VSM2.Data;
 using Nonatomic.VSM2.Logging;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph.States;
@@ -14,7 +15,9 @@ namespace Nonatomic.VSM2.StateGraph
 	public class StateMachine
 	{
 		public event Action<State, StateMachineModel> OnComplete;
-		
+
+		public ISharedData SharedData { get; }
+
 		public State State => _currentNode?.State;
 		public StateMachineModel Model { get; private set; }
 		public bool IsComplete { get; private set; }
@@ -24,14 +27,17 @@ namespace Nonatomic.VSM2.StateGraph
 		private Dictionary<string, List<StateTransitionModel>> _transitionLookup = new();
 		private Dictionary<JumpId, StateNodeModel> _jumpNodeLookup = new();
 		private CancellationTokenSource _cancellationTokenSource = new();
-		
+
 		public StateMachine(StateMachineModel model, GameObject gameObject)
 		{
-			Model = StateMachineModel.CreateInstance(model);
-			Model.Initialize(gameObject, this);
-
-			CreateNodeLookupTable();
-			CreateTransitionLookupTable();
+			SharedData = new SharedData();
+			Initialize(model, gameObject);
+		}
+		
+		public StateMachine(StateMachineModel model, GameObject gameObject, ISharedData sharedData = null)
+		{
+			SharedData = sharedData ?? new SharedData();
+			Initialize(model, gameObject);
 		}
 
 		public void Update()
@@ -80,7 +86,7 @@ namespace Nonatomic.VSM2.StateGraph
 			_currentNode.Exit();
 			IsComplete = true;
 		}
-		
+
 		public void JumpTo(JumpId jumpId)
 		{
 			if (!_jumpNodeLookup.TryGetValue(jumpId, out var nextNode))
@@ -113,6 +119,15 @@ namespace Nonatomic.VSM2.StateGraph
 			Model = null;
 		}
 
+		private void Initialize(StateMachineModel model, GameObject gameObject)
+		{
+			Model = StateMachineModel.CreateInstance(model);
+			Model.Initialize(gameObject, this, SharedData);
+
+			CreateNodeLookupTable();
+			CreateTransitionLookupTable();
+		}
+
 		private void CreateTransitionLookupTable()
 		{
 			_transitionLookup.Clear();
@@ -127,7 +142,7 @@ namespace Nonatomic.VSM2.StateGraph
 				_transitionLookup[transition.OriginNodeId].Add(transition);
 			}
 		}
-		
+
 		private void CreateNodeLookupTable()
 		{
 			_nodeLookup.Clear();
