@@ -6,7 +6,7 @@ namespace Nonatomic.VSM2.NodeGraph
 	[Serializable]
 	public class TransitionModel
 	{
-		public event Action<TransitionModel> OnTransition;
+		public event Action<TransitionModel, TransitionEventData> OnTransition;
 		
 		public string OriginNodeId;
 		public string DestinationNodeId;
@@ -14,28 +14,15 @@ namespace Nonatomic.VSM2.NodeGraph
 		public PortModel OriginPort;
 		public PortModel DestinationPort;
 		
-		private Delegate _onTransitionWithArg;
-		
 		public void Transition()
 		{
-			Debug.Log("Transition");
-			OnTransition?.Invoke(this);
+			OnTransition?.Invoke(this, TransitionEventData.Empty);
 		}
 		
 		public void Transition<T>(T value)
 		{
-			Debug.Log($"Transition<T>:{value}");
-			(_onTransitionWithArg as Action<TransitionModel, T>)?.Invoke(this, value);
-		}
-		
-		private void AddTransitionHandler<T>(Action<TransitionModel, T> handler)
-		{
-			_onTransitionWithArg = Delegate.Combine(_onTransitionWithArg, handler);
-		}
-
-		private void RemoveTransitionHandler<T>(Action<TransitionModel, T> handler)
-		{
-			_onTransitionWithArg = Delegate.Remove(_onTransitionWithArg, handler);
+			var eventData = new TransitionEventData(value, typeof(T));
+			OnTransition?.Invoke(this, eventData);
 		}
 	}
 }

@@ -125,3 +125,7 @@ flex-direction: column;
     width: 80%;
     height: auto;
 }
+
+/*.port.output.typed #type {*/
+/*    color: greenyellow;*/
+/*}*/

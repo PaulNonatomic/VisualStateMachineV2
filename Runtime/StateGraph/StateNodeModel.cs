@@ -41,12 +41,14 @@ namespace Nonatomic.VSM2.StateGraph
 			State?.OnStartState();
 		}
 
-		public void Enter()
+		public void Enter(TransitionEventData eventData)
 		{
 			if (Active) return;
 			
 			Active = true;
 			LastActive = Time.time;
+
+			State.TransitionData = eventData;
 			State?.OnEnterState();
 		}
 
@@ -111,23 +113,6 @@ namespace Nonatomic.VSM2.StateGraph
 			return clone;
 		}
 		
-		private void ToggleEventSubscriptionByName(object targetObject, string eventName, StateTransitionModel transition, bool subscribe)
-		{
-			var eventInfo = targetObject.GetType().GetEvent(eventName);
-			if (eventInfo == null) return;
-			
-			var handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, nameof(transition.Transition));
-
-			if (subscribe)
-			{
-				eventInfo.AddEventHandler(targetObject, handler);
-			}
-			else
-			{
-				eventInfo.RemoveEventHandler(targetObject, handler);
-			}
-		}
-
 		private void SynchronizePortData(EventInfo[] eventInfos, List<PortModel> portDatas)
 		{
 			var eventInfoNames = new HashSet<string>();
@@ -264,11 +249,12 @@ namespace Nonatomic.VSM2.StateGraph
 				if (attributes.Length == 0) continue;
 
 				var eventType = eventInfo.EventHandlerType;
+				
 				if (!eventType.IsGenericType || eventType.GetGenericTypeDefinition() != typeof(Action<>))
 				{
 					if (eventType != typeof(Action)) continue;
 				}
-
+				
 				var attribute = (TransitionAttribute)attributes[0];
 				var portModel = attribute.GetPortData(eventInfo, OutputPorts.Count);
 				OutputPorts.Add(portModel);

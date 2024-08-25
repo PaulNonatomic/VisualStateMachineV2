@@ -1,6 +1,7 @@
 ﻿#pragma warning disable 0067
 
 using Nonatomic.VSM2.Data;
+using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph.Attributes;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace Nonatomic.VSM2.StateGraph
 		public GameObject GameObject { get; set; }
 		public StateMachine StateMachine { get; set; }
 		public ISharedData SharedData { get; set; }
+		public TransitionEventData TransitionData { get; set; }
 
 		public abstract void OnEnterState();
 		public abstract void OnExitState();

@@ -76,7 +76,7 @@ namespace Nonatomic.VSM2.StateGraph
 			IsComplete = false;
 			SubscribeToNode(_currentNode);
 
-			_currentNode.Enter();
+			_currentNode.Enter(TransitionEventData.Empty);
 		}
 
 		public void Exit()
@@ -97,7 +97,7 @@ namespace Nonatomic.VSM2.StateGraph
 
 			if (nextNode == null) return;
 
-			TriggerAsyncTransition(nextNode);
+			TriggerAsyncTransition(nextNode, TransitionEventData.Empty);
 		}
 
 		public void OnDestroy()
@@ -187,13 +187,29 @@ namespace Nonatomic.VSM2.StateGraph
 				// Assuming you have defined AddTransitionHandler<T> and RemoveTransitionHandler<T> in StateTransitionModel
 				if (subscribe)
 				{
-					var addMethod = typeof(StateTransitionModel).GetMethod("AddTransitionHandler")?.MakeGenericMethod(argumentType);
-					addMethod?.Invoke(transition, new object[] { Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, "Transition") });
+					var method = typeof(StateTransitionModel).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+						.Where(m => m.Name == "Transition" && m.IsGenericMethodDefinition)
+						.FirstOrDefault(m => m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == m.GetGenericArguments()[0]);
+
+					if (method == null) return;
+					var genericMethod = method.MakeGenericMethod(argumentType);
+					var handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, genericMethod);
+					
+					eventInfo.AddEventHandler(targetObject, handler);
+					transition.OnTransition += HandleTransition;
 				}
 				else
 				{
-					var removeMethod = typeof(StateTransitionModel).GetMethod("RemoveTransitionHandler")?.MakeGenericMethod(argumentType);
-					removeMethod?.Invoke(transition, new object[] { Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, "Transition") });
+					var method = typeof(StateTransitionModel).GetMethods(BindingFlags.Public | BindingFlags.Instance)
+						.Where(m => m.Name == "Transition" && m.IsGenericMethodDefinition)
+						.FirstOrDefault(m => m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == m.GetGenericArguments()[0]);
+
+					if (method == null) return;
+					var genericMethod = method.MakeGenericMethod(argumentType);
+					var handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, genericMethod);
+					
+					eventInfo.RemoveEventHandler(targetObject, handler);
+					transition.OnTransition -= HandleTransition;
 				}
 			}
 			else if (eventInfo.EventHandlerType == typeof(Action)) // Handle non-generic Action
@@ -203,14 +219,16 @@ namespace Nonatomic.VSM2.StateGraph
 				if (subscribe)
 				{
 					eventInfo.AddEventHandler(targetObject, handler);
+					transition.OnTransition += HandleTransition;
 				}
 				else
 				{
 					eventInfo.RemoveEventHandler(targetObject, handler);
+					transition.OnTransition -= HandleTransition;
 				}
 			}
 		}
-
+		
 		private void UnsubscribeFromNode(StateNodeModel node)
 		{
 			if (node == null)
@@ -225,26 +243,26 @@ namespace Nonatomic.VSM2.StateGraph
 				ToggleEventSubscriptionByName(node.State, transition, false);
 			}
 		}
-
-		private void HandleTransition(TransitionModel transition)
+	
+		private void HandleTransition(TransitionModel transition, TransitionEventData eventData)
 		{
 			var nextNode = _nodeLookup[transition.DestinationNodeId];
-			TriggerAsyncTransition(nextNode, transition.OriginPort.FrameDelay);
+			TriggerAsyncTransition(nextNode, eventData, transition.OriginPort.FrameDelay);
 		}
 
-		private async void TriggerAsyncTransition(StateNodeModel nextNode, int frameDelay = 0)
+		private async void TriggerAsyncTransition(StateNodeModel nextNode, TransitionEventData eventData, int frameDelay = 0)
 		{
 			try
 			{
-				await TransitionAsync(nextNode, frameDelay).ConfigureAwait(false);
+				await TransitionAsync(nextNode, eventData, frameDelay).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
 				throw ex;
 			}
 		}
-
-		private async Task TransitionAsync(StateNodeModel nextNode, int frameDelay = 0)
+		
+		private async Task TransitionAsync(StateNodeModel nextNode, TransitionEventData eventData, int frameDelay = 0)
 		{
 			try
 			{
@@ -274,7 +292,7 @@ namespace Nonatomic.VSM2.StateGraph
 				if (_currentNode == null) return;
 				
 				SubscribeToNode(_currentNode);
-				_currentNode.Enter();
+				_currentNode.Enter(eventData);
 			}
 			catch (OperationCanceledException canceledException)
 			{
