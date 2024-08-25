@@ -1,4 +1,5 @@
 ﻿using System;
+using Nonatomic.VSM2.StateGraph.States;
 using UnityEngine;
 
 namespace Nonatomic.VSM2.StateGraph
@@ -12,6 +13,8 @@ namespace Nonatomic.VSM2.StateGraph
 		/// Gets the unique identifier for this controller.
 		/// </summary>
 		public string Id => _id;
+
+		public State State => _stateMachine?.State;
 		
 		/// <summary>
 		/// Gets the current StateMachineModel, either from the active state machine or the serialized field.
@@ -26,6 +29,15 @@ namespace Nonatomic.VSM2.StateGraph
 		private StateMachine _stateMachine;
 		private bool _activated;
 		private bool _started;
+
+		/// <summary>
+		/// Jumps to a state via a JumpIn state using the JumpId to identify the JumpIn node.
+		/// </summary>
+		/// <param name="id">The JumpIn id of the destination JumpIn node</param>
+		public void JumpTo(JumpId id)
+		{
+			_stateMachine?.JumpTo(id);
+		}
 
 		/// <summary>
 		/// Changes the StateMachineModel and reinitializes the state machine.
