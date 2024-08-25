@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -178,18 +179,35 @@ namespace Nonatomic.VSM2.StateGraph
 			var eventName = transition.OriginPort.Id;
 			var eventInfo = targetObject.GetType().GetEvent(eventName);
 			if (eventInfo == null) return;
-			
-			var handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, nameof(transition.Transition));
 
-			if (subscribe)
+			if (eventInfo.EventHandlerType.IsGenericType && eventInfo.EventHandlerType.GetGenericTypeDefinition() == typeof(Action<>))
 			{
-				eventInfo.AddEventHandler(targetObject, handler);
-				transition.OnTransition += HandleTransition;
+				var argumentType = eventInfo.EventHandlerType.GenericTypeArguments[0]; // Get the <T> in Action<T>
+
+				// Assuming you have defined AddTransitionHandler<T> and RemoveTransitionHandler<T> in StateTransitionModel
+				if (subscribe)
+				{
+					var addMethod = typeof(StateTransitionModel).GetMethod("AddTransitionHandler")?.MakeGenericMethod(argumentType);
+					addMethod?.Invoke(transition, new object[] { Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, "Transition") });
+				}
+				else
+				{
+					var removeMethod = typeof(StateTransitionModel).GetMethod("RemoveTransitionHandler")?.MakeGenericMethod(argumentType);
+					removeMethod?.Invoke(transition, new object[] { Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, "Transition") });
+				}
 			}
-			else
+			else if (eventInfo.EventHandlerType == typeof(Action)) // Handle non-generic Action
 			{
-				eventInfo.RemoveEventHandler(targetObject, handler);
-				transition.OnTransition -= HandleTransition;
+				var handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, "Transition");
+
+				if (subscribe)
+				{
+					eventInfo.AddEventHandler(targetObject, handler);
+				}
+				else
+				{
+					eventInfo.RemoveEventHandler(targetObject, handler);
+				}
 			}
 		}
 

@@ -257,14 +257,20 @@ namespace Nonatomic.VSM2.StateGraph
 		{
 			var type = state.GetType();
 			var events = type.GetEvents(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-			for (var index = 0; index < events.Length; index++)
+			
+			foreach (var eventInfo in events)
 			{
-				var eventInfo = events[index];
 				var attributes = eventInfo.GetCustomAttributes(typeof(TransitionAttribute), false);
 				if (attributes.Length == 0) continue;
-				
-				var attribute = (TransitionAttribute) attributes[0];
-				var portModel = attribute.GetPortData(eventInfo, index);
+
+				var eventType = eventInfo.EventHandlerType;
+				if (!eventType.IsGenericType || eventType.GetGenericTypeDefinition() != typeof(Action<>))
+				{
+					if (eventType != typeof(Action)) continue;
+				}
+
+				var attribute = (TransitionAttribute)attributes[0];
+				var portModel = attribute.GetPortData(eventInfo, OutputPorts.Count);
 				OutputPorts.Add(portModel);
 			}
 		}
