@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Nonatomic.VSM2.Data;
 using Nonatomic.VSM2.Logging;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.Utils;
@@ -178,7 +179,7 @@ namespace Nonatomic.VSM2.StateGraph
 			}
 		}
 
-		public void Initialize(GameObject gameObject, StateMachine stateMachine)
+		public void Initialize(GameObject gameObject, StateMachine stateMachine, ISharedData sharedData)
 		{
 			if (!gameObject || stateMachine == null) return;
 
@@ -191,6 +192,7 @@ namespace Nonatomic.VSM2.StateGraph
 				
 				instantiatedState.GameObject = gameObject;
 				instantiatedState.StateMachine = stateMachine;
+				instantiatedState.SharedData = sharedData;
 				stateNode.State = instantiatedState;
 				stateNode.Awake();
 			}

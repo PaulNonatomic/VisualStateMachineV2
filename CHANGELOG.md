@@ -1,10 +1,15 @@
 # Change Log
 
+## [0.8.0-beta] - Aug 25, 2024
+- Added support for shared data between states. The SharedData object is a generic data store.
+  - States can access shared data via `this.SharedData`
+- Shared data is exposed externally to the statemachine via StateMachineController.SharedData.
+
 ## [0.7.2-beta] - Aug 24, 2024
 - Exposed the JumpTo method on the StateMachineController
   - This allows users to manually trigger a JumpIn node externally broadening the use-cases for the VSM
 - Exposed the State member of the StateMachine through a public State member of the StateMachineController
-  - This allows users to determine the current state and to directly call methods upon externally.
+  - This allows users to determine the current state and to directly call methods upon it externally.
   - I experimented with implementing a StatePattern with all States implementing a common interface.
 
 ## [0.7.1-beta] - Aug 21, 2024

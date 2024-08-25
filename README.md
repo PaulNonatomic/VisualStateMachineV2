@@ -81,6 +81,46 @@ The State Machine Editor supports copy and paste within and between state machin
 
 https://github.com/user-attachments/assets/09c1b644-c519-4bfd-8c29-4b0771d8d8b6
 
+## Shared Data
+States have access to a shared data store
+
+```cs
+public class StateOne : State
+{
+    [Transition] public event Action OnComplete;
+
+    public override void OnEnterState()
+    {
+        SharedData.SetData("age", 42);
+        OnComplete?.Invoke();
+    }
+
+    public override void OnExitState()
+    {
+        //...
+    }
+}
+    
+public class StateTwo : State
+{
+    [Transition] public event Action OnComplete;
+    
+    public override void OnEnterState()
+    {
+        var age = SharedData.GetData<int>("age");
+        Debug.Log($"StateTwo - Age:{age}");
+        
+        OnComplete?.Invoke();
+    }
+
+    public override void OnExitState()
+    {
+        //...
+    }
+}
+```
+
+This same data store is exposed externally to the state machine through the StateMachineController.SharedData
 
 ## License
 VisualStateMachineV2 is licensed under the MIT license

@@ -1,4 +1,5 @@
 ﻿using System;
+using Nonatomic.VSM2.Data;
 using Nonatomic.VSM2.StateGraph.States;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ namespace Nonatomic.VSM2.StateGraph
 		public string Id => _id;
 
 		public State State => _stateMachine?.State;
+		public ISharedData SharedData => _stateMachine.SharedData;
 		
 		/// <summary>
 		/// Gets the current StateMachineModel, either from the active state machine or the serialized field.
