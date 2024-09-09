@@ -21,24 +21,35 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		public override void OnEnterState()
 		{
-			ExecuteCommands();
+			_cts = new CancellationTokenSource();
+			_ = ExecuteCommands();
 		}
 
 		public override void OnExitState()
 		{
-			//...
+			if (_cts == null) return;
+			
+			_cts.Cancel();
+			_cts.Dispose();
+			_cts = null;
 		}
 
-		private async void ExecuteCommands()
+		private async Task ExecuteCommands()
 		{
-			await ExecuteCommandsAsync();
+			try
+			{
+				await ExecuteCommandsAsync();
+			}
+			catch (Exception ex)
+			{
+				Debug.LogError($"Error executing commands: {ex}");
+			}
+			
 			OnComplete?.Invoke();
 		}
 
 		private async Task ExecuteCommandsAsync()
 		{
-			_cts = new CancellationTokenSource();
-
 			try
 			{
 				foreach (var command in _commands)
@@ -49,10 +60,6 @@ namespace Nonatomic.VSM2.StateGraph.States
 			catch (OperationCanceledException)
 			{
 				Debug.Log("Command execution was cancelled.");
-			}
-			finally
-			{
-				_cts?.Dispose();
 			}
 		}
 	}
