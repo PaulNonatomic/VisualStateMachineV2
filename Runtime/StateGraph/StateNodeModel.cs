@@ -47,9 +47,31 @@ namespace Nonatomic.VSM2.StateGraph
 			
 			Active = true;
 			LastActive = Time.time;
-
 			State.TransitionData = eventData;
-			State?.OnEnterState();
+			
+			if (eventData.HasValue)
+			{
+				var type = State.GetType();
+				var method = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+					.FirstOrDefault(x => x.Name == "OnEnterState" && 
+										 x.GetParameters().Length == 1 && 
+										 x.GetParameters()[0].ParameterType == eventData.Type);
+				
+				if (method == null) return;
+				
+				try
+				{
+					method.Invoke(State, new[] { eventData.Value });
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine("Error invoking method: " + ex.Message);
+				}
+			}
+			else
+			{
+				State?.OnEnterState();
+			}
 		}
 
 		public void Update()
@@ -231,11 +253,44 @@ namespace Nonatomic.VSM2.StateGraph
 		
 		private void CreateInputPorts(State state)
 		{
-			InputPorts.Add(new PortModel()
+			// InputPorts.Add(new PortModel()
+			// {
+			// 	Id = "OnEnterState",
+			// 	PortLabel = "EnterState",
+			// 	Index = 0
+			// });
+
+			var methods = state.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance)
+				.Where(x => x.Name == "OnEnterState")
+				.ToList();
+
+			for (var i = 0; i < methods.Count; i++)
 			{
-				Id = "OnEnterState",
-				Index = 0
-			});
+				var method = methods[i];
+				var parameters = method.GetParameters();
+
+				if (parameters.Length == 0)
+				{
+					InputPorts.Add(new PortModel()
+					{
+						Id = "OnEnterState",
+						PortLabel = "OnEnterState",
+						Index = i
+					});
+				}
+				else
+				{
+					var param = parameters[0];
+					
+					InputPorts.Add(new PortModel()
+					{
+						Id = $"OnEnterState<{param.ParameterType.Name}>",
+						PortLabel = $"OnEnterState<{param.ParameterType.Name}>",
+						Index = i,
+						PortType = param.ParameterType
+					});
+				}
+			}
 		}
 
 		private void CreateOutputPorts(State state)

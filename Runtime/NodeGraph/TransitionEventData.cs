@@ -6,15 +6,14 @@ namespace Nonatomic.VSM2.NodeGraph
 	public struct TransitionEventData
 	{
 		public static readonly TransitionEventData Empty = new (null, null);
-		public bool HasValue => _value != null;
-		
-		private object _value;
-		private Type _valueType;
+		public bool HasValue => Value != null;
+		public object Value { get; }
+		public Type Type { get; }
 
 		public TransitionEventData(object value, Type valueType)
 		{
-			_value = value;
-			_valueType = valueType;
+			Value = value;
+			Type = valueType;
 		}
 		
 		public T GetValueOrDefault<T>(T defaultValue = default)
@@ -26,24 +25,24 @@ namespace Nonatomic.VSM2.NodeGraph
 		
 		public T GetValue<T>()
 		{
-			if (_value == null)
+			if (Value == null)
 			{
 				throw new InvalidOperationException("No value is present.");
 			}
 			
-			if (typeof(T) != _valueType && !_valueType.IsAssignableFrom(typeof(T)))
+			if (typeof(T) != Type && !Type.IsAssignableFrom(typeof(T)))
 			{
-				throw new InvalidCastException($"Cannot cast value of type '{_valueType.Name}' to '{typeof(T).Name}'.");
+				throw new InvalidCastException($"Cannot cast value of type '{Type.Name}' to '{typeof(T).Name}'.");
 			}
 			
-			return (T)_value;
+			return (T)Value;
 		}
 	
 		public bool TryGetValue<T>(out T result)
 		{
-			if (_value != null && _valueType == typeof(T))
+			if (Value != null && Type == typeof(T))
 			{
-				result = (T)_value;
+				result = (T)Value;
 				return true;
 			}
 			
@@ -53,7 +52,7 @@ namespace Nonatomic.VSM2.NodeGraph
 		
 		public bool HasValueOfType<T>()
 		{
-			return _value != null && _valueType == typeof(T);
+			return Value != null && Type == typeof(T);
 		}
 	}
 }

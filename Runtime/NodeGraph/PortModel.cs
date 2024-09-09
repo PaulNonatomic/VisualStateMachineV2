@@ -11,6 +11,7 @@ namespace Nonatomic.VSM2.NodeGraph
 		public string PortLabel;
 		public string PortColor;
 		public Type TransitionType;
+		public Type PortType;
 
 		public PortModel Clone()
 		{
@@ -21,7 +22,8 @@ namespace Nonatomic.VSM2.NodeGraph
 				FrameDelay = FrameDelay,
 				PortLabel = PortLabel,
 				PortColor = PortColor,
-				TransitionType = TransitionType
+				TransitionType = TransitionType,
+				PortType = PortType
 			};
 		}
 	}
