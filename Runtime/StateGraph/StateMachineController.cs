@@ -36,7 +36,7 @@ namespace Nonatomic.VSM2.StateGraph
 		/// Jumps to a state via a JumpIn state using the JumpId to identify the JumpIn node.
 		/// </summary>
 		/// <param name="id">The JumpIn id of the destination JumpIn node</param>
-		public void JumpTo(JumpId id)
+		public virtual void JumpTo(JumpId id)
 		{
 			_stateMachine?.JumpTo(id);
 		}
@@ -73,7 +73,7 @@ namespace Nonatomic.VSM2.StateGraph
 		/// <summary>
 		/// Initializes the state machine when the script instance is being loaded.
 		/// </summary>
-		public void Awake()
+		public virtual void Awake()
 		{
 			CreateStateMachine();
 			_activated = _stateMachine != null;
@@ -83,7 +83,7 @@ namespace Nonatomic.VSM2.StateGraph
 		/// Starts the state machine if it has been activated.
 		/// This is called on the frame when a script is enabled just before any of the Update methods are called the first time.
 		/// </summary>
-		public void Start()
+		public virtual void Start()
 		{
 			if(!_activated) return;
 			
@@ -96,7 +96,7 @@ namespace Nonatomic.VSM2.StateGraph
 		/// Updates the state machine if it has been activated.
 		/// This is called every frame, if the MonoBehaviour is enabled.
 		/// </summary>
-		public void Update()
+		public virtual void Update()
 		{
 			if (!_activated) return;
 			_stateMachine?.Update();
@@ -106,7 +106,7 @@ namespace Nonatomic.VSM2.StateGraph
 		/// Performs physics-based updates on the state machine if it has been activated.
 		/// This is called every fixed framerate frame, if the MonoBehaviour is enabled.
 		/// </summary>
-		public void FixedUpdate()
+		public virtual void FixedUpdate()
 		{
 			if (!_activated) return;
 			_stateMachine?.FixedUpdate();
@@ -115,7 +115,7 @@ namespace Nonatomic.VSM2.StateGraph
 		/// <summary>
 		/// Cleans up the state machine when the MonoBehaviour will be destroyed.
 		/// </summary>
-		public void OnDestroy()
+		public virtual void OnDestroy()
 		{
 			if (!_activated) return;
 			_stateMachine?.OnDestroy();
