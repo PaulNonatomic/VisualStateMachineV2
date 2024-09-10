@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.8.2-beta] - Sept 09, 2024
+- Added TryGetData and HasData methods to the SharedData class
+
 ## [0.8.1-beta] - Aug 25, 2024
 - Refactored the CommandState (Available when using the ScriptableCommands package) to better handle exceptions and clean up of cancellation tokens.
 
