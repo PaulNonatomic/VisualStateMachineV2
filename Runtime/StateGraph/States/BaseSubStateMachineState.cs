@@ -15,10 +15,12 @@ namespace Nonatomic.VSM2.StateGraph.States
 		public StateMachineModel Model
 		{
 			get => _model;
-			protected set => _model = value;
+			set => _model = value;
 		}
 
 		[SerializeField] private StateMachineModel _model;
+		private bool _started;
+		private bool _entered;
 
 		public override void OnAwakeState()
 		{
@@ -29,12 +31,14 @@ namespace Nonatomic.VSM2.StateGraph.States
 		public override void OnStartState()
 		{
 			SubStateMachine?.Start();
+			_started = true;
 		}
 
 		public override void OnEnterState()
 		{
 			if(SubStateMachine == null) return;
-			
+
+			_entered = true;
 			SubStateMachine.Model.SetParent(SubStateMachine.Model);
 			SubStateMachine.OnComplete += OnSubStateComplete;
 			SubStateMachine.Enter();
@@ -56,6 +60,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			
 			SubStateMachine.OnComplete -= OnSubStateComplete;
 			SubStateMachine.Exit();
+			_entered = false;
 		}
 
 		public override void OnDestroyState()
@@ -63,6 +68,23 @@ namespace Nonatomic.VSM2.StateGraph.States
 			ReplaceModelWithOriginalModel();
 			
 			SubStateMachine?.OnDestroy();
+		}
+		
+		protected virtual void SwitchModel(StateMachineModel value)
+		{
+			if (!value) return;
+			
+			SubStateMachine?.OnDestroy();
+			SubStateMachine = null;
+			
+			_model = value;
+			CreateStateMachine();
+
+			if (!GameObject.activeInHierarchy || !_started) return;
+			SubStateMachine?.Start();
+
+			if (!_entered) return;
+			SubStateMachine?.Enter();
 		}
 
 		protected virtual void CreateStateMachine()
