@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Nonatomic.VSM2.Editor.StateGraph.Nodes;
 using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
@@ -23,6 +24,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		
 		public void OnDropOutsidePort(Edge edge, Vector2 position)
 		{
+			Debug.Log("OnDropOutsidePort");
 			if (Application.isPlaying) return;
 			OnDropOutsideOutputPort(edge, position);
 		}
@@ -50,29 +52,40 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				
 				var originNodeId = droppedEdgeOutput.node.name;
 				var originPortData = droppedEdgeUserData as PortModel;
-				var destinationNodeId = nodeData.Id;
-				var destinationPortData = nodeData.InputPorts[0];
+				if(originPortData == null) return;
 				
+				var destinationNodeId = nodeData.Id;
+				var destinationPorts = nodeData.InputPorts;
+				var validPort = destinationPorts.FirstOrDefault(p => p.PortTypeName == originPortData.PortTypeName);
+				if (validPort == null) return;
+				
+				Debug.Log("OnDropOutside success");
 				StateGraphTransitionFactory.MakeTransition(_graphView, 
 														   _stateMachineModel, 
 														   originNodeId, 
 														   originPortData, 
 														   destinationNodeId, 
-														   destinationPortData);
+														   validPort);
 			}, filterOut);
 		}
 		
 		public void OnDrop(GraphView graphView, Edge edge)
 		{
+			Debug.Log("OnDrop");
 			if (Application.isPlaying) return;
 			if (edge.output == null || edge.input == null) return;
-			
+
 			var originNodeId = edge.output.node.name;
 			var originPortModel = edge.output.userData as PortModel;
+			if (originPortModel == null) return;
 			
 			var destinationNodeId = edge.input.node.name;
 			var destinationPortModel = edge.input.userData as PortModel;
+			if (destinationPortModel == null) return;
 			
+			if (originPortModel.PortTypeName != destinationPortModel.PortTypeName) return;
+			
+			Debug.Log("OnDrop success");
 			StateGraphTransitionFactory.MakeTransition(_graphView, 
 													   _stateMachineModel, 
 													   originNodeId, 

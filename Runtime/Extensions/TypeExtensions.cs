@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Nonatomic.VSM2.Editor.Extensions
+namespace Nonatomic.VSM2.Extensions
 {
 	public static class TypeExtensions
 	{

@@ -1,4 +1,6 @@
 ﻿using System;
+using Nonatomic.VSM2.Extensions;
+using UnityEngine.Serialization;
 
 namespace Nonatomic.VSM2.NodeGraph
 {
@@ -10,7 +12,7 @@ namespace Nonatomic.VSM2.NodeGraph
 		public int FrameDelay = 1;
 		public string PortLabel;
 		public string PortColor;
-		public Type TransitionType;
+		public string PortTypeName;
 		public Type PortType;
 
 		public PortModel Clone()
@@ -22,9 +24,15 @@ namespace Nonatomic.VSM2.NodeGraph
 				FrameDelay = FrameDelay,
 				PortLabel = PortLabel,
 				PortColor = PortColor,
-				TransitionType = TransitionType,
-				PortType = PortType
+				PortType = PortType,
+				PortTypeName = PortTypeName
 			};
+		}
+
+		public void SetPortType(Type type)
+		{
+			PortType = type;
+			PortTypeName = type.GetSimplifiedName() ?? string.Empty;
 		}
 	}
 }

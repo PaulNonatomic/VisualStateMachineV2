@@ -52,20 +52,29 @@ namespace Nonatomic.VSM2.StateGraph
 			if (eventData.HasValue)
 			{
 				var type = State.GetType();
-				var method = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
-					.FirstOrDefault(x => x.Name == "OnEnterState" && 
-										 x.GetParameters().Length == 1 && 
-										 x.GetParameters()[0].ParameterType == eventData.Type);
+				var methods = type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+					.Where(m => m.GetCustomAttribute<EnterAttribute>() != null)
+					.ToList();
+
+				var method = methods.FirstOrDefault(m => 
+					m.GetParameters().Length == 1 && 
+					m.GetParameters()[0].ParameterType == eventData.Type);
 				
-				if (method == null) return;
-				
-				try
+				if (method != null)
 				{
-					method.Invoke(State, new[] { eventData.Value });
+					try
+					{
+						method.Invoke(this, new[] { eventData.Value });
+					}
+					catch (Exception ex)
+					{
+						Debug.LogError($"Error invoking OnEnterState method: {ex.Message}");
+					}
 				}
-				catch (Exception ex)
+				else
 				{
-					Console.WriteLine("Error invoking method: " + ex.Message);
+					// If no matching method is found, call the parameterless OnEnterState
+					State?.OnEnterState();
 				}
 			}
 			else
@@ -253,43 +262,23 @@ namespace Nonatomic.VSM2.StateGraph
 		
 		private void CreateInputPorts(State state)
 		{
-			// InputPorts.Add(new PortModel()
-			// {
-			// 	Id = "OnEnterState",
-			// 	PortLabel = "EnterState",
-			// 	Index = 0
-			// });
-
-			var methods = state.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance)
-				.Where(x => x.Name == "OnEnterState")
+			var type = state.GetType();
+			var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+				.Where(m => m.GetCustomAttribute<EnterAttribute>() != null)
 				.ToList();
 
+			if (methods.Count == 0)
+			{
+				AddDefaultOnEnterStatePort(0);
+				return;
+			}
+			
 			for (var i = 0; i < methods.Count; i++)
 			{
 				var method = methods[i];
-				var parameters = method.GetParameters();
-
-				if (parameters.Length == 0)
-				{
-					InputPorts.Add(new PortModel()
-					{
-						Id = "OnEnterState",
-						PortLabel = "OnEnterState",
-						Index = i
-					});
-				}
-				else
-				{
-					var param = parameters[0];
-					
-					InputPorts.Add(new PortModel()
-					{
-						Id = $"OnEnterState<{param.ParameterType.Name}>",
-						PortLabel = $"OnEnterState<{param.ParameterType.Name}>",
-						Index = i,
-						PortType = param.ParameterType
-					});
-				}
+				var attribute = method.GetCustomAttribute<EnterAttribute>();
+				var portModel = attribute.GetPortData(method, methodIndex:i);
+				InputPorts.Add(portModel);
 			}
 		}
 
@@ -314,6 +303,16 @@ namespace Nonatomic.VSM2.StateGraph
 				var portModel = attribute.GetPortData(eventInfo, OutputPorts.Count);
 				OutputPorts.Add(portModel);
 			}
+		}
+
+		private void AddDefaultOnEnterStatePort(int index)
+		{
+			InputPorts.Add(new PortModel()
+			{
+				Id = "Enter",
+				PortLabel = "Enter",
+				Index = index
+			});
 		}
 	}
 }

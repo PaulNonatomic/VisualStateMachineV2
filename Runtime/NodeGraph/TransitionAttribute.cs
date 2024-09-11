@@ -29,7 +29,7 @@ namespace Nonatomic.VSM2.NodeGraph
 			var args = eventInfo.EventHandlerType.GenericTypeArguments;
 			if (args.Length > 0)
 			{
-				_portModel.TransitionType = args[0];
+				_portModel.SetPortType(args[0]);
 			}
 			
 			return _portModel;

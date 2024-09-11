@@ -2,7 +2,7 @@
 
 .node {
     min-width: 280px;
-    max-width: 340px;
+    max-width: 540px;
 }
 
 .node #title {

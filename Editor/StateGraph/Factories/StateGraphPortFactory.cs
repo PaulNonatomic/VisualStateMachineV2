@@ -1,6 +1,6 @@
-﻿using Nonatomic.VSM2.Editor.Extensions;
-using Nonatomic.VSM2.Editor.NodeGraph;
+﻿using Nonatomic.VSM2.Editor.NodeGraph;
 using Nonatomic.VSM2.Editor.Utils;
+using Nonatomic.VSM2.Extensions;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
 using UnityEditor.Experimental.GraphView;
@@ -35,10 +35,10 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				port.portColor = color;
 			}
 			
-			if (portModel.TransitionType != null)
+			if (!string.IsNullOrEmpty(portModel.PortTypeName))
 			{
 				var colorHex = ColorUtility.ToHtmlStringRGB(port.portColor);
-				port.portName += $"<color={portModel.PortColor}><b><i><{portModel.TransitionType.GetSimplifiedName()}></color></b></i>";
+				port.portName += $"<color={portModel.PortColor}><b><i><size=11><{portModel.PortTypeName}></color></b></i>";
 				port.AddToClassList("typed");
 			}
 			
