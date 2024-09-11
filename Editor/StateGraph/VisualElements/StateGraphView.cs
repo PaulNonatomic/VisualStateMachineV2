@@ -278,12 +278,15 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		private void HandleDeleteSelection()
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			
-			var selectedNodeModels = selection
-				.OfType<NodeView>()
-				.ToList();
-			
-			DeleteNodes(selectedNodeModels);
+
+			for (var index = this.selection.Count - 1; index >= 0; index--)
+			{
+				var item = this.selection[index];
+				if (item is VisualElement element)
+				{
+					element.RemoveFromHierarchy();
+				}
+			}
 		}
 
 		private void HandleDeleteStateNode(NodeView nodeView)
