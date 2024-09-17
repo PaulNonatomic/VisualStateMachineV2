@@ -1,5 +1,8 @@
 # Change Log
 
+# [0.8.5-beta] - Sept 17, 2024
+- Fix for deleting a selection via the context menu
+
 ## [0.8.4-beta] - Sept 11, 2024
 - SharedData.ClearData is now Obsolete and will be removed in a future release. Use SharedData.ClearAllData instead.
 - Added SharedData.ClearAllData method to clear all shared data.
