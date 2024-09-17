@@ -279,11 +279,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
 			
-			var selectedNodeModels = selection
-				.OfType<NodeView>()
-				.ToList();
-			
-			DeleteNodes(selectedNodeModels);
+			DeleteSelection();
 		}
 
 		private void HandleDeleteStateNode(NodeView nodeView)

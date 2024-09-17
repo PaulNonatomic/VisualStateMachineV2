@@ -1,8 +1,5 @@
 # Change Log
 
-## [0.8.3-beta] - Sept 10, 2024
-- Added support for switching SubStateMachine models at runtime
-
 ## [0.8.2-beta] - Sept 09, 2024
 - Added TryGetData and HasData methods to the SharedData class
 

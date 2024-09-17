@@ -24,6 +24,8 @@ namespace Nonatomic.VSM2.Extensions
 
 		public static string GetSimplifiedName(this Type type)
 		{
+			if (type == null) return string.Empty;
+			
 			if (TypeAliases.TryGetValue(type, out var alias))
 			{
 				return alias;

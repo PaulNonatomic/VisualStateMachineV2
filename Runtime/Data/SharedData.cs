@@ -8,11 +8,17 @@ namespace Nonatomic.VSM2.Data
 	{
 		event Action<string, object> OnDataChanged;
 		event Action OnDataCleared;
+		event Action<string> OnDataRemoved;
 		
 		T GetData<T>(string key);
 		bool TryGetData<T>(string key, out T value);
 		bool HasData(string key);
 		void SetData<T>(string key, T value);
+		void RemoveData(string key);
+		void ClearAllData();
+		IEnumerable<string> GetKeys();
+		
+		[Obsolete("Use ClearAllData() instead. This method will be removed in a future version.")]
 		void ClearData();
 	}
 	
@@ -20,6 +26,7 @@ namespace Nonatomic.VSM2.Data
 	{
 		public event Action<string, object> OnDataChanged;
 		public event Action OnDataCleared;
+		public event Action<string> OnDataRemoved;
 		
 		private readonly Dictionary<string, object> _data = new Dictionary<string, object>();
 		private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
@@ -95,7 +102,23 @@ namespace Nonatomic.VSM2.Data
 			}
 		}
 		
-		public void ClearData()
+		public void RemoveData(string key)
+		{
+			_lock.EnterWriteLock();
+			try
+			{
+				if (_data.Remove(key))
+				{
+					OnDataRemoved?.Invoke(key);
+				}
+			}
+			finally
+			{
+				_lock.ExitWriteLock();
+			}
+		}
+		
+		public void ClearAllData()
 		{
 			_lock.EnterWriteLock();
 			try
@@ -106,6 +129,25 @@ namespace Nonatomic.VSM2.Data
 			finally
 			{
 				_lock.ExitWriteLock();
+			}
+		}
+		
+		[Obsolete("Use ClearAllData() instead. This method will be removed in a future version.")]
+		public void ClearData()
+		{
+			ClearAllData();
+		}
+		
+		public IEnumerable<string> GetKeys()
+		{
+			_lock.EnterReadLock();
+			try
+			{
+				return _data.Keys;
+			}
+			finally
+			{
+				_lock.ExitReadLock();
 			}
 		}
 	}

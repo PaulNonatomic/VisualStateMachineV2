@@ -56,6 +56,8 @@ namespace Nonatomic.VSM2.Editor.Persistence
 			
 			try
 			{
+				model?.SelfValidate();
+				
 				EditorUtility.DisplayProgressBar("Saving State Machine Model", "Saving model...", 0.5f);
 				UpdateAndMarkModelDirty(model);
 				AssetDatabase.SaveAssets();

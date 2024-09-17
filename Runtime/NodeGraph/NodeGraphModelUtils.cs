@@ -16,8 +16,8 @@ namespace Nonatomic.VSM2.NodeGraph
 			destinationPort ??= destinationNode.InputPorts.FirstOrDefault(port => port.Index == transition.DestinationPort.Index);
 			
 			//Warn if ports are missing
-			if(originPort != null) GraphLog.LogWarning($"Origin port {transition.OriginPort.Id} not found");
-			if(destinationPort != null) GraphLog.LogWarning($"Destination port {transition.DestinationPort.Id} not found");
+			if(originPort == null) GraphLog.LogWarning($"Origin port {transition.OriginPort.Id} not found on node {originNode.Id}");
+			if(destinationPort == null) GraphLog.LogWarning($"Destination port {transition.DestinationPort.Id} not found on node {destinationNode.Id}");
 
 			return (originPort != null && destinationPort != null);
 		}

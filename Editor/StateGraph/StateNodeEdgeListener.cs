@@ -24,7 +24,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		
 		public void OnDropOutsidePort(Edge edge, Vector2 position)
 		{
-			Debug.Log("OnDropOutsidePort");
 			if (Application.isPlaying) return;
 			OnDropOutsideOutputPort(edge, position);
 		}
@@ -71,7 +70,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		
 		public void OnDrop(GraphView graphView, Edge edge)
 		{
-			Debug.Log("OnDrop");
 			if (Application.isPlaying) return;
 			if (edge.output == null || edge.input == null) return;
 
@@ -85,7 +83,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			
 			if (originPortModel.PortTypeName != destinationPortModel.PortTypeName) return;
 			
-			Debug.Log("OnDrop success");
 			StateGraphTransitionFactory.MakeTransition(_graphView, 
 													   _stateMachineModel, 
 													   originNodeId, 

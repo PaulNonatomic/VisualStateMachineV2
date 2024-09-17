@@ -3,8 +3,11 @@ using Nonatomic.VSM2.Data;
 using Nonatomic.VSM2.Logging;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.Utils;
-using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Nonatomic.VSM2.StateGraph
 {
@@ -52,6 +55,8 @@ namespace Nonatomic.VSM2.StateGraph
 					{
 						AddSubAsset(stateNodeModel.State);
 					}
+					
+					ValidateSubAssets();
 				};
 			}
 			#endif
@@ -92,6 +97,8 @@ namespace Nonatomic.VSM2.StateGraph
 					{
 						GraphLog.LogWarning("Failed to add transition");
 					}
+					
+					ValidateSubAssets();
 				};
 			}
 			#endif
@@ -158,11 +165,21 @@ namespace Nonatomic.VSM2.StateGraph
 		private void ValidateNodePorts()
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			
+	
+			bool changesMade = false;
+
 			foreach (var node in Nodes)
 			{
-				node.ValidatePorts();
+				changesMade |= node.ValidateOutputPorts();
+				changesMade |= node.ValidateInputPorts();
 			}
+
+#if UNITY_EDITOR
+			if (changesMade)
+			{
+				EditorUtility.SetDirty(this);
+			}
+#endif
 		}
 
 		private void ValidateNodes()

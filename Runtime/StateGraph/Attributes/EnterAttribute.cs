@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Reflection;
 using Nonatomic.VSM2.NodeGraph;
-using UnityEngine;
 
 namespace Nonatomic.VSM2.StateGraph
 {
-#pragma warning disable 0067
+	#pragma warning disable 0067
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 	public class EnterAttribute : Attribute
 	{

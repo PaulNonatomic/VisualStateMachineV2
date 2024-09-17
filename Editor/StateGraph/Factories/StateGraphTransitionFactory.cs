@@ -28,7 +28,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 										  string destinationNodeId, 
 										  PortModel destinationPortModel)
 		{
-			Debug.Log("Make Transition");
 			var transitionData = StateGraphTransitionFactory.MakeTransitionData(stateMachineModel, 
 																				originNodeId, 
 																				originPortModel, 

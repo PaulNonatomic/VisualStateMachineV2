@@ -43,7 +43,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 		private void BuildNodeContext(ContextualMenuPopulateEvent evt, NodeView nodeView)
 		{
-			evt.menu.AppendAction("Delete", action 
+			evt.menu.AppendAction( "Delete", action 
 				=> OnDeleteStateNode?.Invoke(nodeView));
 
 			if (_graphView.selection.Count > 0)
