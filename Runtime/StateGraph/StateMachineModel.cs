@@ -2,6 +2,7 @@
 using Nonatomic.VSM2.Data;
 using Nonatomic.VSM2.Logging;
 using Nonatomic.VSM2.NodeGraph;
+using Nonatomic.VSM2.StateGraph.Validation;
 using Nonatomic.VSM2.Utils;
 using UnityEngine;
 
@@ -38,7 +39,7 @@ namespace Nonatomic.VSM2.StateGraph
 		 */
 		public void SelfValidate()
 		{
-			ValidateSubAssets();
+			StateMachineValidator.Validate(this);
 		}
 
 		public void AddState(StateNodeModel stateNodeModel)
@@ -128,72 +129,10 @@ namespace Nonatomic.VSM2.StateGraph
 		protected override void ValidateSubAssets()
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			
+
 			base.ValidateSubAssets();
 
-			ValidateNodes();
-			ValidateNodePorts();
-			ValidateTransitions();
-		}
-
-		private void ValidateTransitions()
-		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			
-			for (var index = Transitions.Count - 1; index >= 0; index--)
-			{
-				var transition = Transitions[index];
-				var originNode = Nodes.FirstOrDefault(node => node.Id == transition.OriginNodeId);
-				var destinationNode = Nodes.FirstOrDefault(node => node.Id == transition.DestinationNodeId);
-
-				if (originNode != null && destinationNode != null)
-				{
-					if (NodeGraphModelUtils.TryGetPortsByIdWithIndexFallback(transition, originNode, destinationNode,
-														 out var originPort, out var destinationPort))
-					{
-						NodeGraphModelUtils.SyncTransitionPorts(transition, originPort, destinationPort);
-						continue;
-					}
-				}
-
-				GraphLog.LogWarning(TryRemoveTransition(transition)
-					? $"Removed invalid transition {transition}"
-					: $"Could not remove invalid transition {transition}");
-			}
-		}
-
-		private void ValidateNodePorts()
-		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-	
-			bool changesMade = false;
-
-			foreach (var node in Nodes)
-			{
-				changesMade |= node.ValidateOutputPorts();
-				changesMade |= node.ValidateInputPorts();
-			}
-
-#if UNITY_EDITOR
-			if (changesMade)
-			{
-				EditorUtility.SetDirty(this);
-			}
-#endif
-		}
-
-		private void ValidateNodes()
-		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			
-			var invalidNodes = Nodes.Where(node => !node.State).ToList();
-
-			foreach (var node in invalidNodes)
-			{
-				Debug.LogWarning(TryRemoveNode(node)
-					? $"Removed invalid node {node}"
-					: $"Could not remove invalid node {node}");
-			}
+			StateMachineValidator.Validate(this);
 		}
 
 		public void Initialize(GameObject gameObject, StateMachine stateMachine, ISharedData sharedData)

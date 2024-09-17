@@ -27,7 +27,7 @@ namespace Nonatomic.VSM2.NodeGraph
 			return true;
 		}
 
-		protected bool TryRemoveNode(T1 node)
+		public bool TryRemoveNode(T1 node)
 		{
 			if (node == null || !_nodes.Contains(node)) return false;
 
@@ -53,7 +53,7 @@ namespace Nonatomic.VSM2.NodeGraph
 			return true;
 		}
 
-		protected bool TryRemoveTransition(T2 transition)
+		public bool TryRemoveTransition(T2 transition)
 		{
 			if (!_transitions.Contains(transition)) return false;
 			
