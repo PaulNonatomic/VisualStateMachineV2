@@ -13,6 +13,7 @@ namespace Nonatomic.VSM2.NodeGraph
 		public string PortLabel;
 		public string PortColor;
 		public string PortTypeName;
+		public string PortTypeLabel;
 		public Type PortType;
 
 		public PortModel Clone()
@@ -25,14 +26,30 @@ namespace Nonatomic.VSM2.NodeGraph
 				PortLabel = PortLabel,
 				PortColor = PortColor,
 				PortType = PortType,
+				PortTypeLabel = PortTypeLabel,
 				PortTypeName = PortTypeName
+			};
+		}
+		
+		public static PortModel MakeDefaultEntryPort(int index)
+		{
+			return new PortModel()
+			{
+				Id = "OnEnterState",
+				PortLabel = "Enter",
+				Index = index,
+				FrameDelay = 0,
+				PortTypeLabel = string.Empty,
+				PortTypeName = string.Empty,
+				PortType = null
 			};
 		}
 
 		public void SetPortType(Type type)
 		{
 			PortType = type;
-			PortTypeName = type.GetSimplifiedName() ?? string.Empty;
+			PortTypeLabel = type?.GetSimplifiedName() ?? string.Empty;
+			PortTypeName = type?.FullName ?? string.Empty;
 		}
 	}
 }

@@ -69,7 +69,9 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 
 				var endPortModel = port.userData as PortModel;
 				if(endPortModel == null) continue;
-				if(startPortModel.PortTypeName != endPortModel.PortTypeName) continue;
+				
+				var blankPortTypes = string.IsNullOrEmpty(startPortModel.PortTypeName) && string.IsNullOrEmpty(endPortModel.PortTypeName);
+				if(!blankPortTypes && startPortModel.PortTypeName != endPortModel.PortTypeName) continue;
 				
 				compatiblePorts.Add(port);
 			}

@@ -38,7 +38,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			if (!string.IsNullOrEmpty(portModel.PortTypeName))
 			{
 				var colorHex = ColorUtility.ToHtmlStringRGB(port.portColor);
-				port.portName += $"<color={portModel.PortColor}><b><i><size=11><{portModel.PortTypeName}></color></b></i>";
+				port.portName += $"<color={portModel.PortColor}><b><i><size=11><{portModel.PortTypeLabel}></color></b></i>";
 				port.AddToClassList("typed");
 			}
 			

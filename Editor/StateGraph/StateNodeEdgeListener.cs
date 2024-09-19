@@ -55,10 +55,15 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				
 				var destinationNodeId = nodeData.Id;
 				var destinationPorts = nodeData.InputPorts;
-				var validPort = destinationPorts.FirstOrDefault(p => p.PortTypeName == originPortData.PortTypeName);
+				
+				var validPort = destinationPorts.FirstOrDefault(p =>
+				{
+					var blankPortTypes = string.IsNullOrEmpty(p.PortTypeName) && string.IsNullOrEmpty(originPortData.PortTypeName);
+					return blankPortTypes || p.PortTypeName == originPortData.PortTypeName;
+				});
+				
 				if (validPort == null) return;
 				
-				Debug.Log("OnDropOutside success");
 				StateGraphTransitionFactory.MakeTransition(_graphView, 
 														   _stateMachineModel, 
 														   originNodeId, 
