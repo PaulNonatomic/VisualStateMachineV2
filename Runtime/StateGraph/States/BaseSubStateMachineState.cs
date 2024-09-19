@@ -34,6 +34,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			_started = true;
 		}
 
+		[Enter]
 		public override void OnEnterState()
 		{
 			if(SubStateMachine == null) return;

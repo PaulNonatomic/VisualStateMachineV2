@@ -12,12 +12,12 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 	public static class StateGraphPortFactory
 	{
 		public static Port MakePort(GraphView graphView, 
-									StateMachineModel model, 
-									NodeView nodeView, 
-									VisualElement parent, 
-									Direction direction, 
-									Port.Capacity capacity, 
-									PortModel portModel)
+			StateMachineModel model, 
+			NodeView nodeView, 
+			VisualElement parent, 
+			Direction direction, 
+			Port.Capacity capacity, 
+			PortModel portModel)
 		{
 			var stateNodeEdgeListener = new StateNodeEdgeListener(graphView, model);
 			var edgeConnector = new EdgeConnector<StateNodeEdge>(stateNodeEdgeListener);

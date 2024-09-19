@@ -14,6 +14,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 		[NonSerialized]
 		private float _elapsedTime;
 
+		[Enter]
 		public override void OnEnterState()
 		{
 			_elapsedTime = 0f;

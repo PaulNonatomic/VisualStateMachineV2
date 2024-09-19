@@ -2,7 +2,10 @@
 using Nonatomic.VSM2.Logging;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.Utils;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace Nonatomic.VSM2.StateGraph.Validation
 {
@@ -25,7 +28,7 @@ namespace Nonatomic.VSM2.StateGraph.Validation
 
 			foreach (var node in invalidNodes)
 			{
-				bool removed = stateMachineModel.TryRemoveNode(node);
+				var removed = stateMachineModel.TryRemoveNode(node);
 				GraphLog.LogWarning(removed
 					? $"Removed invalid node {node.Id}"
 					: $"Could not remove invalid node {node.Id}");
@@ -36,7 +39,7 @@ namespace Nonatomic.VSM2.StateGraph.Validation
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
 
-			bool changesMade = false;
+			var changesMade = false;
 
 			foreach (var node in stateMachineModel.Nodes)
 			{
@@ -44,12 +47,14 @@ namespace Nonatomic.VSM2.StateGraph.Validation
 				changesMade |= StateNodeValidator.ValidateInputPorts(node);
 			}
 
-#if UNITY_EDITOR
-			if (changesMade)
+			#if UNITY_EDITOR
 			{
-				EditorUtility.SetDirty(stateMachineModel);
+				if (changesMade)
+				{
+					EditorUtility.SetDirty(stateMachineModel);
+				}
 			}
-#endif
+			#endif
 		}
 
 		private static void ValidateTransitions(StateMachineModel stateMachineModel)

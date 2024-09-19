@@ -19,7 +19,6 @@ namespace Nonatomic.VSM2.StateGraph
 		public ISharedData SharedData { get; set; }
 		public TransitionEventData TransitionData { get; set; }
 
-
 		/// <summary>
 		/// The OnEnter method is the entry point for each state
 		/// States can require parameters by overloading the OnEnterState method

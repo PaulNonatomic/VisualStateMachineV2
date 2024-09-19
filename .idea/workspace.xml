@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f720d7a7-d10f-4d98-b04b-de81abc290d1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Runtime/NodeGraph/PortModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/NodeGraph/PortModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/NodeGraph/TransitionAttribute.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/StateGraph/Attributes/TransitionAttribute.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/NodeGraph/TransitionAttribute.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/StateGraph/Attributes/TransitionAttribute.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/StateGraph/Validation/StateMachineValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/StateGraph/Validation/StateMachineValidator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/StateGraph/Validation/StateNodeValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/StateGraph/Validation/StateNodeValidator.cs" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "PaulNonatomic"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "git@github.com:PaulNonatomic/VisualStateMachineV2.git",
+    "accountId": "7e6ae5ef-c729-44f3-b646-a41083847228"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1
+}]]></component>
+  <component name="ProjectId" id="2mIqYNd0yxYn4375mMdBYh1VXGe" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "feat/transitions-with-params",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f720d7a7-d10f-4d98-b04b-de81abc290d1" name="Changes" comment="" />
+      <created>1726774493147</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1726774493147</updated>
+      <workItem from="1726774495148" duration="25000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="VcsManagerConfiguration">
+    <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>

@@ -14,6 +14,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 	{
 		[Transition(frameDelay:0)] public event Action OnComplete;
 	
+		[Enter]
 		public override void OnEnterState()
 		{
 			IncrementCounter();

@@ -4,6 +4,7 @@
 	{
 		public JumpId JumpId;
 
+		[Enter]
 		public override void OnEnterState()
 		{
 			this.StateMachine.JumpTo(this.JumpId);

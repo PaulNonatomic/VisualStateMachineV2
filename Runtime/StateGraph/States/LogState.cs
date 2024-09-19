@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Nonatomic.VSM2.StateGraph.States
 {
-	[NodeColor(NodeColor.Blue), NodeIcon(NodeIcon.Note)]
+	[NodeColor(NodeColor.Blue), NodeIcon(NodeIcon.Note), NodeWidth(400)]
 	public class LogState : State
 	{
 		[Transition]
@@ -14,6 +14,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 		[SerializeField, Multiline(3)] 
 		private string _message = "Hello World";
 		
+		[Enter]
 		public override void OnEnterState()
 		{
 			Debug.Log(_message);

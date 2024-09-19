@@ -51,13 +51,13 @@ namespace Nonatomic.VSM2.StateGraph
 			LastActive = Time.time;
 			State.TransitionData = eventData;
 			
+			var type = State.GetType();
+			var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+				.Where(m => m.GetCustomAttribute<EnterAttribute>() != null && !m.IsAbstract)
+				.ToList();
+			
 			if (eventData.HasValue)
 			{
-				var type = State.GetType();
-				var methods = type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-					.Where(m => m.GetCustomAttribute<EnterAttribute>() != null)
-					.ToList();
-
 				var method = methods.FirstOrDefault(m => 
 					m.GetParameters().Length == 1 && 
 					m.GetParameters()[0].ParameterType == eventData.Type);
@@ -73,15 +73,24 @@ namespace Nonatomic.VSM2.StateGraph
 						Debug.LogError($"Error invoking OnEnterState method: {ex.Message}");
 					}
 				}
-				else
-				{
-					// If no matching method is found, call the parameterless OnEnterState
-					State?.OnEnterState();
-				}
 			}
 			else
 			{
-				State?.OnEnterState();
+				var method = methods.FirstOrDefault(m => 
+					m.GetParameters().Length == 0 && 
+					m.GetParameters()[0].ParameterType == eventData.Type);
+				
+				if (method != null)
+				{
+					try
+					{
+						method.Invoke(this, null);
+					}
+					catch (Exception ex)
+					{
+						Debug.LogError($"Error invoking OnEnterState method: {ex.Message}");
+					}
+				}
 			}
 		}
 
@@ -142,15 +151,9 @@ namespace Nonatomic.VSM2.StateGraph
 		{
 			var type = state.GetType();
 			var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
-				.Where(m => m.GetCustomAttribute<EnterAttribute>() != null)
+				.Where(m => m.GetCustomAttribute<EnterAttribute>() != null && !m.IsAbstract)
 				.ToList();
 
-			if (methods.Count == 0)
-			{
-				AddDefaultOnEnterStatePort(0);
-				return;
-			}
-			
 			for (var i = 0; i < methods.Count; i++)
 			{
 				var method = methods[i];
@@ -181,18 +184,6 @@ namespace Nonatomic.VSM2.StateGraph
 				var portModel = attribute.GetPortData(eventInfo, OutputPorts.Count);
 				OutputPorts.Add(portModel);
 			}
-		}
-
-		private void AddDefaultOnEnterStatePort(int index)
-		{
-			if (index < 0) return;
-			
-			InputPorts.Add(new PortModel()
-			{
-				Id = "Enter",
-				PortLabel = "Enter",
-				Index = index
-			});
 		}
 	}
 }

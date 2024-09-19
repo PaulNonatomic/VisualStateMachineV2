@@ -10,6 +10,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 		[SerializeField, Multiline(5)] 
 		private string _note;
 		
+		[Enter]
 		public override void OnEnterState()
 		{
 		}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Nonatomic.VSM2.Editor.StateGraph.Nodes;
 using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.States;
+using Nonatomic.VSM2.StateGraph.Validation;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -44,6 +45,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 			state.name = GenerateStateName(stateType);
 			var stateNode = new StateNodeModel(state, position);
+			StateNodeValidator.InitializePorts(stateNode);
+			
 			model.AddState(stateNode);
 
 			return stateNode;

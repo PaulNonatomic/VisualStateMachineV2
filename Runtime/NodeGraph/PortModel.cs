@@ -1,6 +1,5 @@
 ﻿using System;
 using Nonatomic.VSM2.Extensions;
-using UnityEngine.Serialization;
 
 namespace Nonatomic.VSM2.NodeGraph
 {
@@ -31,20 +30,6 @@ namespace Nonatomic.VSM2.NodeGraph
 			};
 		}
 		
-		public static PortModel MakeDefaultEntryPort(int index)
-		{
-			return new PortModel()
-			{
-				Id = "OnEnterState",
-				PortLabel = "Enter",
-				Index = index,
-				FrameDelay = 0,
-				PortTypeLabel = string.Empty,
-				PortTypeName = string.Empty,
-				PortType = null
-			};
-		}
-
 		public void SetPortType(Type type)
 		{
 			PortType = type;

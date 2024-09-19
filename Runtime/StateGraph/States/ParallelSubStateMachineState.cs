@@ -14,6 +14,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		private int _completionCount;
 
+		[Enter]
 		public override void OnEnterState()
 		{
 			_completionCount = 0;
