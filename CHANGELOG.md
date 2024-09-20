@@ -6,6 +6,7 @@
   - Example ```[Transition] public event Action<int> OnTransitionWithInt```
   - Example ```[Enter] public void OnEnterWithInt(int value){}```
 - Abstracted validation methods to a separate class
+- Added a CounterWithTargetState.
 
 # [0.8.5-beta] - Sept 17, 2024
 - Fix for deleting a selection via the context menu
