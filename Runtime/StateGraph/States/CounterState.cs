@@ -1,6 +1,7 @@
 ﻿using System;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph.Attributes;
+using UnityEngine;
 
 namespace Nonatomic.VSM2.StateGraph.States
 {
@@ -13,7 +14,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 	public class CounterState : BaseCounterState
 	{
 		[Transition(frameDelay:0)] public event Action OnComplete;
-	
+		
 		[Enter]
 		public override void OnEnterState()
 		{

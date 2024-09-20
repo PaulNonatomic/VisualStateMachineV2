@@ -75,3 +75,16 @@ Port Label {
 .node #property-container {
     flex-direction: column;
 }
+
+.count-field Label {
+    color: #a89d46;
+    -unity-font-style: bold;
+}
+
+.count-field IntegerInput {
+    background-color: #3C3C3C;
+}
+
+.count-field IntegerInput TextElement {
+    color: #969696;
+}
