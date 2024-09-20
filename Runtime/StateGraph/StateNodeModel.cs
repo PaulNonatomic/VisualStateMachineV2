@@ -66,7 +66,7 @@ namespace Nonatomic.VSM2.StateGraph
 				{
 					try
 					{
-						method.Invoke(this, new[] { eventData.Value });
+						method.Invoke(State, new[] { eventData.Value });
 					}
 					catch (Exception ex)
 					{
@@ -77,14 +77,13 @@ namespace Nonatomic.VSM2.StateGraph
 			else
 			{
 				var method = methods.FirstOrDefault(m => 
-					m.GetParameters().Length == 0 && 
-					m.GetParameters()[0].ParameterType == eventData.Type);
+					m.GetParameters().Length == 0);
 				
 				if (method != null)
 				{
 					try
 					{
-						method.Invoke(this, null);
+						method.Invoke(State, null);
 					}
 					catch (Exception ex)
 					{

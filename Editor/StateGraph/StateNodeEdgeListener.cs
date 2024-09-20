@@ -86,7 +86,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			var destinationPortModel = edge.input.userData as PortModel;
 			if (destinationPortModel == null) return;
 			
-			if (originPortModel.PortTypeName != destinationPortModel.PortTypeName) return;
+			var blankPortTypes = string.IsNullOrEmpty(originPortModel.PortTypeName) && string.IsNullOrEmpty(destinationPortModel.PortTypeName);
+			if (!blankPortTypes && originPortModel.PortTypeName != destinationPortModel.PortTypeName) return;
 			
 			StateGraphTransitionFactory.MakeTransition(_graphView, 
 													   _stateMachineModel, 
