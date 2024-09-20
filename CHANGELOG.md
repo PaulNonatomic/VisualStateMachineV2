@@ -1,5 +1,24 @@
 # Change Log
 
+# [0.9.0-beta] - Sept 20, 2024
+- BREAKING - State enter methods now require an [Enter] attribute.
+- States now support types transitions
+  - Example ```[Transition] public event Action<int> OnTransitionWithInt```
+  - Example ```[Enter] public void OnEnterWithInt(int value){}```
+- Abstracted validation methods to a separate class
+
+# [0.8.5-beta] - Sept 17, 2024
+- Fix for deleting a selection via the context menu
+
+## [0.8.4-beta] - Sept 11, 2024
+- SharedData.ClearData is now Obsolete and will be removed in a future release. Use SharedData.ClearAllData instead.
+- Added SharedData.ClearAllData method to clear all shared data.
+- Added SharedData.RemoveData(string key) method to remove a specific key from the shared data.
+- Added SharedData.GetKeys() method to return all keys in the shared data.
+
+## [0.8.3-beta] - Sept 10, 2024
+Added support for switching SubStateMachine models at runtime
+
 ## [0.8.2-beta] - Sept 09, 2024
 - Added TryGetData and HasData methods to the SharedData class
 
