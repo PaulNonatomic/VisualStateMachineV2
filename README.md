@@ -175,6 +175,8 @@ public class ResultState : State
 
 By following this approach, you can effectively pass data between states in your Visual State Machine, enhancing the flexibility and functionality of your state-driven behaviors.
 
+![Unity_AqZI8MraYO](https://github.com/user-attachments/assets/a58aa26d-a207-4fce-bc3d-22d7f8ea0823)
+
 ## Loops with Jump Nodes
 Add JumpOutState state and set it's Id. Then create a JumpInState with the corresponding Id to jump from one node to another.
 
