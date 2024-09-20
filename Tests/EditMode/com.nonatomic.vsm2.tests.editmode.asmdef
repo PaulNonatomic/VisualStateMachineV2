@@ -1,0 +1,16 @@
+﻿{
+  "name": "com.nonatomic.vsm2.tests.editmode",
+  "references": [
+    "com.unity.test-framework"
+  ],
+  "optionalUnityReferences": [],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

@@ -26,6 +26,10 @@
     "type": "git",
     "url": "git@github.com:PaulNonatomic/VisualStateMachineV2.git"
   },
+  "testables": [
+    "com.nonatomic.vsm2.tests.editmode",
+    "com.nonatomic.vsm2.tests.playmode"
+  ],
   "samples": [
     {
       "displayName": "Traffic Light System",
