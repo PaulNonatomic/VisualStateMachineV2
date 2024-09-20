@@ -62,11 +62,6 @@ public class DelayState : BaseDelayState
 		if (_elapsedTime < Duration) return;
 		OnComplete?.Invoke();
 	}
-
-	public override void OnExitState()
-	{
-		//...
-	}
 }
 ```
 
@@ -93,9 +88,6 @@ To pass data between states in the Visual State Machine, you utilize transitions
 #### Defining the Transition in the Source State
 
 ```csharp
-using System;
-using UnityEngine;
-
 public class SourceState : State
 {
 	[Transition]
@@ -118,8 +110,6 @@ public class SourceState : State
 #### Receiving the Transition in the Target State
 
 ```csharp
-using UnityEngine;
-
 public class TargetState : State
 {
 	[Enter]
@@ -150,42 +140,35 @@ public class TargetState : State
 		- Verify that you're only using one parameter in your Action<T>.<br><br>
 
 ### Example: Implementing Typed Transitions
-#### Source State with Typed Transition
+#### Multiply State with Typed Transition
 
 ```csharp
-using System;
-using UnityEngine;
-
-public class SourceState : State
+public class MultiplyState : State
 {
-	[Transition]
-	public event Action<string> OnTransitionWithString;
+    [Transition] 
+    public event Action<float> OnCompleteWithResult;
 
-	public void TriggerTransition()
-	{
-		string message = "Hello, State!";
-		OnTransitionWithString?.Invoke(message);
-	}
-
-	[Enter]
-	public void OnEnterSourceState()
-	{
-		// Initialization logic
-	}
+    [SerializeField] 
+    private float _multiplyBy = 2;
+    
+    [Enter]
+    public void OnEnterStateWithFloat(float value)
+    {
+        var result = value * _multiplyBy;
+        OnCompleteWithResult?.Invoke(result);
+    }
 }
 ```
 
-#### Target State Receiving Typed Transition
+#### Result State Receiving Typed Transition
 
 ```csharp
-using UnityEngine;
-
-public class TargetState : State
+public class ResultState : State
 {
 	[Enter]
-	public void OnEnterStateWithString(string receivedMessage)
+	public void OnEnterStateWithResult(float result)
 	{
-		Debug.Log($"Received message: {receivedMessage}");
+		Debug.Log($"Received result: {result}");
 	}
 }
 ```
@@ -222,11 +205,6 @@ public class StateOne : State
 		SharedData.SetData("age", 42);
 		OnComplete?.Invoke();
 	}
-
-	public override void OnExitState()
-	{
-		//...
-	}
 }
 	
 public class StateTwo : State
@@ -240,11 +218,6 @@ public class StateTwo : State
 		Debug.Log($"StateTwo - Age:{age}");
 		
 		OnComplete?.Invoke();
-	}
-
-	public override void OnExitState()
-	{
-		//...
 	}
 }
 ```
