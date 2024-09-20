@@ -33,7 +33,7 @@
   "samples": [
     {
       "displayName": "Traffic Light System",
-      "description": " A Visual Traffic Light State Machine",
+      "description": "A Visual Traffic Light State Machine",
       "path": "Samples~/TrafficLight"
     }
   ]
