@@ -1,6 +1,4 @@
-﻿#if GRAPH_LOG
-using UnityEngine;
-#endif
+﻿using UnityEngine;
 
 namespace Nonatomic.VSM2.Logging
 {
