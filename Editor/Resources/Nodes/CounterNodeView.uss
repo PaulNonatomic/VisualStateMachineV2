@@ -42,10 +42,7 @@
 
 .node #property-container {
     flex-direction: column;
-}
-
-#property-container {
-    background-color: red;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 /* ***********  *********** */

@@ -1,6 +1,8 @@
 /* *********** DelayNodeView *********** */
 @import url("BaseNode.uss");
+@import url("ProgressBar.uss");
 @import url("TitleBar.uss");
+@import url("PropertyContainer.uss");
 
 /* *********** Base Node *********** */
 .node {
@@ -40,6 +42,7 @@
 
 .node #property-container {
     flex-direction: column;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 /* ***********  *********** */

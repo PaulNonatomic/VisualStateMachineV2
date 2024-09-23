@@ -6,6 +6,7 @@ using System.Reflection;
 using Nonatomic.VSM2.Editor.NodeGraph;
 using Nonatomic.VSM2.Editor.Services;
 using Nonatomic.VSM2.Editor.Utils;
+using Nonatomic.VSM2.Logging;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.Attributes;
@@ -189,7 +190,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 				var serializedProperty = serializedObject.FindProperty(field.Name);
 				if (serializedProperty == null)
 				{
-					Debug.LogWarning($"Property {field.Name} not found in serialized object.");
+					GraphLog.LogWarning($"Property {field.Name} not found in serialized object.");
 					continue;
 				}
 
