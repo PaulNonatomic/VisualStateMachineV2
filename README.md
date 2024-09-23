@@ -18,10 +18,32 @@ To install Visual State Machine in your Unity project, follow these steps:
 2. Click on the **+** button and select **Add package from git URL...**
 3. Enter the following URL: `https://github.com/PaulNonatomic/VisualStateMachineV2.git` and press **Add**.
 
+## Migration Steps to Version 0.9.0-beta
+
+When upgrading to Visual State Machine V2 (VSM2) version 0.9.0-beta, follow these steps to ensure a seamless transition and maintain functionality within your Unity project:
+
+1. **Commit Changes:**  
+   Before starting the upgrade, ensure all your current work is committed to version control. This is an important step as we will need to revert some assets shortly.<br><br>
+2. **Add Using Statement:**  
+   You will need to include the following using statement in your custom States in order to support the new [Enter] Attribute.
+   ```csharp
+   using Nonatomic.VSM2.StateGraph;
+   ```
+3. **Update Custom States:** Decorate all OnEnterState methods within your custom states with the new [Enter] attribute to align with the updated method handling in version 0.9.0-beta:   
+    ```csharp
+   [Enter]
+    public override void OnEnterState()
+    {
+        // Your code here
+    }
+   ```
+4. **Restore StateMachineModel Assets:** Due to changes in the way VSM2 locates entry methods into States, all transitions in your StateMachineModel assets will be invalidated. You will now need to manually restore your StateMachineModel assets from version control.<br><br>
+5. **Test the Project:** After restoring the transitions, run your project to ensure all states and transitions function as expected. Check for any errors or unexpected behaviors and address them accordingly.<br><br>
+6. **Commit the Upgrade:** Once you have verified that everything is functioning correctly, commit the changes to version control. This final step confirms that your project is stable with the upgraded VSM2 version.
+
 ## Usage
 1. **Create a State Machine Asset**
-	- In the Project panel, right-click and select **Create -> State Machine -> State Machine**.
-   
+	- In the Project panel, right-click and select **Create -> State Machine -> State Machine**.<br><br>
 2. **Add States**
 	- Either right-click and select **Add State** or drag out from the **Entry State**.
 
@@ -66,8 +88,7 @@ public class DelayState : BaseDelayState
 ```
 
 5. **Assign the State Machine**
-	- Create a GameObject with a StateMachineController component and assign your new state machine asset to it.
-   
+	- Create a GameObject with a StateMachineController component and assign your new state machine asset to it.<br><br>   
 6. **Run the Application**
 	- With the StateMachineController selected, you can see the state of your state machine within the State Machine Editor window.
 
