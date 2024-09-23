@@ -10,10 +10,11 @@ namespace Nonatomic.VSM2.StateGraph.States
 	 * it's important to flag that the Count value should not be
 	 * serialized, although we reset the value on awake any way.
 	 */
-	[NodeWidth(width:250), NodeColor(NodeColor.Dijon), NodeIcon(NodeIcon.PlusCircle)]
+	[NodeColor(NodeColor.Dijon), NodeIcon(NodeIcon.PlusCircle)]
 	public class CounterWithTargetState : BaseCounterState
 	{
 		[Transition(frameDelay:0)] public event Action OnContinue;
+		[Transition(frameDelay:0)] public event Action<int> OnContinueWithCount;
 		[Transition(frameDelay:0)] public event Action OnTargetReached;
 
 		[SerializeField] private int _target = 2;
@@ -22,11 +23,24 @@ namespace Nonatomic.VSM2.StateGraph.States
 		[Enter]
 		public override void OnEnterState()
 		{
+			Enter();
+		}
+
+		[Enter("Enter with target")]
+		public void OnEnterStateWithTarget(int target)
+		{
+			_target = target;
+			Enter();
+		}
+
+		private void Enter()
+		{
 			IncrementCounter();
 
 			if (Count < _target)
 			{
 				OnContinue?.Invoke();
+				OnContinueWithCount?.Invoke(Count);
 			}
 			else
 			{
