@@ -79,7 +79,7 @@ Added support for switching SubStateMachine models at runtime
 
 ## [0.5.1-beta] - Jul 18, 2024
 - Added a protected setter to the Model accessor of BaseSubStateMachineState
-    - This will allow for derived states to switch the model in the OnAwakeState
+    - This will allow for derived states to switch the model in the OnAwake
 
 ## [0.5.0-beta] - Jul 17, 2024
 - Removal of the StateMachineController.Model setter.

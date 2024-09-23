@@ -16,12 +16,12 @@ namespace Nonatomic.VSM2.StateGraph.States
 		private float _elapsedTime;
 
 		[Enter]
-		public override void OnEnterState()
+		public override void OnEnter()
 		{
 			_elapsedTime = 0f;
 		}
 		
-		public override void OnUpdateState()
+		public override void OnUpdate()
 		{
 			_elapsedTime += Time.unscaledTime;
 			
@@ -31,7 +31,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			}
 		}
 
-		public override void OnExitState()
+		public override void OnExit()
 		{
 			
 		}

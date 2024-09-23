@@ -7,12 +7,12 @@ namespace Nonatomic.VSM2.StateGraph.States
 	public class ExitState : State
 	{
 		[Enter]
-		public override void OnEnterState()
+		public override void OnEnter()
 		{
 			StateMachine.Complete(this);
 		}
 
-		public override void OnExitState()
+		public override void OnExit()
 		{
 			
 		}

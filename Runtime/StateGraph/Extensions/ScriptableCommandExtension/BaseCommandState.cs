@@ -14,13 +14,13 @@ namespace Nonatomic.VSM2.StateGraph.States
 
 		[SerializeField] private ScriptableCommand[] _commands;
 
-		public override void OnEnterState()
+		public override void OnEnter()
 		{
 			CancellationTokenSource = new CancellationTokenSource();
 			_ = ExecuteCommands();
 		}
 
-		public override void OnExitState()
+		public override void OnExit()
 		{
 			if (CancellationTokenSource == null) return;
 			

@@ -16,24 +16,24 @@ namespace Nonatomic.VSM2.StateGraph.States
 		public int RandomValue = 0;
 		
 		[Enter]
-		public override void OnEnterState()
+		public override void OnEnter()
 		{
 			RandomValue = Random.Range(_min, _max + 1);
 			OnContinueWithValue?.Invoke(RandomValue);
 		}
 
 		[Enter]
-		public void OnEnterStateWithMin(int value)
+		public void OnEnterWithMin(int value)
 		{
 			_min = value;
-			OnEnterState();
+			OnEnter();
 		}
 
 		[Enter]
-		public void OnEnterStateWithMax(int value)
+		public void OnEnterWithMax(int value)
 		{
 			_max = value;
-			OnEnterState();
+			OnEnter();
 		}
 	}
 }

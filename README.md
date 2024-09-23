@@ -29,10 +29,10 @@ When upgrading to Visual State Machine V2 (VSM2) version 0.9.0-beta, follow thes
    ```csharp
    using Nonatomic.VSM2.StateGraph;
    ```
-3. **Update Custom States:** Decorate all OnEnterState methods within your custom states with the new [Enter] attribute to align with the updated method handling in version 0.9.0-beta:   
+3. **Update Custom States:** Decorate all OnEnter methods within your custom states with the new [Enter] attribute to align with the updated method handling in version 0.9.0-beta:   
     ```csharp
    [Enter]
-    public override void OnEnterState()
+    public override void OnEnter()
     {
         // Your code here
     }
@@ -72,12 +72,12 @@ public class DelayState : BaseDelayState
 	private float _elapsedTime;
 
 	[Enter]
-	public override void OnEnterState()
+	public override void OnEnter()
 	{
 		_elapsedTime = 0f;
 	}
 	
-	public override void OnUpdateState()
+	public override void OnUpdate()
 	{
 		_elapsedTime += Time.deltaTime;
 
@@ -121,7 +121,7 @@ public class SourceState : State
 	}
 
 	[Enter]
-	public void OnEnterState()
+	public void OnEnter()
 	{
 		// Initialization logic
 	}
@@ -134,7 +134,7 @@ public class SourceState : State
 public class TargetState : State
 {
 	[Enter]
-	public void OnEnterStateWithInt(int receivedValue)
+	public void OnEnterWithInt(int receivedValue)
 	{
 		Debug.Log($"Received value: {receivedValue}");
 	}
@@ -144,10 +144,10 @@ public class TargetState : State
 #### Important Notes:
 * **Single Parameter Limitation:** Currently, only one parameter is supported per transition. Ensure that your transitions use Action<T> with a single type parameter.<br><br>
 * **Entry Method Naming Convention:**
-	- It's recommended to name your entry methods as OnEnterState followed by the type, for example, OnEnterStateWithInt(int value). This enhances clarity and consistency.<br><br>
+	- It's recommended to name your entry methods as OnEnter followed by the type, for example, OnEnterWithInt(int value). This enhances clarity and consistency.<br><br>
 * **[Enter] Attribute Requirement:**
 	- All entry methods must be decorated with the **[Enter]** attribute.
-	- **Breaking Change:** In version 0.9.0-beta and above, the OnEnterState method is no longer abstract but virtual. If you do not override it and decorate it with the **[Enter]** attribute, it will not be called.<br><br>
+	- **Breaking Change:** In version 0.9.0-beta and above, the OnEnter method is no longer abstract but virtual. If you do not override it and decorate it with the **[Enter]** attribute, it will not be called.<br><br>
 * **Visual Indicators in the Editor:**
 	- Any method decorated with the **[Enter]** attribute will appear as an input port at the bottom left of your state's node in the Visual State Machine graph, displaying the parameter type (e.g., <int>).
 	- Transitions are listed on the bottom right of your state's node with the corresponding type description for typed transitions.<br><br>
@@ -173,7 +173,7 @@ public class MultiplyState : State
     private float _multiplyBy = 2;
     
     [Enter]
-    public void OnEnterStateWithFloat(float value)
+    public void OnEnterWithFloat(float value)
     {
         var result = value * _multiplyBy;
         OnCompleteWithResult?.Invoke(result);
@@ -187,7 +187,7 @@ public class MultiplyState : State
 public class ResultState : State
 {
 	[Enter]
-	public void OnEnterStateWithResult(float result)
+	public void OnEnterWithResult(float result)
 	{
 		Debug.Log($"Received result: {result}");
 	}
@@ -223,7 +223,7 @@ public class StateOne : State
 	[Transition] public event Action OnComplete;
 
 	[Enter]
-	public override void OnEnterState()
+	public override void OnEnter()
 	{
 		SharedData.SetData("age", 42);
 		OnComplete?.Invoke();
@@ -235,7 +235,7 @@ public class StateTwo : State
 	[Transition] public event Action OnComplete;
 	
 	[Enter]
-	public override void OnEnterState()
+	public override void OnEnter()
 	{
 		var age = SharedData.GetData<int>("age");
 		Debug.Log($"StateTwo - Age:{age}");

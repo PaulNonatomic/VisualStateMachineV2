@@ -2,7 +2,7 @@
   "name": "com.nonatomic.visualstatemachinev2",
   "version": "0.9.0-beta",
   "displayName": "Visual State Machine V2",
-  "description": "Visual State Machine V2\n\nIMPORTANT NOTE: If you are upgrading to 0.9.0-beta and above from earlier versions, note that `OnEnterState` methods now require an `[Enter]` attribute and that the base `OnEnterState` method is no longer abstract but virtual.",
+  "description": "Visual State Machine V2\n\nIMPORTANT NOTE: If you are upgrading to 0.9.0-beta and above from earlier versions, note that `OnEnter` methods now require an `[Enter]` attribute and that the base `OnEnter` method is no longer abstract but virtual.",
   "unity": "2022.3",
   "unityRelease": "1f1",
   "documentationUrl": "https://github.com/PaulNonatomic/VisualStateMachineV2/blob/develop/README.md",

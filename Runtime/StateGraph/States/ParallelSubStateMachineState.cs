@@ -15,11 +15,11 @@ namespace Nonatomic.VSM2.StateGraph.States
 		private int _completionCount;
 
 		[Enter]
-		public override void OnEnterState()
+		public override void OnEnter()
 		{
 			_completionCount = 0;
 			
-			base.OnEnterState();
+			base.OnEnter();
 		}
 		
 		protected override void OnSubStateComplete(State state, StateMachineModel model)
