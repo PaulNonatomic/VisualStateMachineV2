@@ -117,6 +117,7 @@ namespace Nonatomic.VSM2.StateGraph
 				node?.OnDestroy();
 			}
 
+			SharedData.ClearAllData();
 			Model = null;
 		}
 

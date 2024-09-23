@@ -1,0 +1,83 @@
+/* *********** CounterNodeView *********** */
+@import url("BaseNode.uss");
+@import url("ProgressBar.uss");
+@import url("TitleBar.uss");
+@import url("PropertyContainer.uss");
+
+/* *********** Base Node *********** */
+.node {
+    min-width: auto;
+}
+
+/* *********** Title Bar *********** */
+.node #title {
+    height:50px;
+}
+
+.node #title-container {
+    margin-bottom: 6px;
+}
+
+.node #title-icon {
+    min-width:18px;
+    min-height:18px;
+    width: 18px;
+    height:18px;
+    margin-left: 3px;
+    margin-right: 6px;
+    margin-bottom: 3px;
+    align-self: center;
+}
+
+.node #title-button-container {
+    visibility: hidden;
+    width:0;
+    height:0;
+}
+
+/* *********** Property Container *********** */
+.node #contents {
+    display: none;
+}
+
+.node #property-container {
+    flex-direction: column;
+}
+
+#property-container {
+    background-color: red;
+}
+
+/* ***********  *********** */
+.node IntegerField {
+    min-width: 50px;
+    max-width: 100px;
+}
+
+.unity-text-element {
+    -unity-text-align: middle-center;
+}
+
+Port {
+    height: 100%;
+    width: 25px;
+    min-width: 25px;
+    padding-top:12px;
+}
+
+Port Label {
+    display: none;
+}
+
+.count-field Label {
+    color: #a89d46;
+    -unity-font-style: bold;
+}
+
+.count-field IntegerInput {
+    background-color: #3C3C3C;
+}
+
+.count-field IntegerInput TextElement {
+    color: #969696;
+}

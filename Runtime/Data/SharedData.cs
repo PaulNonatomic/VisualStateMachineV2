@@ -17,9 +17,6 @@ namespace Nonatomic.VSM2.Data
 		void RemoveData(string key);
 		void ClearAllData();
 		IEnumerable<string> GetKeys();
-		
-		[Obsolete("Use ClearAllData() instead. This method will be removed in a future version.")]
-		void ClearData();
 	}
 	
 	public class SharedData : ISharedData
@@ -131,13 +128,7 @@ namespace Nonatomic.VSM2.Data
 				_lock.ExitWriteLock();
 			}
 		}
-		
-		[Obsolete("Use ClearAllData() instead. This method will be removed in a future version.")]
-		public void ClearData()
-		{
-			ClearAllData();
-		}
-		
+	
 		public IEnumerable<string> GetKeys()
 		{
 			_lock.EnterReadLock();

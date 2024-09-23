@@ -1,0 +1,47 @@
+/* *********** ExitNodeView *********** */
+@import url("BaseNode.uss");
+@import url("TitleBar.uss");
+
+.node {
+    min-width: auto;
+}
+
+/* *********** Title Bar *********** */
+.node #title-label {    
+    margin-left: 5px;
+    margin-right: 18px;
+}
+
+.node #title-container {
+    padding-left: 0px;   
+    margin-bottom: 6px;
+    flex-direction: row-reverse;
+}
+
+.node #title-button-container {
+    visibility: hidden;
+    width:0;
+    height:0;
+}
+
+.node #title-icon {
+    min-width:24px;
+    min-height:24px;
+    width: 24px;
+    height:24px;
+    margin-left: -5px;
+}
+
+/* ***********  *********** */
+Port {
+    height: 100%;
+    width: 26px;
+}
+
+Port Label {
+    display: none;
+}
+
+.node #contents {
+    display: none;
+}

@@ -224,8 +224,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		
 		protected virtual void AddStyle(string stylePath)
 		{
-			var styleSheet = Resources.Load<StyleSheet>(stylePath);
-			Assert.IsNotNull(styleSheet, $"{stylePath}.uss not found");
+			var path = Path.Combine("Nodes", stylePath);
+			var styleSheet = Resources.Load<StyleSheet>(path);
+			Assert.IsNotNull(styleSheet, $"{path}.uss not found");
 			styleSheets.Add(styleSheet);
 		}
 		

@@ -1,14 +1,16 @@
-.node #title {
-    flex-direction: row;
+/* *********** JumpNodeView *********** */
+@import url("BaseNode.uss");
+
+/* *********** Base Node *********** */
+.node {
+    min-width: auto;
 }
 
+/* *********** Title Bar *********** */
 .node #title-container {
     padding-right: 0px;
-    align-items: center;
     margin-top: 8px;
     margin-bottom: 8px;
-    flex-direction: row;
-    width: 100%
 }
 
 .node.jump-out #title-container {
@@ -33,19 +35,7 @@
     height:24px;
 }
 
-.node #state-border {
-    position: absolute;
-    right: 0;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    border-color: green;
-    border-width: 2px;
-    border-radius: 8px;
-    opacity:0;
-    margin:1px;
-}
-
+/* ***********  *********** */
 Port {
     height: 100%;
     width: 26px;

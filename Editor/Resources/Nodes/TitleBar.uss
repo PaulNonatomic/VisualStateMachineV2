@@ -1,0 +1,51 @@
+﻿/* TitleBar.uss */
+
+/* *********** Title Bar *********** */
+.node #title {
+    height:36px;
+}
+
+.node #title-label {
+    font-size: 14px;
+    margin-left: 10px;
+    margin-right: 10px;
+    flex-grow: 1;
+    -unity-text-align: middle-center;
+    -unity-font-style: Bold;
+}
+
+.node #title-container {
+    padding-left: 10px;
+    padding-right: 10px;
+    align-items: center;
+    margin-top: 6px;
+    margin-bottom: 0px;
+    flex-direction: row;
+    width: 100%
+}
+
+.node #title-button-container {
+    
+}
+
+.node #title-icon {
+    min-width:22px;
+    min-height:22px;
+    width: 22px;
+    height:22px;
+}
+
+#edit-btn {
+    background-color: #1d1d1d;
+    margin:0px;
+    height:100%;
+    width:30px;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+#edit-btn-icon {
+    width: 80%;
+    height: auto;
+}
