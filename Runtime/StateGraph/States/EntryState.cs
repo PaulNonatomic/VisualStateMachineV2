@@ -15,7 +15,6 @@ namespace Nonatomic.VSM2.StateGraph.States
 		[Enter]
 		public override void OnEnterState()
 		{
-			Debug.Log("EntryState");
 			OnEntry?.Invoke();
 		}
 

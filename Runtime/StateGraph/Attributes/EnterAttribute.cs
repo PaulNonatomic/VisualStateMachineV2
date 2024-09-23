@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Reflection;
 using Nonatomic.VSM2.NodeGraph;
+using Nonatomic.VSM2.Utils;
+
+#if UNITY_EDITOR
+#endif
 
 namespace Nonatomic.VSM2.StateGraph
 {
@@ -9,11 +13,6 @@ namespace Nonatomic.VSM2.StateGraph
 	public class EnterAttribute : Attribute
 	{
 		private PortModel _portModel = new ();
-		
-		public EnterAttribute()
-		{
-			_portModel.PortLabel = "Enter";
-		}
 		
 		public EnterAttribute(string portLabel = default)
 		{
@@ -24,6 +23,15 @@ namespace Nonatomic.VSM2.StateGraph
 		{
 			_portModel.Id = methodInfo.Name;
 			_portModel.Index = methodIndex;
+
+			#if UNITY_EDITOR
+			{
+				if (string.IsNullOrEmpty(_portModel.PortLabel))
+				{
+					_portModel.PortLabel = StringUtils.ProcessPortName(methodInfo.Name);
+				}
+			}
+			#endif
 			
 			var args = methodInfo.GetParameters();
 			if (args.Length > 0)

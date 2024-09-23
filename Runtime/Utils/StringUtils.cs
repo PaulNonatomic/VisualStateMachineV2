@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace Nonatomic.VSM2.Editor.Utils
+namespace Nonatomic.VSM2.Utils
 {
 	public static class StringUtils
 	{

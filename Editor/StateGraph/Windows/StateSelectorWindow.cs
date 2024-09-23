@@ -247,7 +247,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				var group = groupedStates[index];
 				var groupLocation = GetScriptPath(group[0]);
 				
-				var distance = Utils.StringUtils.FindLevenshteinDistance(soPath, groupLocation);
+				var distance = StringUtils.FindLevenshteinDistance(soPath, groupLocation);
 				if (distance >= smallestDistance) continue;
 				
 				smallestDistance = distance;
@@ -371,9 +371,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		
 		private string ProcessStateName(string stateName)
 		{
-			stateName = Utils.StringUtils.PascalCaseToTitleCase(stateName);
-			stateName = Utils.StringUtils.RemoveStateSuffix(stateName);
-			stateName = Utils.StringUtils.ApplyEllipsis(stateName, 30);
+			stateName = StringUtils.PascalCaseToTitleCase(stateName);
+			stateName = StringUtils.RemoveStateSuffix(stateName);
+			stateName = StringUtils.ApplyEllipsis(stateName, 30);
 			
 			return stateName;
 		}
