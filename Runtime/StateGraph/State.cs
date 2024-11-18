@@ -77,7 +77,7 @@ namespace Nonatomic.VSM2.StateGraph
 		public virtual void OnDestroy()
 		{
 			//..
-		}
+		} 
 		
 		// Method to get all supported parameter types for OnEnter methods
 		public IEnumerable<Type> GetSupportedParameterTypes()

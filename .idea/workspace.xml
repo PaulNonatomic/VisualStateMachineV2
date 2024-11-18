@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="f720d7a7-d10f-4d98-b04b-de81abc290d1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Runtime/NodeGraph/PortModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/NodeGraph/PortModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Runtime/NodeGraph/TransitionAttribute.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/StateGraph/Attributes/TransitionAttribute.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Runtime/NodeGraph/TransitionAttribute.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/StateGraph/Attributes/TransitionAttribute.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Runtime/StateGraph/Validation/StateMachineValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/StateGraph/Validation/StateMachineValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Runtime/StateGraph/Validation/StateNodeValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/StateGraph/Validation/StateNodeValidator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/projectSettingsUpdater.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/StateGraph/Attributes/NodeIcon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/StateGraph/Attributes/NodeIcon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/StateGraph/State.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/StateGraph/State.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,34 +19,43 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "PaulNonatomic"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;PaulNonatomic&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:PaulNonatomic/VisualStateMachineV2.git",
-    "accountId": "7e6ae5ef-c729-44f3-b646-a41083847228"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:PaulNonatomic/VisualStateMachineV2.git&quot;,
+    &quot;accountId&quot;: &quot;7e6ae5ef-c729-44f3-b646-a41083847228&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Editor/Services/ImageService.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/StateGraph/Attributes/NodeIcon.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/StateGraph/Extensions/ScriptableCommandExtension/CommandState.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2mIqYNd0yxYn4375mMdBYh1VXGe" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feat/transitions-with-params",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat/0.9.0-beta/state-api-changes&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -53,6 +65,9 @@
       <option name="presentableId" value="Default" />
       <updated>1726774493147</updated>
       <workItem from="1726774495148" duration="25000" />
+      <workItem from="1729954094397" duration="336000" />
+      <workItem from="1731144627579" duration="131000" />
+      <workItem from="1731144946123" duration="746000" />
     </task>
     <servers />
   </component>
@@ -61,7 +76,6 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="VcsManagerConfiguration">
-    <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
 </project>

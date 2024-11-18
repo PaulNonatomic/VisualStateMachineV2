@@ -2,7 +2,7 @@
 
 # [0.9.0-beta] - Sept 20, 2024
 - BREAKING - State enter methods now require an [Enter] attribute.
-- States now support types transitions
+- States now support typed transitions
   - Example ```[Transition] public event Action<int> OnTransitionWithInt```
   - Example ```[Enter] public void OnEnterWithInt(int value){}```
 - Abstracted validation methods to a separate class
