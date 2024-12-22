@@ -149,7 +149,7 @@ public class TargetState : State
 	- All entry methods must be decorated with the **[Enter]** attribute.
 	- **Breaking Change:** In version 0.9.0-beta and above, the OnEnter method is no longer abstract but virtual. If you do not override it and decorate it with the **[Enter]** attribute, it will not be called.<br><br>
 * **Visual Indicators in the Editor:**
-	- Any method decorated with the **[Enter]** attribute will appear as an input port at the bottom left of your state's node in the Visual State Machine graph, displaying the parameter type (e.g., <int>).
+	- Any method decorated with the **[Enter]** attribute will appear as an input port at the bottom left of your state's node in the Visual State Machine graph, displaying the parameter type.
 	- Transitions are listed on the bottom right of your state's node with the corresponding type description for typed transitions.<br><br>
 * **Connection Rules:**
 	- Typed output ports will only connect to matching typed input ports.
