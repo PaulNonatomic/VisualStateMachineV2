@@ -104,6 +104,11 @@ namespace Nonatomic.VSM2.StateGraph
 			State?.OnFixedUpdate();
 		}
 
+		public void LateUpdate()
+		{
+			State?.OnLateUpdate();
+		}
+
 		public void Exit()
 		{
 			if (!Active) return;

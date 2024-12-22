@@ -55,6 +55,11 @@ namespace Nonatomic.VSM2.StateGraph.States
 			SubStateMachine?.FixedUpdate();
 		}
 
+		public override void OnLateUpdate()
+		{
+			SubStateMachine?.LateUpdate();
+		}
+
 		public override void OnExit()
 		{
 			if(SubStateMachine == null) return;

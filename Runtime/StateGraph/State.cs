@@ -62,6 +62,14 @@ namespace Nonatomic.VSM2.StateGraph
 		}
 
 		/// <summary>
+		/// The OnLateUpdate method is mapped to the state machine's LateUpdate loop.
+		/// </summary>
+		public virtual void OnLateUpdate()
+		{
+			//..
+		}
+
+		/// <summary>
 		/// The OnExit method is the exit point for each state
 		/// Useful for clean up and resetting values
 		/// </summary>

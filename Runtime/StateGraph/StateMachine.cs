@@ -56,6 +56,14 @@ namespace Nonatomic.VSM2.StateGraph
 			
 			_currentNode.FixedUpdate();
 		}
+		
+		public void LateUpdate()
+		{
+			if (_currentNode == null) return;
+			if (!_currentNode.Active) return;
+			
+			_currentNode.LateUpdate();
+		}
 
 		public void Start()
 		{
