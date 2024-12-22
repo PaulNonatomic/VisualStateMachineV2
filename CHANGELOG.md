@@ -1,5 +1,8 @@
 # Change Log
 
+# [0.9.3-beta] - Dec 22, 2024
+- Added a migration step to fix transitions to OnEnterState methods
+
 # [0.9.2-beta] - Dec 22, 2024
 - Added a migration step to add missing using statements
 
