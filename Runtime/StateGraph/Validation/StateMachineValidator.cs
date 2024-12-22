@@ -64,13 +64,6 @@ namespace Nonatomic.VSM2.StateGraph.Validation
 			for (var index = stateMachineModel.Transitions.Count - 1; index >= 0; index--)
 			{
 				var transition = stateMachineModel.Transitions[index];
-				
-				// Handle migration (Older state machines had an OnEnterState method)
-				if (transition.DestinationNodeId == "OnEnterState")
-				{
-					transition.DestinationNodeId = "OnEnter";
-				}
-				
 				var originNode = stateMachineModel.Nodes.FirstOrDefault(node => node.Id == transition.OriginNodeId);
 				var destinationNode = stateMachineModel.Nodes.FirstOrDefault(node => node.Id == transition.DestinationNodeId);
 				
