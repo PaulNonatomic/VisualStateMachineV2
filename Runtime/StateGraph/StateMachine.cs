@@ -182,49 +182,47 @@ namespace Nonatomic.VSM2.StateGraph
 				ToggleEventSubscriptionByName(node.State, transition, true);
 			}
 		}
-		
+
 		private void ToggleEventSubscriptionByName(object targetObject, StateTransitionModel transition, bool subscribe)
 		{
 			var eventName = transition.OriginPort.Id;
-			var eventInfo = targetObject.GetType().GetEvent(eventName);
+			var targetType = targetObject.GetType();
+
+			// Get EventInfo from the cache
+			var eventInfo = ReflectionCache.GetEventInfo(targetType, eventName);
 			if (eventInfo == null) return;
 
-			if (eventInfo.EventHandlerType.IsGenericType && eventInfo.EventHandlerType.GetGenericTypeDefinition() == typeof(Action<>))
+			// Check if this is an Action<T> or Action
+			if (eventInfo.EventHandlerType.IsGenericType
+				&& eventInfo.EventHandlerType.GetGenericTypeDefinition() == typeof(Action<>))
 			{
-				var argumentType = eventInfo.EventHandlerType.GenericTypeArguments[0]; // Get the <T> in Action<T>
+				var argumentType = eventInfo.EventHandlerType.GenericTypeArguments[0];
 
-				// Assuming you have defined AddTransitionHandler<T> and RemoveTransitionHandler<T> in StateTransitionModel
+				// Grab the generic Transition<T> method off StateTransitionModel
+				var method = ReflectionCache.GetGenericMethod(
+					typeof(StateTransitionModel),
+					"Transition",
+					new[] { argumentType },
+					paramCount: 1);
+
+				if (method == null) return;
+
+				var handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, method);
+
 				if (subscribe)
 				{
-					var method = typeof(StateTransitionModel).GetMethods(BindingFlags.Public | BindingFlags.Instance)
-						.Where(m => m.Name == "Transition" && m.IsGenericMethodDefinition)
-						.FirstOrDefault(m => m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == m.GetGenericArguments()[0]);
-
-					if (method == null) return;
-					var genericMethod = method.MakeGenericMethod(argumentType);
-					var handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, genericMethod);
-					
 					eventInfo.AddEventHandler(targetObject, handler);
 					transition.OnTransition += HandleTransition;
 				}
 				else
 				{
-					var method = typeof(StateTransitionModel).GetMethods(BindingFlags.Public | BindingFlags.Instance)
-						.Where(m => m.Name == "Transition" && m.IsGenericMethodDefinition)
-						.FirstOrDefault(m => m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == m.GetGenericArguments()[0]);
-
-					if (method == null) return;
-					var genericMethod = method.MakeGenericMethod(argumentType);
-					var handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, genericMethod);
-					
 					eventInfo.RemoveEventHandler(targetObject, handler);
 					transition.OnTransition -= HandleTransition;
 				}
 			}
-			else if (eventInfo.EventHandlerType == typeof(Action)) // Handle non-generic Action
+			else if (eventInfo.EventHandlerType == typeof(Action))
 			{
 				var handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, "Transition");
-
 				if (subscribe)
 				{
 					eventInfo.AddEventHandler(targetObject, handler);
@@ -237,7 +235,7 @@ namespace Nonatomic.VSM2.StateGraph
 				}
 			}
 		}
-		
+
 		private void UnsubscribeFromNode(StateNodeModel node)
 		{
 			if (node == null)
