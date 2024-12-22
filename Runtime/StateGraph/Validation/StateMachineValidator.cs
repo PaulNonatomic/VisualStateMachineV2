@@ -60,13 +60,21 @@ namespace Nonatomic.VSM2.StateGraph.Validation
 		private static void ValidateTransitions(StateMachineModel stateMachineModel)
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-
+			
 			for (var index = stateMachineModel.Transitions.Count - 1; index >= 0; index--)
 			{
 				var transition = stateMachineModel.Transitions[index];
+				
+				// Handle migration (Older state machines had an OnEnterState method)
+				if (transition.DestinationNodeId == "OnEnterState")
+				{
+					var n = stateMachineModel.Nodes.FirstOrDefault(node => node.Id == transition.DestinationNodeId);
+					if(n == null) transition.DestinationNodeId = "OnEnter";
+				}
+				
 				var originNode = stateMachineModel.Nodes.FirstOrDefault(node => node.Id == transition.OriginNodeId);
 				var destinationNode = stateMachineModel.Nodes.FirstOrDefault(node => node.Id == transition.DestinationNodeId);
-
+				
 				if (originNode != null && destinationNode != null)
 				{
 					if (NodeGraphModelUtils.TryGetPortsByIdWithIndexFallback(transition, originNode, destinationNode,
