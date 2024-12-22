@@ -125,36 +125,26 @@ namespace Nonatomic.VSM2.StateGraph
 		[Obsolete("Use OnStart instead")]
 		protected void Start() { }
 		
-		
 		//Obsolete code for migration
+		[Obsolete("Use OnEnter instead (Don't forget to add the [Enter] attribute)")]
+		public virtual void OnEnterState() {}
+		
+		[Obsolete("Use OnExit instead")]
+		public virtual void OnExitState() {}
+		
 		[Obsolete("Use OnAwake instead")]
-		public virtual void OnAwakeState()
-		{
-			OnAwake();
-		}
+		public virtual void OnAwakeState() { }
 		
 		[Obsolete("Use OnStart instead")]
-		public virtual void OnStartState()
-		{
-			OnStart();
-		}
+		public virtual void OnStartState() { }
 
 		[Obsolete("Use OnUpdate instead")]
-		public virtual void OnUpdateState()
-		{
-			OnUpdate();
-		}
+		public virtual void OnUpdateState() { }
 
 		[Obsolete("Use OnFixedUpdate instead")]
-		public virtual void OnFixedUpdateState()
-		{
-			OnFixedUpdate();
-		}
+		public virtual void OnFixedUpdateState() { }
 
 		[Obsolete("Use OnDestroy instead")]
-		public virtual void OnDestroyState()
-		{
-			OnDestroy();
-		}
+		public virtual void OnDestroyState() { }
 	}
 }
