@@ -1,5 +1,11 @@
 # Change Log
 
+# [0.9.1-beta] - Dec 22, 2024
+- Added a mirgration tool to upgrade to 0.9.1-beta
+- Added obsolete methods back in and marked as obsolete to allow for a smoother migration to the new version
+- Added support for LateUpdate in states
+- Added a cache for event info obtained via reflection to reduce the runtime overhead of reflection
+
 # [0.9.0-beta] - Sept 20, 2024
 - BREAKING - State enter methods now require an [Enter] attribute.
 - States now support typed transitions
