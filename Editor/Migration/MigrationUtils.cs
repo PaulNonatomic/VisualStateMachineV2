@@ -13,50 +13,6 @@ namespace Nonatomic.VSM2.Editor.Migration
 
 	public static class MigrationUtils
 	{
-		public static List<Type> FindAllDerivedStates()
-		{
-			var baseType = typeof(State); // Nonatomic.VSM2.StateGraph.State
-			var derivedTypes = new List<Type>();
-		
-			// Get all assemblies in the current AppDomain.
-			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-		
-			foreach (var assembly in assemblies)
-			{
-				// You may want to skip certain assemblies (e.g., system assemblies)
-				if (assembly.FullName.StartsWith("System") ||
-					assembly.FullName.StartsWith("Microsoft") ||
-					assembly.FullName.StartsWith("netstandard") ||
-					assembly.FullName.StartsWith("Unity"))
-				{
-					continue;
-				}
-
-				// Attempt to retrieve all types from the assembly.
-				Type[] types;
-				try
-				{
-					types = assembly.GetTypes();
-				}
-				catch (ReflectionTypeLoadException e)
-				{
-					// In case some types cannot be loaded, fallback to what we can load
-					types = e.Types.Where(t => t != null).ToArray();
-				}
-
-				// Check each type to see if it inherits from Nonatomic.VSM2.StateGraph.State
-				foreach (var type in types)
-				{
-					if (type.IsClass && !type.IsAbstract && type.IsSubclassOf(baseType))
-					{
-						derivedTypes.Add(type);
-					}
-				}
-			}
-
-			return derivedTypes;
-		}
-		
 		public static string GetPathForType(System.Type type)
 		{
 			// Search for all MonoScripts in the project

@@ -71,11 +71,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			results.Clear();
 		}
 		
-		private void OnLostFocus()
-		{
-			//this?.Close();
-		}
-		
 		private void OnFocus()
 		{
 			Focus();

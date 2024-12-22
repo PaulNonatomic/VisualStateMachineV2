@@ -2,6 +2,8 @@
 using System;
 using System.IO;
 using System.Linq;
+using Nonatomic.VSM2.StateGraph;
+using Nonatomic.VSM2.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -28,52 +30,34 @@ namespace Nonatomic.VSM2.Editor.Migration
 			("OnDestroyState",    "OnDestroy"),
 		};
 
-		[MenuItem("Tools/VSM2/Migrate States")]
-		public static void MigrateStates()
+		[MenuItem("Tools/VSM2/Migrate to 0.9.0-beta")]
+		public static void Migrate()
 		{
-			var stateClasses = MigrationUtils.FindAllDerivedStates();
+			MigrateStates();
+			MigrateModels();
+		}
 
-			foreach (var stateClass in stateClasses)
+		private static void MigrateModels()
+		{
+			var models = AssetUtils.FindAllScriptableObjectsOfType<StateMachineModel>();
+			foreach (var model in models)
 			{
-				// 1. Check if the class belongs to an ignored namespace:
-				if (IsIgnoredNamespace(stateClass.Namespace))
-				{
-					//
-					continue;
-				}
+				StateMachineMigrator.Migrate(model);
+			}
+		}
 
-				// 2. Get the file path (.cs) for this type.
+		private static void MigrateStates()
+		{
+			var derivedTypes = AssetUtils.GetAllDerivedTypes<State>();
+
+			foreach (var stateClass in derivedTypes)
+			{
+				if (IsIgnoredNamespace(stateClass.Namespace)) continue;
+				
 				var path = MigrationUtils.GetPathForType(stateClass);
-				if (string.IsNullOrEmpty(path))
-				{
-					Debug.LogWarning($"Skipping {stateClass.FullName} - no .cs file found.");
-					continue;
-				}
-
-				// 3. Prompt user with an OK / Skip / Cancel dialog for each class
-				var choice = EditorUtility.DisplayDialogComplex(
-					title:      "Migrate State?",
-					message:    $"Class: {stateClass.FullName}\nFile: {path}\n\n" +
-								"Do you want to migrate this class?",
-					ok:         "OK",
-					cancel:     "Skip",
-					alt:  "Cancel"
-				);
-
-				switch (choice)
-				{
-					case 0: // OK
-						MigrateState(stateClass, path);
-						break;
-
-					case 1: // Skip
-						Debug.Log($"Skipping {stateClass.FullName} at user request.");
-						continue;
-
-					case 2: // Cancel
-						Debug.LogWarning("Migration canceled by user.");
-						return; // Stop processing altogether
-				}
+				if (string.IsNullOrEmpty(path)) continue;
+				
+				MigrateState(stateClass, path);
 			}
 		
 			AssetDatabase.Refresh();
