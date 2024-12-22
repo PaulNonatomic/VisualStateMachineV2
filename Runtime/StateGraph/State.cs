@@ -101,24 +101,60 @@ namespace Nonatomic.VSM2.StateGraph
 		/// Do NOT use Unity life cycle methods
 		/// Instead use OnEnter
 		/// </summary>
+		[Obsolete("Do not use")]
 		protected void OnEnable() { }
 
 		/// <summary>
 		/// Do NOT use Unity life cycle methods
 		/// Instead use OnExit
 		/// </summary>
+		[Obsolete("Do not use")]
 		protected void OnDisable() { }
 		
 		/// <summary>
 		/// Do NOT use Unity life cycle methods
 		/// Instead use OnAwake
 		/// </summary>
+		[Obsolete("Use OnAwake instead")]
 		protected void Awake() { }
 		
 		/// <summary>
 		/// Do NOT use Unity life cycle methods
 		/// Instead use OnStart
 		/// </summary>
+		[Obsolete("Use OnStart instead")]
 		protected void Start() { }
+		
+		
+		//Obsolete code for migration
+		[Obsolete("Use OnAwake instead")]
+		public virtual void OnAwakeState()
+		{
+			OnAwake();
+		}
+		
+		[Obsolete("Use OnStart instead")]
+		public virtual void OnStartState()
+		{
+			OnStart();
+		}
+
+		[Obsolete("Use OnUpdate instead")]
+		public virtual void OnUpdateState()
+		{
+			OnUpdate();
+		}
+
+		[Obsolete("Use OnFixedUpdate instead")]
+		public virtual void OnFixedUpdateState()
+		{
+			OnFixedUpdate();
+		}
+
+		[Obsolete("Use OnDestroy instead")]
+		public virtual void OnDestroyState()
+		{
+			OnDestroy();
+		}
 	}
 }
