@@ -9,19 +9,19 @@ namespace Nonatomic.VSM2.StateGraph.States
 	public class LogState : State
 	{
 		[Transition]
-		public event Action OnExit;
+		public event Action Exit;
 		
 		[SerializeField, Multiline(3)] 
 		private string _message = "Hello World";
 		
 		[Enter]
-		public override void OnEnterState()
+		public override void OnEnter()
 		{
 			Debug.Log(_message);
-			OnExit?.Invoke();
+			Exit?.Invoke();
 		}
 
-		public override void OnExitState()
+		public override void OnExit()
 		{
 			//...
 		}

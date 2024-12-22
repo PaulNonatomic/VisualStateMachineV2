@@ -21,13 +21,13 @@ namespace Nonatomic.VSM2.StateGraph.States
 		[SerializeField] private bool _resetOnTarget = true;
 		
 		[Enter]
-		public override void OnEnterState()
+		public override void OnEnter()
 		{
 			Enter();
 		}
 
 		[Enter("Enter with target")]
-		public void OnEnterStateWithTarget(int target)
+		public void OnEnterWithTarget(int target)
 		{
 			_target = target;
 			Enter();
@@ -49,7 +49,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			}
 		}
 
-		public override void OnExitState()
+		public override void OnExit()
 		{
 			//...
 		}

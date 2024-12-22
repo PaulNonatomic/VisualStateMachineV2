@@ -12,9 +12,9 @@ namespace Nonatomic.VSM2.StateGraph.States
 		[Transition] public event Action OnComplete;
 		
 		[Enter]
-		public override void OnEnterState()
+		public override void OnEnter()
 		{
-			base.OnEnterState();
+			base.OnEnter();
 		}
 
 		protected override void HandleTaskCompletion()

@@ -35,12 +35,12 @@ namespace Nonatomic.VSM2.StateGraph
 			
 			Enabled = true;
 			LastActive = -1;
-			State?.OnAwakeState();
+			State?.OnAwake();
 		}
 
 		public void Start()
 		{
-			State?.OnStartState();
+			State?.OnStart();
 		}
 
 		public void Enter(TransitionEventData eventData)
@@ -70,7 +70,7 @@ namespace Nonatomic.VSM2.StateGraph
 					}
 					catch (Exception ex)
 					{
-						Debug.LogError($"Error invoking OnEnterState method: {ex.Message}");
+						Debug.LogError($"Error invoking OnEnter method: {ex.Message}");
 					}
 				}
 			}
@@ -87,7 +87,7 @@ namespace Nonatomic.VSM2.StateGraph
 					}
 					catch (Exception ex)
 					{
-						Debug.LogError($"Error invoking OnEnterState method: {ex.Message}");
+						Debug.LogError($"Error invoking OnEnter method: {ex.Message}");
 					}
 				}
 			}
@@ -96,12 +96,17 @@ namespace Nonatomic.VSM2.StateGraph
 		public void Update()
 		{
 			LastActive = Time.time;
-			State?.OnUpdateState();
+			State?.OnUpdate();
 		}
 
 		public void FixedUpdate()
 		{
-			State?.OnFixedUpdateState();
+			State?.OnFixedUpdate();
+		}
+
+		public void LateUpdate()
+		{
+			State?.OnLateUpdate();
 		}
 
 		public void Exit()
@@ -110,7 +115,7 @@ namespace Nonatomic.VSM2.StateGraph
 			
 			LastActive = Time.time;
 			Active = false;
-			State?.OnExitState();
+			State?.OnExit();
 		}
 
 		public void OnDestroy()
@@ -119,7 +124,7 @@ namespace Nonatomic.VSM2.StateGraph
 			
 			Active = false;
 			Enabled = false;
-			State?.OnDestroyState();
+			State?.OnDestroy();
 		}
 		
 		public StateNodeModel Clone()

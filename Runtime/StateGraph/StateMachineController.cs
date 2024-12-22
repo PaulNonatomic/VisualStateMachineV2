@@ -113,6 +113,16 @@ namespace Nonatomic.VSM2.StateGraph
 		}
 
 		/// <summary>
+		/// Invokes the LateUpdate method of the current state machine if it is activated.
+		/// This method is called once per frame after all Update calls have been completed.
+		/// </summary>
+		public virtual void LateUpdate()
+		{
+			if (!_activated) return;
+			_stateMachine?.LateUpdate();
+		}
+
+		/// <summary>
 		/// Cleans up the state machine when the MonoBehaviour will be destroyed.
 		/// </summary>
 		public virtual void OnDestroy()

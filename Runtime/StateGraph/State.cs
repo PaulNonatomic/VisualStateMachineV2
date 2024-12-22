@@ -20,49 +20,74 @@ namespace Nonatomic.VSM2.StateGraph
 		public TransitionEventData TransitionData { get; set; }
 
 		/// <summary>
-		/// The OnEnter method is the entry point for each state
-		/// States can require parameters by overloading the OnEnterState method
+		/// The OnStart method is mapped the state machines Awake method
 		/// </summary>
-		public virtual void OnEnterState()
-		{
-			//...
-		}
-
-		public virtual void OnExitState()
+		public virtual void OnAwake()
 		{
 			//...
 		}
 		
-		/**
-		 * Unity life cycle methods are optional to override.
-		 */
-		
-		public virtual void OnAwakeState()
+		/// <summary>
+		/// The OnStart method is mapped the state machines Start method
+		/// </summary>
+		public virtual void OnStart()
 		{
-			//..
+			//...
 		}
 		
-		public virtual void OnStartState()
+		/// <summary>
+		/// The OnEnter method is the entry point for each state
+		/// States can require parameters by overloading the OnEnter method
+		/// and dressing it with the [Enter] attribute
+		/// </summary>
+		public virtual void OnEnter()
+		{
+			//...
+		}
+		
+		/// <summary>
+		/// The OnUpdate method is mapped the state machines Update loop
+		/// </summary>
+		public virtual void OnUpdate()
 		{
 			//..
 		}
 
-		public virtual void OnUpdateState()
+		/// <summary>
+		/// The OnFixedUpdate method is mapped the state machines FixedUpdate loop
+		/// </summary>
+		public virtual void OnFixedUpdate()
 		{
 			//..
 		}
 
-		public virtual void OnFixedUpdateState()
+		/// <summary>
+		/// The OnLateUpdate method is mapped to the state machine's LateUpdate loop.
+		/// </summary>
+		public virtual void OnLateUpdate()
 		{
 			//..
 		}
 
-		public virtual void OnDestroyState()
+		/// <summary>
+		/// The OnExit method is the exit point for each state
+		/// Useful for clean up and resetting values
+		/// </summary>
+		public virtual void OnExit()
 		{
-			//..
+			//...
 		}
 		
-		// Method to get all supported parameter types for OnEnterState methods
+		/// <summary>
+		/// The OnDestroy method is called when the State Machine is destroyed
+		/// Useful for clean up
+		/// </summary>
+		public virtual void OnDestroy()
+		{
+			//..
+		} 
+		
+		// Method to get all supported parameter types for OnEnter methods
 		public IEnumerable<Type> GetSupportedParameterTypes()
 		{
 			return GetType().GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
@@ -71,5 +96,29 @@ namespace Nonatomic.VSM2.StateGraph
 				.Select(p => p.ParameterType)
 				.Distinct();
 		}
+
+		/// <summary>
+		/// Do NOT use Unity life cycle methods
+		/// Instead use OnEnter
+		/// </summary>
+		protected void OnEnable() { }
+
+		/// <summary>
+		/// Do NOT use Unity life cycle methods
+		/// Instead use OnExit
+		/// </summary>
+		protected void OnDisable() { }
+		
+		/// <summary>
+		/// Do NOT use Unity life cycle methods
+		/// Instead use OnAwake
+		/// </summary>
+		protected void Awake() { }
+		
+		/// <summary>
+		/// Do NOT use Unity life cycle methods
+		/// Instead use OnStart
+		/// </summary>
+		protected void Start() { }
 	}
 }

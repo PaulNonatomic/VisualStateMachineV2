@@ -11,11 +11,11 @@ namespace Nonatomic.VSM2.StateGraph.States
 		private string _note;
 		
 		[Enter]
-		public override void OnEnterState()
+		public override void OnEnter()
 		{
 		}
 
-		public override void OnExitState()
+		public override void OnExit()
 		{
 		}
 	}
