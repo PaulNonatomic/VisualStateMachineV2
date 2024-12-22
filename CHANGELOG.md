@@ -1,7 +1,10 @@
 # Change Log
 
+# [0.9.2-beta] - Dec 22, 2024
+- Added a migration step to add missing using statements
+
 # [0.9.1-beta] - Dec 22, 2024
-- Added a mirgration tool to upgrade to 0.9.1-beta
+- Added a migration tool to upgrade to 0.9.1-beta
 - Added obsolete methods back in and marked as obsolete to allow for a smoother migration to the new version
 - Added support for LateUpdate in states
 - Added a cache for event info obtained via reflection to reduce the runtime overhead of reflection
