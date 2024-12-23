@@ -1,5 +1,8 @@
 # Change Log
 
+# [0.9.6-beta] - Dec 23, 2024
+- Removal of build breaking methods in AssetUtils
+
 # [0.9.5-beta] - Dec 22, 2024
 - updated migration tools
 

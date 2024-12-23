@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Nonatomic.VSM2.StateGraph;
@@ -45,7 +46,7 @@ namespace Nonatomic.VSM2.Editor.Migration
 
 		private static void MigrateModels()
 		{
-			var models = AssetUtils.FindAllScriptableObjectsOfType<StateMachineModel>();
+			var models = FindAllScriptableObjectsOfType<StateMachineModel>();
 			foreach (var model in models)
 			{
 				StateMachineMigrator.Migrate(model);
@@ -123,6 +124,27 @@ namespace Nonatomic.VSM2.Editor.Migration
 					attributeToInsert: "[Enter]"
 				);
 			}
+		}
+		
+		public static List<T> FindAllScriptableObjectsOfType<T>() where T : ScriptableObject
+		{
+			var guids = AssetDatabase.FindAssets($"t:{typeof(T).Name}");
+			var results = new List<T>();
+
+			foreach (var guid in guids)
+			{
+				var path = AssetDatabase.GUIDToAssetPath(guid);
+				var asset = AssetDatabase.LoadAssetAtPath<T>(path);
+
+				if (asset == null)
+				{
+					continue;
+				}
+
+				results.Add(asset);
+			}
+
+			return results.ToList();
 		}
 	}
 }

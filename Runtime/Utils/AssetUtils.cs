@@ -8,27 +8,6 @@ namespace Nonatomic.VSM2.Utils
 {
 	public static class AssetUtils
 	{
-		public static List<T> FindAllScriptableObjectsOfType<T>() where T : ScriptableObject
-		{
-			var guids = AssetDatabase.FindAssets($"t:{typeof(T).Name}");
-			var results = new List<T>();
-
-			foreach (var guid in guids)
-			{
-				var path = AssetDatabase.GUIDToAssetPath(guid);
-				var asset = AssetDatabase.LoadAssetAtPath<T>(path);
-
-				if (asset == null)
-				{
-					continue;
-				}
-
-				results.Add(asset);
-			}
-
-			return results.ToList();
-		}
-		
 		public static List<Type> GetAllDerivedTypes<T>()
 		{
 			var derivedType = typeof(T);
