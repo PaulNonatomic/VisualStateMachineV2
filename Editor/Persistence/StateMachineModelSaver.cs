@@ -22,28 +22,28 @@ namespace Nonatomic.VSM2.Editor.Persistence
 		/// </summary>
 		public static void SaveAll()
 		{
-			try
-			{
-				var guids = AssetDatabase.FindAssets("t:StateMachineModel");
-				var totalModels = guids.Length;
-				
-				for (var i = 0; i < totalModels; i++)
-				{
-					var guid = guids[i];
-					var path = AssetDatabase.GUIDToAssetPath(guid);
-					var model = AssetDatabase.LoadAssetAtPath<StateMachineModel>(path);
-					if (!model) continue;
-
-					UpdateAndMarkModelDirty(model);
-					EditorUtility.DisplayProgressBar("Saving State Machine Models", $"Saving {i + 1} of {totalModels} models...", (float)(i + 1) / totalModels);
-				}
-
-				AssetDatabase.SaveAssets();
-			}
-			finally
-			{
-				EditorUtility.ClearProgressBar();
-			}
+			// try
+			// {
+			// 	var guids = AssetDatabase.FindAssets("t:StateMachineModel");
+			// 	var totalModels = guids.Length;
+			// 	
+			// 	for (var i = 0; i < totalModels; i++)
+			// 	{
+			// 		var guid = guids[i];
+			// 		var path = AssetDatabase.GUIDToAssetPath(guid);
+			// 		var model = AssetDatabase.LoadAssetAtPath<StateMachineModel>(path);
+			// 		if (!model) continue;
+			//
+			// 		UpdateAndMarkModelDirty(model);
+			// 		EditorUtility.DisplayProgressBar("Saving State Machine Models", $"Saving {i + 1} of {totalModels} models...", (float)(i + 1) / totalModels);
+			// 	}
+			//
+			// 	AssetDatabase.SaveAssets();
+			// }
+			// finally
+			// {
+			// 	EditorUtility.ClearProgressBar();
+			// }
 		}
 		
 		/// <summary>
@@ -52,18 +52,18 @@ namespace Nonatomic.VSM2.Editor.Persistence
 		/// <param name="model">The state machine model to save.</param>
 		public static void Save(StateMachineModel model)
 		{
-			if (!model) return;
-			
-			try
-			{
-				EditorUtility.DisplayProgressBar("Saving State Machine Model", "Saving model...", 0.5f);
-				UpdateAndMarkModelDirty(model);
-				AssetDatabase.SaveAssets();
-			}
-			finally
-			{
-				EditorUtility.ClearProgressBar();
-			}
+			// if (!model) return;
+			//
+			// try
+			// {
+			// 	EditorUtility.DisplayProgressBar("Saving State Machine Model", "Saving model...", 0.5f);
+			// 	UpdateAndMarkModelDirty(model);
+			// 	AssetDatabase.SaveAssets();
+			// }
+			// finally
+			// {
+			// 	EditorUtility.ClearProgressBar();
+			// }
 		}
 
 		/// <summary>
@@ -72,10 +72,10 @@ namespace Nonatomic.VSM2.Editor.Persistence
 		/// <param name="model">The state machine model to update and mark as dirty.</param>
 		private static void UpdateAndMarkModelDirty(StateMachineModel model)
 		{ 
-			if (!model) return;
-			
-			model = StateMachineModelUtils.UpdatePortDataInModel(model);
-			EditorUtility.SetDirty(model);
+			// if (!model) return;
+			//
+			// model = StateMachineModelUtils.UpdatePortDataInModel(model);
+			// EditorUtility.SetDirty(model);
 		}
 	}
 }
