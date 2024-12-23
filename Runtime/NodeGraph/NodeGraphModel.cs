@@ -20,27 +20,27 @@ namespace Nonatomic.VSM2.NodeGraph
 
 		protected bool TryAddNode(T1 node)
 		{
-			// if (node == null || _nodes.Contains(node)) return false;
-			//
+			if (node == null || _nodes.Contains(node)) return false;
+			
 			// _nodes.Add(node);
 			// MarkDirty();
-			// return true;
+			return true;
 		}
 
 		protected bool TryRemoveNode(T1 node)
 		{
-			// if (node == null || !_nodes.Contains(node)) return false;
-			//
+			if (node == null || !_nodes.Contains(node)) return false;
+			
 			// _nodes.Remove(node);
 			// MarkDirty();
-			// return true;
+			return true;
 		}
 
 		protected bool TryAddTransition(T2 transition)
 		{
-			// var existingTransition = _transitions.FirstOrDefault(t => t.Equals(transition));
-			// if (existingTransition != null) return false;
-			//
+			var existingTransition = _transitions.FirstOrDefault(t => t.Equals(transition));
+			if (existingTransition != null) return false;
+			
 			// _transitions.Add(transition);
 			//
 			// #if UNITY_EDITOR
@@ -50,15 +50,15 @@ namespace Nonatomic.VSM2.NodeGraph
 			// }
 			// #endif
 			//
-			// return true;
+			return true;
 		}
 
 		protected bool TryRemoveTransition(T2 transition)
 		{
-			// if (!_transitions.Contains(transition)) return false;
-			//
+			if (!_transitions.Contains(transition)) return false;
+			
 			// _transitions.Remove(transition);
-			// return true;
+			return true;
 		}
 		
 		private void MarkDirty()
