@@ -12,8 +12,8 @@ namespace Nonatomic.VSM2.NodeGraph
 	
 	public abstract class NodeGraphModel<T1, T2> : NodeGraphDataModel where T1 : NodeModel where T2 : TransitionModel
 	{
-		public IReadOnlyList<T1> Nodes => _nodes;
-		public IReadOnlyList<T2> Transitions => _transitions;
+		public List<T1> Nodes => _nodes;
+		public List<T2> Transitions => _transitions;
 		
 		[SerializeField] private List<T1> _nodes = new ();
 		[SerializeField] private List<T2> _transitions = new ();
