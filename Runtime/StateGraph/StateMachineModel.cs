@@ -39,100 +39,100 @@ namespace Nonatomic.VSM2.StateGraph
 		 */
 		public void SelfValidate()
 		{
-			StateMachineValidator.Validate(this);
+			//StateMachineValidator.Validate(this);
 		}
 
 		public void AddState(StateNodeModel stateNodeModel)
 		{
-			if (GuardUtils.GuardAgainstRuntimeOperation() || stateNodeModel == null) return;
-			
-			#if UNITY_EDITOR
-			{
-				EditorApplication.delayCall += () =>
-				{
-					if (!this) return;
-
-					if (TryAddNode(stateNodeModel))
-					{
-						AddSubAsset(stateNodeModel.State);
-					}
-					
-					ValidateSubAssets();
-				};
-			}
-			#endif
+			// if (GuardUtils.GuardAgainstRuntimeOperation() || stateNodeModel == null) return;
+			//
+			// #if UNITY_EDITOR
+			// {
+			// 	EditorApplication.delayCall += () =>
+			// 	{
+			// 		if (!this) return;
+			//
+			// 		if (TryAddNode(stateNodeModel))
+			// 		{
+			// 			AddSubAsset(stateNodeModel.State);
+			// 		}
+			// 		
+			// 		ValidateSubAssets();
+			// 	};
+			// }
+			// #endif
 		}
 
 		public void RemoveState(StateNodeModel stateNodeModel)
 		{
-			if (GuardUtils.GuardAgainstRuntimeOperation() || stateNodeModel == null) return;
-
-			#if UNITY_EDITOR
-			{
-				EditorApplication.delayCall += () =>
-				{
-					if (!this) return;
-
-					if (TryRemoveNode(stateNodeModel))
-					{
-						RemoveSubAsset(stateNodeModel.State);
-					}
-
-					ValidateSubAssets();
-				};
-			}
-			#endif
+			// if (GuardUtils.GuardAgainstRuntimeOperation() || stateNodeModel == null) return;
+			//
+			// #if UNITY_EDITOR
+			// {
+			// 	EditorApplication.delayCall += () =>
+			// 	{
+			// 		if (!this) return;
+			//
+			// 		if (TryRemoveNode(stateNodeModel))
+			// 		{
+			// 			RemoveSubAsset(stateNodeModel.State);
+			// 		}
+			//
+			// 		ValidateSubAssets();
+			// 	};
+			// }
+			// #endif
 		}
 
 		public void AddTransition(StateTransitionModel stateTransitionModel)
 		{
-			if (GuardUtils.GuardAgainstRuntimeOperation() || stateTransitionModel == null) return;
-
-			#if UNITY_EDITOR
-			{
-				EditorApplication.delayCall += () =>
-				{
-					if (!this) return;
-
-					if (!TryAddTransition(stateTransitionModel))
-					{
-						GraphLog.LogWarning("Failed to add transition");
-					}
-					
-					ValidateSubAssets();
-				};
-			}
-			#endif
+			// if (GuardUtils.GuardAgainstRuntimeOperation() || stateTransitionModel == null) return;
+			//
+			// #if UNITY_EDITOR
+			// {
+			// 	EditorApplication.delayCall += () =>
+			// 	{
+			// 		if (!this) return;
+			//
+			// 		if (!TryAddTransition(stateTransitionModel))
+			// 		{
+			// 			GraphLog.LogWarning("Failed to add transition");
+			// 		}
+			// 		
+			// 		ValidateSubAssets();
+			// 	};
+			// }
+			// #endif
 		}
 		
 		public void RemoveTransition(StateTransitionModel stateTransitionModel)
 		{
-			if (GuardUtils.GuardAgainstRuntimeOperation() || stateTransitionModel == null) return;
-
-			#if UNITY_EDITOR
-			{
-				EditorApplication.delayCall += () =>
-				{
-					if (!this) return;
-
-					if (!TryRemoveTransition(stateTransitionModel))
-					{
-						GraphLog.LogWarning("Failed to remove transition");
-					}
-
-					ValidateSubAssets();
-				};
-			}
-			#endif
+			// if (GuardUtils.GuardAgainstRuntimeOperation() || stateTransitionModel == null) return;
+			//
+			// #if UNITY_EDITOR
+			// {
+			// 	EditorApplication.delayCall += () =>
+			// 	{
+			// 		if (!this) return;
+			//
+			// 		if (!TryRemoveTransition(stateTransitionModel))
+			// 		{
+			// 			GraphLog.LogWarning("Failed to remove transition");
+			// 		}
+			//
+			// 		ValidateSubAssets();
+			// 	};
+			// }
+			// #endif
 		}
 
 		protected override void ValidateSubAssets()
 		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-
-			base.ValidateSubAssets();
-
-			StateMachineValidator.Validate(this);
+			// if (GuardUtils.GuardAgainstRuntimeOperation()) return;
+			//
+			// base.ValidateSubAssets();
+			//
+			// StateMachineValidator.Validate(this);
 		}
 
 		public void Initialize(GameObject gameObject, StateMachine stateMachine, ISharedData sharedData)

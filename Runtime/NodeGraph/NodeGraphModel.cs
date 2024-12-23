@@ -22,8 +22,8 @@ namespace Nonatomic.VSM2.NodeGraph
 		{
 			if (node == null || !_nodes.Contains(node)) return false;
 
-			_nodes.Remove(node);
-			MarkDirty();
+			// _nodes.Remove(node);
+			// MarkDirty();
 			return true;
 		}
 
@@ -31,7 +31,7 @@ namespace Nonatomic.VSM2.NodeGraph
 		{
 			if (!_transitions.Contains(transition)) return false;
 			
-			_transitions.Remove(transition);
+			// _transitions.Remove(transition);
 			return true;
 		}
 		
@@ -46,8 +46,8 @@ namespace Nonatomic.VSM2.NodeGraph
 		{
 			if (node == null || _nodes.Contains(node)) return false;
 
-			_nodes.Add(node);
-			MarkDirty();
+			// _nodes.Add(node);
+			// MarkDirty();
 			return true;
 		}
 
@@ -56,14 +56,14 @@ namespace Nonatomic.VSM2.NodeGraph
 			var existingTransition = _transitions.FirstOrDefault(t => t.Equals(transition));
 			if (existingTransition != null) return false;
 			
-			_transitions.Add(transition);
-
-			#if UNITY_EDITOR
-			{
-				EditorUtility.SetDirty(this);
-				EditorApplication.delayCall += () => AssetDatabase.SaveAssets();
-			}
-			#endif
+			// _transitions.Add(transition);
+			//
+			// #if UNITY_EDITOR
+			// {
+			// 	EditorUtility.SetDirty(this);
+			// 	EditorApplication.delayCall += () => AssetDatabase.SaveAssets();
+			// }
+			// #endif
 			
 			return true;
 		}
