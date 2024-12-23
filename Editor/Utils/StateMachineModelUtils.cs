@@ -21,7 +21,7 @@ namespace Nonatomic.VSM2.Editor.Utils
 					transition.DestinationPort = UpdateTransitionPortDataFromState(destinationNode, transition.DestinationPort);
 				}
 
-				model.Transitions[index] = transition;
+				model.UpdateTransition(index, transition);
 			}
 
 			return model;

@@ -12,26 +12,41 @@ namespace Nonatomic.VSM2.NodeGraph
 	
 	public abstract class NodeGraphModel<T1, T2> : NodeGraphDataModel where T1 : NodeModel where T2 : TransitionModel
 	{
-		public List<T1> Nodes => _nodes;
-		public List<T2> Transitions => _transitions;
+		public IReadOnlyList<T1> Nodes => _nodes;
+		public IReadOnlyList<T2> Transitions => _transitions;
 		
 		[SerializeField] private List<T1> _nodes = new ();
 		[SerializeField] private List<T2> _transitions = new ();
-
-		protected bool TryAddNode(T1 node)
-		{
-			if (node == null || _nodes.Contains(node)) return false;
-
-			_nodes.Add(node);
-			MarkDirty();
-			return true;
-		}
 
 		public bool TryRemoveNode(T1 node)
 		{
 			if (node == null || !_nodes.Contains(node)) return false;
 
 			_nodes.Remove(node);
+			MarkDirty();
+			return true;
+		}
+
+		public bool TryRemoveTransition(T2 transition)
+		{
+			if (!_transitions.Contains(transition)) return false;
+			
+			_transitions.Remove(transition);
+			return true;
+		}
+		
+		public void UpdateTransition(int index, T2 transition)
+		{
+			if(index < 0 || index >= _transitions.Count) return;
+			
+			_transitions[index] = transition;
+		}
+
+		protected bool TryAddNode(T1 node)
+		{
+			if (node == null || _nodes.Contains(node)) return false;
+
+			_nodes.Add(node);
 			MarkDirty();
 			return true;
 		}
@@ -53,14 +68,6 @@ namespace Nonatomic.VSM2.NodeGraph
 			return true;
 		}
 
-		public bool TryRemoveTransition(T2 transition)
-		{
-			if (!_transitions.Contains(transition)) return false;
-			
-			_transitions.Remove(transition);
-			return true;
-		}
-		
 		private void MarkDirty()
 		{
 			#if UNITY_EDITOR
