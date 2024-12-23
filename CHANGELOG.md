@@ -1,5 +1,8 @@
 # Change Log
 
+# [0.9.5-beta] - Dec 22, 2024
+- updated migration tools
+
 # [0.9.4-beta] - Dec 22, 2024
 - Added a method to migrate all state machine model assets
 
