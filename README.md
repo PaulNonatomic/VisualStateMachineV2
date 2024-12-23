@@ -22,24 +22,10 @@ To install Visual State Machine in your Unity project, follow these steps:
 
 When upgrading to Visual State Machine V2 (VSM2) version 0.9.0-beta, follow these steps to ensure a seamless transition and maintain functionality within your Unity project:
 
-1. **Commit Changes:**  
-   Before starting the upgrade, ensure all your current work is committed to version control. This is an important step as we will need to revert some assets shortly.<br><br>
-2. **Add Using Statement:**  
-   You will need to include the following using statement in your custom States in order to support the new [Enter] Attribute.
-   ```csharp
-   using Nonatomic.VSM2.StateGraph;
-   ```
-3. **Update Custom States:** Decorate all OnEnter methods within your custom states with the new [Enter] attribute to align with the updated method handling in version 0.9.0-beta:   
-    ```csharp
-   [Enter]
-    public override void OnEnter()
-    {
-        // Your code here
-    }
-   ```
-4. **Restore StateMachineModel Assets:** Due to changes in the way VSM2 locates entry methods into States, all transitions in your StateMachineModel assets will be invalidated. You will now need to manually restore your StateMachineModel assets from version control.<br><br>
-5. **Test the Project:** After restoring the transitions, run your project to ensure all states and transitions function as expected. Check for any errors or unexpected behaviors and address them accordingly.<br><br>
-6. **Commit the Upgrade:** Once you have verified that everything is functioning correctly, commit the changes to version control. This final step confirms that your project is stable with the upgraded VSM2 version.
+1. **Commit Changes:** Before starting the upgrade, ensure all your current work is committed to version control.>
+2. **Update the package:** to the 0.9.0-migration tag.
+3. **Run the migration tool:** from Tools -> VSM2 -> Migrate to 0.9.0-beta
+4. **Update the package again:** Once the migration has completed update the package to the latest, currently 0.9.6-beta 
 
 ## Usage
 1. **Create a State Machine Asset**
