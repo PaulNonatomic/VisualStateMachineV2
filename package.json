@@ -1,8 +1,8 @@
 ﻿{
   "name": "com.nonatomic.visualstatemachinev2",
-  "version": "0.8.4-beta",
+  "version": "0.9.4-beta",
   "displayName": "Visual State Machine V2",
-  "description": "Visual State Machine V2",
+  "description": "Visual State Machine V2\n\nIMPORTANT NOTE: If you are upgrading to 0.9.0-beta and above from earlier versions, note that `OnEnter` methods now require an `[Enter]` attribute and that the base `OnEnter` method is no longer abstract but virtual.",
   "unity": "2022.3",
   "unityRelease": "1f1",
   "documentationUrl": "https://github.com/PaulNonatomic/VisualStateMachineV2/blob/develop/README.md",
@@ -26,10 +26,14 @@
     "type": "git",
     "url": "git@github.com:PaulNonatomic/VisualStateMachineV2.git"
   },
+  "testables": [
+    "com.nonatomic.vsm2.tests.editmode",
+    "com.nonatomic.vsm2.tests.playmode"
+  ],
   "samples": [
     {
       "displayName": "Traffic Light System",
-      "description": " A Visual Traffic Light State Machine",
+      "description": "A Visual Traffic Light State Machine",
       "path": "Samples~/TrafficLight"
     }
   ]

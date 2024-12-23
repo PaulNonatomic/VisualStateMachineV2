@@ -18,20 +18,35 @@ namespace Nonatomic.VSM2.NodeGraph
 		[SerializeField] private List<T1> _nodes = new ();
 		[SerializeField] private List<T2> _transitions = new ();
 
+		public bool TryRemoveNode(T1 node)
+		{
+			if (node == null || !_nodes.Contains(node)) return false;
+
+			_nodes.Remove(node);
+			MarkDirty();
+			return true;
+		}
+
+		public bool TryRemoveTransition(T2 transition)
+		{
+			if (!_transitions.Contains(transition)) return false;
+			
+			_transitions.Remove(transition);
+			return true;
+		}
+		
+		public void UpdateTransition(int index, T2 transition)
+		{
+			if(index < 0 || index >= _transitions.Count) return;
+			
+			_transitions[index] = transition;
+		}
+
 		protected bool TryAddNode(T1 node)
 		{
 			if (node == null || _nodes.Contains(node)) return false;
 
 			_nodes.Add(node);
-			MarkDirty();
-			return true;
-		}
-
-		protected bool TryRemoveNode(T1 node)
-		{
-			if (node == null || !_nodes.Contains(node)) return false;
-
-			_nodes.Remove(node);
 			MarkDirty();
 			return true;
 		}
@@ -42,7 +57,7 @@ namespace Nonatomic.VSM2.NodeGraph
 			if (existingTransition != null) return false;
 			
 			_transitions.Add(transition);
-
+			
 			#if UNITY_EDITOR
 			{
 				EditorUtility.SetDirty(this);
@@ -53,14 +68,6 @@ namespace Nonatomic.VSM2.NodeGraph
 			return true;
 		}
 
-		protected bool TryRemoveTransition(T2 transition)
-		{
-			if (!_transitions.Contains(transition)) return false;
-			
-			_transitions.Remove(transition);
-			return true;
-		}
-		
 		private void MarkDirty()
 		{
 			#if UNITY_EDITOR

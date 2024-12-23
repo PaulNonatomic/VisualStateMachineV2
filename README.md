@@ -14,56 +14,189 @@ https://github.com/user-attachments/assets/61388bea-8bd4-4f92-9f12-c0f5768e1e8f
 
 ## Installation
 To install Visual State Machine in your Unity project, follow these steps:
-1. Via package manager add a package from git url https://github.com/PaulNonatomic/VisualStateMachineV2.git
+1. Open Unity and navigate to the **Package Manager**.
+2. Click on the **+** button and select **Add package from git URL...**
+3. Enter the following URL: `https://github.com/PaulNonatomic/VisualStateMachineV2.git` and press **Add**.
+
+## Migration Steps to Version 0.9.0-beta
+
+When upgrading to Visual State Machine V2 (VSM2) version 0.9.0-beta, follow these steps to ensure a seamless transition and maintain functionality within your Unity project:
+
+1. **Commit Changes:**  
+   Before starting the upgrade, ensure all your current work is committed to version control. This is an important step as we will need to revert some assets shortly.<br><br>
+2. **Add Using Statement:**  
+   You will need to include the following using statement in your custom States in order to support the new [Enter] Attribute.
+   ```csharp
+   using Nonatomic.VSM2.StateGraph;
+   ```
+3. **Update Custom States:** Decorate all OnEnter methods within your custom states with the new [Enter] attribute to align with the updated method handling in version 0.9.0-beta:   
+    ```csharp
+   [Enter]
+    public override void OnEnter()
+    {
+        // Your code here
+    }
+   ```
+4. **Restore StateMachineModel Assets:** Due to changes in the way VSM2 locates entry methods into States, all transitions in your StateMachineModel assets will be invalidated. You will now need to manually restore your StateMachineModel assets from version control.<br><br>
+5. **Test the Project:** After restoring the transitions, run your project to ensure all states and transitions function as expected. Check for any errors or unexpected behaviors and address them accordingly.<br><br>
+6. **Commit the Upgrade:** Once you have verified that everything is functioning correctly, commit the changes to version control. This final step confirms that your project is stable with the upgraded VSM2 version.
 
 ## Usage
-1. Create a state machine asset from the project panel. Right click -> Create -> State Machine -> State Machine
-2. Either right click and select "Add State" or drag out from the Entry State
+1. **Create a State Machine Asset**
+	- In the Project panel, right-click and select **Create -> State Machine -> State Machine**.<br><br>
+2. **Add States**
+	- Either right-click and select **Add State** or drag out from the **Entry State**.
 
 https://github.com/user-attachments/assets/ff8fb491-fc7a-4658-8ee0-de0ddb2e8c0b
 
-3. The State Selection window appears listing all available states.
-    - States are grouped by namespace with the inbuilt states appearing at the top.
-    - The group of states nearest to the location of the state machine asset will open by default but all states remain accessible.
+3. **State Selection Window**
+	- The State Selection window appears listing all available states.
+		- States are grouped by namespace with the inbuilt states appearing at the top.
+		- The group of states nearest to the location of the state machine asset will open by default, but all states remain accessible.
 
 ![Unity_QcTKNF3bSr](https://github.com/user-attachments/assets/05eb3410-81ef-4085-860c-d95683d24b8b)
 
-4. Create a custom state. Here's the built in DelayState as an example.
-- Add a Transition attribute to an exposed event Action in order for it to appear upon the states node in the State Machine Editor
-- Serialized and public properties are also exposed in the states node in the State Machine Editor. Note fields should be populated with value types and assets and not scene types.
+4. **Create a Custom State**
+	- Here's the built-in `DelayState` as an example:
+	- Add a `Transition` attribute to an exposed event `Action` in order for it to appear upon the state's node in the State Machine Editor.
+	- Serialized and public properties are also exposed in the state's node in the State Machine Editor. Note fields should be populated with value types and assets, not scene types.
 
 ```cs
 [NodeWidth(width:190), NodeColor(NodeColor.Teal), NodeIcon(NodeIcon.Clock)]
 public class DelayState : BaseDelayState
 {
-    [Transition(frameDelay:0)]
-    public event Action OnComplete;
+	[Transition(frameDelay:0)]
+	public event Action OnComplete;
+	
+	[NonSerialized]
+	private float _elapsedTime;
+
+	[Enter]
+	public override void OnEnter()
+	{
+		_elapsedTime = 0f;
+	}
+	
+	public override void OnUpdate()
+	{
+		_elapsedTime += Time.deltaTime;
+
+		if (_elapsedTime < Duration) return;
+		OnComplete?.Invoke();
+	}
+}
+```
+
+5. **Assign the State Machine**
+	- Create a GameObject with a StateMachineController component and assign your new state machine asset to it.<br><br>   
+6. **Run the Application**
+	- With the StateMachineController selected, you can see the state of your state machine within the State Machine Editor window.
+
+## Typed Transitions
+#### Passing Data Between States Using Typed Transitions
+
+To pass data between states in the Visual State Machine, you utilize transitions. Transitions are defined by public event Actions that are decorated with a TransitionAttribute **[Transition]**. Here's how you can effectively use typed transitions:
+
+### Defining Transitions with Parameters
+
+* **Basic Transitions**
+	- Use Action for transitions without parameters.
+
+* **Typed Transitions**
+	- Use Action<T> to pass data between states. Note: The package currently supports a maximum of one parameter per transition. Action<T1, T2> or more parameters are not supported at this time.
+
+### Example: Passing an Integer Between States
+#### Defining the Transition in the Source State
+
+```csharp
+public class SourceState : State
+{
+	[Transition]
+	public event Action<int> OnTransitionWithInt;
+
+	public void TriggerTransition()
+	{
+		int valueToPass = 42;
+		OnTransitionWithInt?.Invoke(valueToPass);
+	}
+
+	[Enter]
+	public void OnEnter()
+	{
+		// Initialization logic
+	}
+}
+```
+
+#### Receiving the Transition in the Target State
+
+```csharp
+public class TargetState : State
+{
+	[Enter]
+	public void OnEnterWithInt(int receivedValue)
+	{
+		Debug.Log($"Received value: {receivedValue}");
+	}
+}
+```
+
+#### Important Notes:
+* **Single Parameter Limitation:** Currently, only one parameter is supported per transition. Ensure that your transitions use Action<T> with a single type parameter.<br><br>
+* **Entry Method Naming Convention:**
+	- It's recommended to name your entry methods as OnEnter followed by the type, for example, OnEnterWithInt(int value). This enhances clarity and consistency.<br><br>
+* **[Enter] Attribute Requirement:**
+	- All entry methods must be decorated with the **[Enter]** attribute.
+	- **Breaking Change:** In version 0.9.0-beta and above, the OnEnter method is no longer abstract but virtual. If you do not override it and decorate it with the **[Enter]** attribute, it will not be called.<br><br>
+* **Visual Indicators in the Editor:**
+	- Any method decorated with the **[Enter]** attribute will appear as an input port at the bottom left of your state's node in the Visual State Machine graph, displaying the parameter type.
+	- Transitions are listed on the bottom right of your state's node with the corresponding type description for typed transitions.<br><br>
+* **Connection Rules:**
+	- Typed output ports will only connect to matching typed input ports.
+	- Transitions without types will only connect to input ports without types.
+	- When dragging out from an output port, valid input ports will remain highlighted while invalid ports are greyed out.<br><br>
+* **Troubleshooting:**
+	- If your entry method does not appear in the state's input ports list:
+		- Ensure you've added the **[Enter]** attribute.
+		- Verify that you're only using one parameter in your Action<T>.<br><br>
+
+### Example: Implementing Typed Transitions
+#### Multiply State with Typed Transition
+
+```csharp
+public class MultiplyState : State
+{
+    [Transition] 
+    public event Action<float> OnCompleteWithResult;
+
+    [SerializeField] 
+    private float _multiplyBy = 2;
     
-    [NonSerialized]
-    private float _elapsedTime;
-
-    public override void OnEnterState()
+    [Enter]
+    public void OnEnterWithFloat(float value)
     {
-        _elapsedTime = 0f;
-    }
-    
-    public override void OnUpdateState()
-    {
-        _elapsedTime += Time.deltaTime;
-
-        if (_elapsedTime < Duration) return;
-        OnComplete?.Invoke();
-    }
-
-    public override void OnExitState()
-    {
-        //...
+        var result = value * _multiplyBy;
+        OnCompleteWithResult?.Invoke(result);
     }
 }
 ```
 
-5. Create a game object with a StateMachineController component upon it and assign it your new state machine asset.
-6. Run the application with the StateMachineController selected to see the state of your state machine within the State Machine Editor window.
+#### Result State Receiving Typed Transition
+
+```csharp
+public class ResultState : State
+{
+	[Enter]
+	public void OnEnterWithResult(float result)
+	{
+		Debug.Log($"Received result: {result}");
+	}
+}
+```
+
+By following this approach, you can effectively pass data between states in your Visual State Machine, enhancing the flexibility and functionality of your state-driven behaviors.
+
+![Unity_AqZI8MraYO](https://github.com/user-attachments/assets/a58aa26d-a207-4fce-bc3d-22d7f8ea0823)
 
 ## Loops with Jump Nodes
 Add JumpOutState state and set it's Id. Then create a JumpInState with the corresponding Id to jump from one node to another.
@@ -87,36 +220,28 @@ States have access to a shared data store
 ```cs
 public class StateOne : State
 {
-    [Transition] public event Action OnComplete;
+	[Transition] public event Action OnComplete;
 
-    public override void OnEnterState()
-    {
-        SharedData.SetData("age", 42);
-        OnComplete?.Invoke();
-    }
-
-    public override void OnExitState()
-    {
-        //...
-    }
+	[Enter]
+	public override void OnEnter()
+	{
+		SharedData.SetData("age", 42);
+		OnComplete?.Invoke();
+	}
 }
-    
+	
 public class StateTwo : State
 {
-    [Transition] public event Action OnComplete;
-    
-    public override void OnEnterState()
-    {
-        var age = SharedData.GetData<int>("age");
-        Debug.Log($"StateTwo - Age:{age}");
-        
-        OnComplete?.Invoke();
-    }
-
-    public override void OnExitState()
-    {
-        //...
-    }
+	[Transition] public event Action OnComplete;
+	
+	[Enter]
+	public override void OnEnter()
+	{
+		var age = SharedData.GetData<int>("age");
+		Debug.Log($"StateTwo - Age:{age}");
+		
+		OnComplete?.Invoke();
+	}
 }
 ```
 

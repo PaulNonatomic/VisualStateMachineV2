@@ -1,11 +1,12 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Nonatomic.VSM2.NodeGraph
 {
 	[Serializable]
 	public class TransitionModel
 	{
-		public event Action<TransitionModel> OnTransition;
+		public event Action<TransitionModel, TransitionEventData> OnTransition;
 		
 		public string OriginNodeId;
 		public string DestinationNodeId;
@@ -15,7 +16,13 @@ namespace Nonatomic.VSM2.NodeGraph
 		
 		public void Transition()
 		{
-			OnTransition?.Invoke(this);
+			OnTransition?.Invoke(this, TransitionEventData.Empty);
+		}
+		
+		public void Transition<T>(T value)
+		{
+			var eventData = new TransitionEventData(value, typeof(T));
+			OnTransition?.Invoke(this, eventData);
 		}
 	}
 }

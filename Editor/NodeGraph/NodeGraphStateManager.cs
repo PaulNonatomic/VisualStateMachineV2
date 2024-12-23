@@ -12,14 +12,17 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 		public Vector2 GridPosition { get; private set; } = Vector2.zero;
 		public Vector2 GridScale { get; private set; } = Vector2.one;
 		public string Id { get; private set; }
-		
+
 		private const string ModelPathKey = "ModelPath";
 		private const string GridPosXKey = "GridPosX";
 		private const string GridPosYKey = "GridPosY";
 		private const string GridScaleXKey = "GridScaleX";
 		private const string GridScaleYKey = "GridScaleY";
 
-		protected string GetKey(string key) => $"{Id}_{key}";
+		// Get a unique identifier for the project
+		private static string ProjectIdentifier => Application.dataPath;
+
+		protected string GetKey(string key) => $"{ProjectIdentifier}_{Id}_{key}";
 
 		public NodeGraphStateManager(string id)
 		{
@@ -29,6 +32,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 
 		protected virtual void ResetState()
 		{
+			EditorPrefs.DeleteKey(GetKey(ModelPathKey));
 			EditorPrefs.DeleteKey(GetKey(GridPosXKey));
 			EditorPrefs.DeleteKey(GetKey(GridPosYKey));
 			EditorPrefs.DeleteKey(GetKey(GridScaleXKey));
@@ -38,7 +42,7 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 		public virtual void LoadState()
 		{
 			var changed = false;
-			
+
 			if (TryLoadModelAtPath(out var model))
 			{
 				Model = model;
@@ -50,8 +54,8 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 				GridPosition = gridPosition;
 				changed = true;
 			}
-			
-			if(TryLoadGridScale(out var gridScale))
+
+			if (TryLoadGridScale(out var gridScale))
 			{
 				GridScale = gridScale;
 				changed = true;
@@ -78,18 +82,18 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 		public void SetModel(NodeGraphDataModel model)
 		{
 			if (!model) return;
-			
+
 			Model = model;
 			SaveState();
 		}
-		
+
 		public void SetGridPosition(Vector2 gridCenter, Vector2 gridPosition)
 		{
 			var diff = gridPosition - gridCenter;
 			GridPosition = diff;
 			SaveState();
 		}
-		
+
 		public void SetGridScale(Vector2 scale)
 		{
 			GridScale = scale;
@@ -99,24 +103,24 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 		private bool TryLoadGridPosition(out Vector2 gridPosition)
 		{
 			gridPosition = Vector2.zero;
-			gridPosition.x = EditorPrefs.GetFloat(GetKey(GridPosXKey));
-			gridPosition.y = EditorPrefs.GetFloat(GetKey(GridPosYKey));
+			gridPosition.x = EditorPrefs.GetFloat(GetKey(GridPosXKey), GridPosition.x);
+			gridPosition.y = EditorPrefs.GetFloat(GetKey(GridPosYKey), GridPosition.y);
 			var dist = Vector2.Distance(gridPosition, GridPosition);
 
 			return dist > 0;
 		}
-		
+
 		private bool TryLoadGridScale(out Vector2 gridScale)
 		{
 			gridScale = Vector2.one;
-			gridScale.x = EditorPrefs.GetFloat(GetKey(GridScaleXKey));
-			gridScale.y = EditorPrefs.GetFloat(GetKey(GridScaleYKey));
-			
+			gridScale.x = EditorPrefs.GetFloat(GetKey(GridScaleXKey), GridScale.x);
+			gridScale.y = EditorPrefs.GetFloat(GetKey(GridScaleYKey), GridScale.y);
+
 			if (gridScale.x == 0 && gridScale.y == 0)
 			{
 				gridScale = Vector2.one;
 			}
-			
+
 			var dist = Vector2.Distance(gridScale, GridScale);
 
 			return dist > 0;
@@ -124,10 +128,10 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 
 		private bool TryLoadModelAtPath(out NodeGraphDataModel model)
 		{
-			var modelPath = EditorPrefs.GetString(GetKey(ModelPathKey));
+			var modelPath = EditorPrefs.GetString(GetKey(ModelPathKey), string.Empty);
 			model = AssetDatabase.LoadAssetAtPath<NodeGraphDataModel>(modelPath);
-			
-			return model;
+
+			return model != null;
 		}
 	}
 }

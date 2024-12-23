@@ -10,11 +10,12 @@ namespace Nonatomic.VSM2.StateGraph.States
 		[SerializeField, Multiline(5)] 
 		private string _note;
 		
-		public override void OnEnterState()
+		[Enter]
+		public override void OnEnter()
 		{
 		}
 
-		public override void OnExitState()
+		public override void OnExit()
 		{
 		}
 	}

@@ -8,7 +8,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 		[NonSerialized, Tooltip("Counter")] 
 		public int Count = 0;
 		
-		public override void OnAwakeState()
+		public override void OnAwake()
 		{
 			Count = 0;
 		}

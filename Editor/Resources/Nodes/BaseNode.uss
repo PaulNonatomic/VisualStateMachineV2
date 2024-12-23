@@ -1,0 +1,21 @@
+﻿/* BaseNode.uss */
+
+/* *********** Base Node *********** */
+
+.node {
+    min-width: 280px;
+    max-width: 540px;
+}
+
+.node #state-border {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-color: #4CAF50;
+    border-width: 2px;
+    border-radius: 8px;
+    opacity:0;
+    margin:1px;
+}

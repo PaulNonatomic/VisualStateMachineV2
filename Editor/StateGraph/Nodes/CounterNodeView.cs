@@ -50,6 +50,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		private void AddCounterField()
 		{
 			_field = new IntegerField("");
+			_field.isReadOnly = true;
+			_field.AddToClassList("count-field");
+			
 			_propertyContainer.Add(_field);
 		}
 		

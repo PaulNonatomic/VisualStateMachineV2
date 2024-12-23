@@ -1,0 +1,31 @@
+/* *********** SubStateNodeView *********** */
+@import url("BaseNode.uss");
+@import url("ProgressBar.uss");
+@import url("PropertyContainer.uss");
+@import url("TitleBar.uss");
+
+.node {
+    min-width: 340px;
+    max-width: 320px;
+}
+
+.node #title {
+    flex-direction: column;
+}
+
+.node #title-button-container {
+    visibility: hidden;
+    width:0;
+    height:0;
+}
+
+.node #title-icon {
+    min-width:22px;
+    min-height:22px;
+    width: 22px;
+    height:22px;
+}
+
+.unity-text-element {
+    min-width: 50px;
+}

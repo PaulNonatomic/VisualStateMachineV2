@@ -2,9 +2,13 @@
 using Nonatomic.VSM2.Data;
 using Nonatomic.VSM2.Logging;
 using Nonatomic.VSM2.NodeGraph;
+using Nonatomic.VSM2.StateGraph.Validation;
 using Nonatomic.VSM2.Utils;
-using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Nonatomic.VSM2.StateGraph
 {
@@ -35,7 +39,7 @@ namespace Nonatomic.VSM2.StateGraph
 		 */
 		public void SelfValidate()
 		{
-			ValidateSubAssets();
+			StateMachineValidator.Validate(this);
 		}
 
 		public void AddState(StateNodeModel stateNodeModel)
@@ -47,11 +51,13 @@ namespace Nonatomic.VSM2.StateGraph
 				EditorApplication.delayCall += () =>
 				{
 					if (!this) return;
-
+			
 					if (TryAddNode(stateNodeModel))
 					{
 						AddSubAsset(stateNodeModel.State);
 					}
+					
+					ValidateSubAssets();
 				};
 			}
 			#endif
@@ -60,18 +66,18 @@ namespace Nonatomic.VSM2.StateGraph
 		public void RemoveState(StateNodeModel stateNodeModel)
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation() || stateNodeModel == null) return;
-
+			
 			#if UNITY_EDITOR
 			{
 				EditorApplication.delayCall += () =>
 				{
 					if (!this) return;
-
+			
 					if (TryRemoveNode(stateNodeModel))
 					{
 						RemoveSubAsset(stateNodeModel.State);
 					}
-
+			
 					ValidateSubAssets();
 				};
 			}
@@ -81,17 +87,19 @@ namespace Nonatomic.VSM2.StateGraph
 		public void AddTransition(StateTransitionModel stateTransitionModel)
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation() || stateTransitionModel == null) return;
-
+			
 			#if UNITY_EDITOR
 			{
 				EditorApplication.delayCall += () =>
 				{
 					if (!this) return;
-
+			
 					if (!TryAddTransition(stateTransitionModel))
 					{
 						GraphLog.LogWarning("Failed to add transition");
 					}
+					
+					ValidateSubAssets();
 				};
 			}
 			#endif
@@ -100,18 +108,18 @@ namespace Nonatomic.VSM2.StateGraph
 		public void RemoveTransition(StateTransitionModel stateTransitionModel)
 		{
 			if (GuardUtils.GuardAgainstRuntimeOperation() || stateTransitionModel == null) return;
-
+			
 			#if UNITY_EDITOR
 			{
 				EditorApplication.delayCall += () =>
 				{
 					if (!this) return;
-
+			
 					if (!TryRemoveTransition(stateTransitionModel))
 					{
 						GraphLog.LogWarning("Failed to remove transition");
 					}
-
+			
 					ValidateSubAssets();
 				};
 			}
@@ -123,60 +131,8 @@ namespace Nonatomic.VSM2.StateGraph
 			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
 			
 			base.ValidateSubAssets();
-
-			ValidateNodes();
-			ValidateNodePorts();
-			ValidateTransitions();
-		}
-
-		private void ValidateTransitions()
-		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
 			
-			for (var index = Transitions.Count - 1; index >= 0; index--)
-			{
-				var transition = Transitions[index];
-				var originNode = Nodes.FirstOrDefault(node => node.Id == transition.OriginNodeId);
-				var destinationNode = Nodes.FirstOrDefault(node => node.Id == transition.DestinationNodeId);
-
-				if (originNode != null && destinationNode != null)
-				{
-					if (NodeGraphModelUtils.TryGetPortsByIdWithIndexFallback(transition, originNode, destinationNode,
-														 out var originPort, out var destinationPort))
-					{
-						NodeGraphModelUtils.SyncTransitionPorts(transition, originPort, destinationPort);
-						continue;
-					}
-				}
-
-				GraphLog.LogWarning(TryRemoveTransition(transition)
-					? $"Removed invalid transition {transition}"
-					: $"Could not remove invalid transition {transition}");
-			}
-		}
-
-		private void ValidateNodePorts()
-		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			
-			foreach (var node in Nodes)
-			{
-				node.ValidatePorts();
-			}
-		}
-
-		private void ValidateNodes()
-		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			
-			var invalidNodes = Nodes.Where(node => !node.State).ToList();
-
-			foreach (var node in invalidNodes)
-			{
-				Debug.LogWarning(TryRemoveNode(node)
-					? $"Removed invalid node {node}"
-					: $"Could not remove invalid node {node}");
-			}
+			StateMachineValidator.Validate(this);
 		}
 
 		public void Initialize(GameObject gameObject, StateMachine stateMachine, ISharedData sharedData)

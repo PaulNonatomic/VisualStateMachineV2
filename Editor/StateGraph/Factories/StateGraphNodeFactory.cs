@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Nonatomic.VSM2.Editor.StateGraph.Nodes;
 using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.States;
+using Nonatomic.VSM2.StateGraph.Validation;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -20,6 +21,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			{typeof(DelayState), typeof(DelayNodeView)},
 			{typeof(RelayState), typeof(RelayNodeView)},
 			{typeof(CounterState), typeof(CounterNodeView)},
+			{typeof(CounterWithTargetState), typeof(CounterWithTargetNodeView)},
 			{typeof(DelayUnscaledState), typeof(DelayNodeView)},
 			{typeof(SubStateMachineState), typeof(SubStateNodeView)},
 			{typeof(StickyNoteState), typeof(StickyNoteNodeView)}
@@ -44,6 +46,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 			state.name = GenerateStateName(stateType);
 			var stateNode = new StateNodeModel(state, position);
+			StateNodeValidator.InitializePorts(stateNode);
+			
 			model.AddState(stateNode);
 
 			return stateNode;

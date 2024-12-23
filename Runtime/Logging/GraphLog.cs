@@ -1,25 +1,27 @@
-﻿namespace Nonatomic.VSM2.Logging
+﻿using UnityEngine;
+
+namespace Nonatomic.VSM2.Logging
 {
 	public static class GraphLog
 	{
-		public static void Log(object msg)
+		public static void Log(object msg, Object context = null)
 		{ 
 			#if GRAPH_LOG
-			Debug.Log(msg);
+			Debug.Log(msg, context);
 			#endif
 		}
 
-		public static void LogWarning(object msg)
+		public static void LogWarning(object msg, Object context = null)
 		{
 			#if GRAPH_LOG
-			Debug.LogWarning(msg);
+			Debug.LogWarning(msg, context);
 			#endif
 		}
 		
-		public static void LogError(object msg)
+		public static void LogError(object msg, Object context = null)
 		{
 			#if GRAPH_LOG
-			Debug.LogError(msg);
+			Debug.LogError(msg, context);
 			#endif
 		}
 	}

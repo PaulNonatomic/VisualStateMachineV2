@@ -22,19 +22,20 @@ namespace Nonatomic.VSM2.StateGraph.States
 		private bool _started;
 		private bool _entered;
 
-		public override void OnAwakeState()
+		public override void OnAwake()
 		{
 			CreateStateMachine();
 			ReplaceModelWithActiveModel();
 		}
 		
-		public override void OnStartState()
+		public override void OnStart()
 		{
 			SubStateMachine?.Start();
 			_started = true;
 		}
 
-		public override void OnEnterState()
+		[Enter]
+		public override void OnEnter()
 		{
 			if(SubStateMachine == null) return;
 
@@ -44,17 +45,22 @@ namespace Nonatomic.VSM2.StateGraph.States
 			SubStateMachine.Enter();
 		}
 
-		public override void OnUpdateState()
+		public override void OnUpdate()
 		{
 			SubStateMachine?.Update();
 		}
 
-		public override void OnFixedUpdateState()
+		public override void OnFixedUpdate()
 		{
 			SubStateMachine?.FixedUpdate();
 		}
 
-		public override void OnExitState()
+		public override void OnLateUpdate()
+		{
+			SubStateMachine?.LateUpdate();
+		}
+
+		public override void OnExit()
 		{
 			if(SubStateMachine == null) return;
 			
@@ -63,7 +69,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			_entered = false;
 		}
 
-		public override void OnDestroyState()
+		public override void OnDestroy()
 		{
 			ReplaceModelWithOriginalModel();
 			

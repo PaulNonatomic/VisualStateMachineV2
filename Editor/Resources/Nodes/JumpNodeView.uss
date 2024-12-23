@@ -1,0 +1,113 @@
+/* *********** JumpNodeView *********** */
+@import url("BaseNode.uss");
+
+/* *********** Base Node *********** */
+.node {
+    min-width: auto;
+}
+
+/* *********** Title Bar *********** */
+.node #title-container {
+    padding-right: 0px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.node.jump-out #title-container {
+    flex-direction: row-reverse;
+}
+
+.node.jump-in #title-container {
+    flex-direction: row;
+    padding-left: 5px;
+}
+
+.node #title-button-container {
+    visibility: hidden;
+    width:0;
+    height:0;
+}
+
+.node #title-icon {
+    min-width:24px;
+    min-height:24px;
+    width: 24px;
+    height:24px;
+}
+
+/* ***********  *********** */
+Port {
+    height: 100%;
+    width: 26px;
+}
+
+Port Label {
+    display: none;
+}
+
+.node #contents {
+    display: none;
+}
+
+.jump-out PopupField {
+    margin-left: -6px;
+    margin-right: 11px;
+    height: 20px;
+    background-color: #2a2a2a;
+    border-radius: 5;
+}
+
+.jump-in PopupField {
+    margin-left: 6px;
+    margin-right: -3px;    
+    height: 20px;
+    background-color: #2a2a2a;
+    border-radius: 5;
+}
+
+PopupField .unity-base-field__input {
+    border-bottom-width: 0px;
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    min-width: 47px;
+}
+
+PopupTextElement {
+    font-size: 12px;
+    flex-grow: 1;
+    -unity-text-align: middle-center;
+    -unity-font-style: Bold;
+}
+
+PopupField .unity-text-element {
+    max-width: 27px;
+}
+
+.jump-out #beacon {
+    position: absolute;
+    left: 83px;
+    top:10px;
+}
+
+.jump-in #beacon {
+    position: absolute;
+    left:-20px;
+    top:10px;
+}
+
+.jump-out #halo {
+    position: absolute;
+    left: 86px;
+    top:11px;
+    width: 20px;
+    height: 20px;
+}
+
+.jump-in #halo {
+    position: absolute;
+    left:-20px;
+    top:11px;
+    width: 20px;
+    height: 20px;
+}

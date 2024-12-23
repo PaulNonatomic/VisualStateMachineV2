@@ -13,8 +13,8 @@ namespace Nonatomic.VSM2.Editor.Persistence
 	{
 		static StateMachineModelSaver()
 		{
-			AssemblyReloadEvents.afterAssemblyReload += SaveAll;
-			EditorApplication.projectChanged += SaveAll;
+			// AssemblyReloadEvents.afterAssemblyReload += SaveAll;
+			// EditorApplication.projectChanged += SaveAll;
 		}
 
 		/// <summary>
@@ -56,6 +56,8 @@ namespace Nonatomic.VSM2.Editor.Persistence
 			
 			try
 			{
+				model?.SelfValidate();
+				
 				EditorUtility.DisplayProgressBar("Saving State Machine Model", "Saving model...", 0.5f);
 				UpdateAndMarkModelDirty(model);
 				AssetDatabase.SaveAssets();

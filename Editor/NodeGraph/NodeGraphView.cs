@@ -55,6 +55,9 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 			var compatiblePorts = new List<Port>();
 			if (Application.isPlaying) return compatiblePorts;
 			
+			var startPortModel = startPort.userData as PortModel;
+			if (startPortModel == null) return compatiblePorts;
+			
 			foreach (var port in ports)
 			{
 				if (ElementUtils.BothContainClass(port, startPort, "output")) continue;
@@ -63,6 +66,12 @@ namespace Nonatomic.VSM2.Editor.NodeGraph
 				if (startPort == port || startPort.node == port.node) continue;
 				if (startPort.capacity == Port.Capacity.Single && startPort.connections.ToList().Count > 0) continue;
 				if (port.capacity == Port.Capacity.Single && port.connections.ToList().Count > 0) continue;
+
+				var endPortModel = port.userData as PortModel;
+				if(endPortModel == null) continue;
+				
+				var blankPortTypes = string.IsNullOrEmpty(startPortModel.PortTypeName) && string.IsNullOrEmpty(endPortModel.PortTypeName);
+				if(!blankPortTypes && startPortModel.PortTypeName != endPortModel.PortTypeName) continue;
 				
 				compatiblePorts.Add(port);
 			}

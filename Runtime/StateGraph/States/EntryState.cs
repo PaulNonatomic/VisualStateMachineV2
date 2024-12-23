@@ -11,12 +11,13 @@ namespace Nonatomic.VSM2.StateGraph.States
 		[Transition(portColor:NodeColor.Green, frameDelay:0)] 
 		public event Action OnEntry;
 
-		public override void OnEnterState()
+		[Enter]
+		public override void OnEnter()
 		{
 			OnEntry?.Invoke();
 		}
 
-		public override void OnExitState()
+		public override void OnExit()
 		{
 			//..
 		}

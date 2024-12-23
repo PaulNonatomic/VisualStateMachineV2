@@ -58,6 +58,7 @@ namespace Nonatomic.VSM2.StateGraph.Attributes
 		public const string Pencil = "pencil";
 		public const string Pentagon = "pentagon";
 		public const string Perspective = "grid-perspective";
+		public const string Play = "play";
 		public const string PlusCircle = "plus-circle";
 		public const string PlusSquare = "plus-square";
 		public const string Post = "post";
@@ -66,6 +67,7 @@ namespace Nonatomic.VSM2.StateGraph.Attributes
 		public const string Report = "report";
 		public const string RulerArrows = "ruler-arrows";
 		public const string Share = "share";
+		public const string Sparks = "sparks";
 		public const string Spiral = "spiral";
 		public const string Trash = "trash";
 		public const string Triangle = "triangle";
