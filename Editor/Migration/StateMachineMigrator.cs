@@ -1,5 +1,7 @@
 ﻿using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.Utils;
+using UnityEditor;
+using UnityEngine;
 
 namespace Nonatomic.VSM2.Editor.Migration
 {
@@ -11,6 +13,13 @@ namespace Nonatomic.VSM2.Editor.Migration
 
 			MigrateNodePorts(stateMachineModel);
 			MigrateTransitions(stateMachineModel);
+			SaveModel(stateMachineModel);
+		}
+
+		private static void SaveModel(StateMachineModel stateMachineModel)
+		{
+			Debug.Log($"Flag as dirty: {stateMachineModel.name}");
+			EditorUtility.SetDirty(stateMachineModel);
 		}
 
 		private static void MigrateTransitions(StateMachineModel stateMachineModel)
@@ -25,6 +34,11 @@ namespace Nonatomic.VSM2.Editor.Migration
 				if (transition.DestinationNodeId == "OnEnterState")
 				{
 					transition.DestinationNodeId = "OnEnter";
+				}
+				
+				if(transition.DestinationPort.Id == "OnEnterState")
+				{
+					transition.DestinationPort.Id = "OnEnter";
 				}
 			}
 		}

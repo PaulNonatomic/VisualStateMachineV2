@@ -1,52 +1,73 @@
-﻿using System.IO;
+﻿using UnityEngine;
+using UnityEditor;
+using System;
+using System.IO;
 
-namespace Nonatomic.VSM2.Editor.Migration
+public static class MigrationUtils
 {
-#if UNITY_EDITOR
-	using System;
-	using UnityEditor;
-	using UnityEngine;
-
-	public static class MigrationUtils
+	public static string GetPathForType(Type type)
 	{
-		public static string GetPathForType(Type type)
+		var guids = AssetDatabase.FindAssets("t:MonoScript");
+
+		// Figure out the "base" name if this is an open generic type definition
+		var isOpenGeneric = type.IsGenericTypeDefinition; 
+		var strippedBaseName = isOpenGeneric ? StripBacktick(type.Name) : null;
+
+		foreach (var guid in guids)
 		{
-			var guids = AssetDatabase.FindAssets("t:MonoScript");
-		
-			foreach (var guid in guids)
+			var path = AssetDatabase.GUIDToAssetPath(guid);
+
+			// 1. If we see an open generic, fallback to checking filename
+			if (isOpenGeneric && !string.IsNullOrEmpty(strippedBaseName))
 			{
-				var path = AssetDatabase.GUIDToAssetPath(guid);
-				var monoScript = AssetDatabase.LoadAssetAtPath<MonoScript>(path);
-				if (monoScript == null) continue;
+				var fileName = Path.GetFileName(path);
+				if (fileName.Equals(strippedBaseName + ".cs", StringComparison.OrdinalIgnoreCase))
+				{
+					var fullPath = Application.dataPath.Replace("Assets", "") + path;
+					if (File.Exists(fullPath))
+					{
+						return fullPath;
+					}
+				}
+			}
 
-				var scriptClass = monoScript.GetClass();
-				if (scriptClass == null) continue;
+			// 2. Otherwise, do the usual closed-generic / normal type check
+			var monoScript = AssetDatabase.LoadAssetAtPath<MonoScript>(path);
+			if (monoScript == null) continue;
 
-				if (!IsSameOrOpenGenericEquivalent(scriptClass, type)) continue;
+			var scriptClass = monoScript.GetClass();
+			if (scriptClass == null) continue;
 
+			if (IsSameOrOpenGenericEquivalent(scriptClass, type))
+			{
 				var fullPath = Application.dataPath.Replace("Assets", "") + path;
 				if (File.Exists(fullPath))
 				{
 					return fullPath;
 				}
 			}
-
-			Debug.LogWarning($"Could not find a .cs file for type: {type.FullName}");
-			return null;
 		}
 
-		private static bool IsSameOrOpenGenericEquivalent(Type scriptClass, Type targetType)
-		{
-			// If both sides are generic, compare their definitions
-			if (scriptClass.IsGenericType && targetType.IsGenericType)
-			{
-				return scriptClass.GetGenericTypeDefinition() == targetType.GetGenericTypeDefinition();
-			}
-
-			// Otherwise do a direct compare (for non-generic types)
-			return scriptClass == targetType;
-		}
+		Debug.LogWarning($"Could not find a .cs file for type: {type.FullName}");
+		return null;
 	}
-#endif
 
+	private static bool IsSameOrOpenGenericEquivalent(Type scriptClass, Type targetType)
+	{
+		if (scriptClass.IsGenericType && targetType.IsGenericType)
+		{
+			return scriptClass.GetGenericTypeDefinition() == targetType.GetGenericTypeDefinition();
+		}
+
+		return scriptClass == targetType;
+	}
+
+	private static string StripBacktick(string typeName)
+	{
+		// e.g. "RoundListState`1" => "RoundListState"
+		var index = typeName.IndexOf('`');
+		return (index >= 0) 
+			? typeName.Substring(0, index) 
+			: typeName;
+	}
 }

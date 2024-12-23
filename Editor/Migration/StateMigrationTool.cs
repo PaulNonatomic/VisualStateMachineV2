@@ -35,6 +35,12 @@ namespace Nonatomic.VSM2.Editor.Migration
 		{
 			MigrateStates();
 			MigrateModels();
+			
+			EditorApplication.delayCall += () =>
+			{
+				AssetDatabase.SaveAssets();
+				AssetDatabase.Refresh();
+			};
 		}
 
 		private static void MigrateModels()
@@ -60,7 +66,6 @@ namespace Nonatomic.VSM2.Editor.Migration
 				MigrateState(stateClass, path);
 			}
 		
-			AssetDatabase.Refresh();
 			Debug.Log("State migration completed successfully.");
 		}
 
