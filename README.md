@@ -22,9 +22,9 @@ To install Visual State Machine in your Unity project, follow these steps:
 
 When upgrading to Visual State Machine V2 (VSM2) version 0.9.0-beta, follow these steps to ensure a seamless transition and maintain functionality within your Unity project:
 
-1. **Commit Changes:** Before starting the upgrade, ensure all your current work is committed to version control.>
-2. **Update the package:** to the 0.9.0-migration tag.
-3. **Run the migration tool:** from Tools -> VSM2 -> Migrate to 0.9.0-beta
+1. **Commit Changes:** Before starting the upgrade, ensure all your current work is committed to version control.
+2. **Update the package:** Change the package address in your projects Packages/manifest.json file to https://github.com/PaulNonatomic/VisualStateMachineV2.git#0.9.0-migration
+3. **Run the migration tool:** open Tools -> VSM2 -> Migrate to 0.9.0-beta
 4. **Update the package again:** Once the migration has completed update the package to the latest, currently 0.9.6-beta 
 
 ## Usage
