@@ -135,9 +135,9 @@ namespace Nonatomic.VSM2.StateGraph
 			StateMachineValidator.Validate(this);
 		}
 
-		public void Initialize(GameObject gameObject, StateMachine stateMachine, ISharedData sharedData)
+		public void Initialize(StateMachineController controller, StateMachine stateMachine, ISharedData sharedData)
 		{
-			if (!gameObject || stateMachine == null) return;
+			if (!controller || stateMachine == null) return;
 
 			foreach (var stateNode in Nodes)
 			{
@@ -146,7 +146,8 @@ namespace Nonatomic.VSM2.StateGraph
 				var instantiatedState = Instantiate(stateNode.State);
 				if (!instantiatedState) continue;
 				
-				instantiatedState.GameObject = gameObject;
+				instantiatedState.GameObject = controller.gameObject;
+				instantiatedState.Controller = controller;
 				instantiatedState.StateMachine = stateMachine;
 				instantiatedState.SharedData = sharedData;
 				stateNode.State = instantiatedState;

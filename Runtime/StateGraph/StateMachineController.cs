@@ -146,7 +146,7 @@ namespace Nonatomic.VSM2.StateGraph
 		private void CreateStateMachine()
 		{
 			if(!_model) return;
-			_stateMachine = new StateMachine(_model, gameObject);
+			_stateMachine = new StateMachine(_model, this);
 		}
 	}
 }

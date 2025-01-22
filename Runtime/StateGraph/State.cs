@@ -18,6 +18,7 @@ namespace Nonatomic.VSM2.StateGraph
 		public StateMachine StateMachine { get; set; }
 		public ISharedData SharedData { get; set; }
 		public TransitionEventData TransitionData { get; set; }
+		public StateMachineController Controller { get; set; }
 
 		/// <summary>
 		/// The OnStart method is mapped the state machines Awake method

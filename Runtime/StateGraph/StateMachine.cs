@@ -28,16 +28,16 @@ namespace Nonatomic.VSM2.StateGraph
 		private Dictionary<JumpId, StateNodeModel> _jumpNodeLookup = new();
 		private CancellationTokenSource _cancellationTokenSource = new();
 
-		public StateMachine(StateMachineModel model, GameObject gameObject)
+		public StateMachine(StateMachineModel model, StateMachineController controller)
 		{
 			SharedData = new SharedData();
-			Initialize(model, gameObject);
+			Initialize(model, controller);
 		}
 		
-		public StateMachine(StateMachineModel model, GameObject gameObject, ISharedData sharedData = null)
+		public StateMachine(StateMachineModel model, StateMachineController controller, ISharedData sharedData = null)
 		{
 			SharedData = sharedData ?? new SharedData();
-			Initialize(model, gameObject);
+			Initialize(model, controller);
 		}
 
 		public void Update()
@@ -128,10 +128,10 @@ namespace Nonatomic.VSM2.StateGraph
 			Model = null;
 		}
 
-		private void Initialize(StateMachineModel model, GameObject gameObject)
+		private void Initialize(StateMachineModel model, StateMachineController controller)
 		{
 			Model = StateMachineModel.CreateInstance(model);
-			Model.Initialize(gameObject, this, SharedData);
+			Model.Initialize(controller, this, SharedData);
 
 			CreateNodeLookupTable();
 			CreateTransitionLookupTable();

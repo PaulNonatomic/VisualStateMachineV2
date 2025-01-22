@@ -97,7 +97,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 		{
 			if(!_model) return;
 			
-			SubStateMachine = new StateMachine(_model, GameObject, SharedData);
+			SubStateMachine = new StateMachine(_model, Controller, SharedData);
 			SubStateMachine.SetParent(StateMachine);
 		}
 
