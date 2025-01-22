@@ -1,6 +1,6 @@
 ﻿{
   "name": "com.nonatomic.visualstatemachinev2",
-  "version": "0.9.6-beta",
+  "version": "0.10.0-beta",
   "displayName": "Visual State Machine V2",
   "description": "Visual State Machine V2\n\nIMPORTANT NOTE: If you are upgrading to 0.9.0-beta and above from earlier versions, note that `OnEnter` methods now require an `[Enter]` attribute and that the base `OnEnter` method is no longer abstract but virtual.",
   "unity": "2022.3",

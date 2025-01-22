@@ -1,5 +1,10 @@
 # Change Log
 
+# [0.10.0-beta] - Jan 22, 2025
+- Added a reference to the StateMachineController on each State. This removes the need to use GetComponent and allows for more direct 
+  communication between states and the controller. This does introduce an issue where a StateMachine can become tightly coupled to a 
+  derived StateMachineController that then makes the StateMachineModel less reusable. This is a trade-off for the increased ease of use.
+
 # [0.9.6-beta] - Dec 23, 2024
 - Removal of build breaking methods in AssetUtils
 
@@ -40,7 +45,7 @@
 - Added SharedData.GetKeys() method to return all keys in the shared data.
 
 ## [0.8.3-beta] - Sept 10, 2024
-Added support for switching SubStateMachine models at runtime
+- Added support for switching SubStateMachine models at runtime
 
 ## [0.8.2-beta] - Sept 09, 2024
 - Added TryGetData and HasData methods to the SharedData class
