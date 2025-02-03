@@ -85,6 +85,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			
 			_model = value;
 			CreateStateMachine();
+			ReplaceModelWithActiveModel();
 
 			if (!GameObject.activeInHierarchy || !_started) return;
 			SubStateMachine?.Start();
@@ -106,14 +107,14 @@ namespace Nonatomic.VSM2.StateGraph.States
 			//...
 		}
 		
-		private void ReplaceModelWithActiveModel()
+		protected virtual void ReplaceModelWithActiveModel()
 		{
 			if (SubStateMachine == null) return;
 			
 			_model = SubStateMachine.Model;
 		}
 
-		private void ReplaceModelWithOriginalModel()
+		protected virtual void ReplaceModelWithOriginalModel()
 		{
 			if (!_model) return;
 			
