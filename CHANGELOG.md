@@ -1,8 +1,11 @@
 # Change Log
 
+# [0.10.2-beta] - Feb 05, 2025
+- Fix for lack of stacktrace in exceptions thrown by states
+
 # [0.10.1-beta] - Feb 03, 2025
 - Added a call to the ReplaceModelWithActiveModel method in BaseSubStateMachineState.SwitchModel to ensure the active model is set to the current model when switching models.
-- 
+
 # [0.10.0-beta] - Jan 22, 2025
 - Added a reference to the StateMachineController on each State. This removes the need to use GetComponent and allows for more direct 
   communication between states and the controller. This does introduce an issue where a StateMachine can become tightly coupled to a 

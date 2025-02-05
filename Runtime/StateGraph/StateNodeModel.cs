@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Nonatomic.VSM2.Extensions;
-using Nonatomic.VSM2.Logging;
 using Nonatomic.VSM2.NodeGraph;
-using Nonatomic.VSM2.Utils;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -61,34 +58,32 @@ namespace Nonatomic.VSM2.StateGraph
 				var method = methods.FirstOrDefault(m => 
 					m.GetParameters().Length == 1 && 
 					m.GetParameters()[0].ParameterType == eventData.Type);
+
+				if (method == null) return;
 				
-				if (method != null)
+				try
 				{
-					try
-					{
-						method.Invoke(State, new[] { eventData.Value });
-					}
-					catch (Exception ex)
-					{
-						Debug.LogError($"Error invoking OnEnter method: {ex.Message}");
-					}
+					method.Invoke(State, new[] { eventData.Value });
+				}
+				catch (Exception ex)
+				{
+					Debug.LogException(ex);
 				}
 			}
 			else
 			{
 				var method = methods.FirstOrDefault(m => 
 					m.GetParameters().Length == 0);
+
+				if (method == null) return;
 				
-				if (method != null)
+				try
 				{
-					try
-					{
-						method.Invoke(State, null);
-					}
-					catch (Exception ex)
-					{
-						Debug.LogError($"Error invoking OnEnter method: {ex.Message}");
-					}
+					method.Invoke(State, null);
+				}
+				catch (Exception ex)
+				{
+					Debug.LogException(ex);
 				}
 			}
 		}
