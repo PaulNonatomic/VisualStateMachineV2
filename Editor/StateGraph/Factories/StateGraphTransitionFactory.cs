@@ -1,5 +1,4 @@
-﻿using System;
-using Nonatomic.VSM2.Editor.NodeGraph;
+﻿using Nonatomic.VSM2.Editor.NodeGraph;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
 using UnityEditor.Experimental.GraphView;
