@@ -11,14 +11,10 @@ namespace Nonatomic.VSM2.StateGraph.States
 	public abstract class BaseSubStateMachineState : State
 	{
 		public StateMachine SubStateMachine { get; private set; }
-
-		public StateMachineModel Model
-		{
-			get => _model;
-			set => _model = value;
-		}
+		public StateMachineModel Model => _model;
 
 		[SerializeField] private StateMachineModel _model;
+
 		private bool _started;
 		private bool _entered;
 

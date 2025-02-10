@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f720d7a7-d10f-4d98-b04b-de81abc290d1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/projectSettingsUpdater.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Runtime/StateGraph/Attributes/NodeIcon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/StateGraph/Attributes/NodeIcon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Runtime/StateGraph/State.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/StateGraph/State.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Runtime/StateGraph/States/BaseSubStateMachineState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Runtime/StateGraph/States/BaseSubStateMachineState.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,9 +29,11 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Editor/Services/ImageService.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Runtime/StateGraph/Attributes/NodeIcon.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Runtime/StateGraph/Extensions/ScriptableCommandExtension/CommandState.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Editor/Services/ImageService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/StateGraph/Attributes/NodeIcon.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/StateGraph/Extensions/ScriptableCommandExtension/CommandState.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/StateGraph/States/DelayState.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Runtime/StateGraph/States/SubStateMachineState.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
@@ -47,7 +46,8 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feat/0.9.0-beta/state-api-changes&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -68,6 +68,8 @@
       <workItem from="1729954094397" duration="336000" />
       <workItem from="1731144627579" duration="131000" />
       <workItem from="1731144946123" duration="746000" />
+      <workItem from="1738761160740" duration="24000" />
+      <workItem from="1738838007426" duration="1290000" />
     </task>
     <servers />
   </component>
