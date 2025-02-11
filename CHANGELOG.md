@@ -1,6 +1,6 @@
 # Change Log
 
-# [0.10.2-beta] - Feb 11, 2025
+# [0.10.3-beta] - Feb 11, 2025
 - Fix for playing selected StateMachineControllers model in the State Machine Editor when entering runtime.
   - Previously required a deselect and reselect of the StateMachineController to play the model in the State Machine Editor.
 
