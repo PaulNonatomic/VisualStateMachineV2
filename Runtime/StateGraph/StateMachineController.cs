@@ -148,5 +148,10 @@ namespace Nonatomic.VSM2.StateGraph
 			if(!_model) return;
 			_stateMachine = new StateMachine(_model, this);
 		}
+		
+		private void OnValidate()
+		{
+			CreateUniqueId();
+		}
 	}
 }
