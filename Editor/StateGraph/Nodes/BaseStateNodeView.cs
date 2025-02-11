@@ -17,7 +17,6 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
-using Debug = UnityEngine.Debug;
 
 namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
@@ -136,11 +135,12 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		{
 			var position = NodeModel.Position;
 			
-			var rect = this.GetPosition();
+			var rect = GetPosition();
 			rect.position = position;
 			
 			SetPosition(rect);
 			
+			if(StateMachineModel == null) return;
 			EditorUtility.SetDirty(StateMachineModel);
 			EditorApplication.delayCall += () => AssetDatabase.SaveAssets();
 		}
@@ -403,6 +403,9 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 		
 		protected virtual void AddProperties(VisualElement container)
 		{
+			if (NodeModel == null) return;
+			if (NodeModel.State == null) return;
+			
 			var scrollView = new ScrollView();
 			container.Add(scrollView);
 
