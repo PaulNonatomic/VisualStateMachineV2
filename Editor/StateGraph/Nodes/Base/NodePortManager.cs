@@ -1,4 +1,5 @@
-﻿using Nonatomic.VSM2.NodeGraph;
+﻿using Nonatomic.VSM2.Editor.StateGraph.Factories;
+using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.Attributes;
 using Nonatomic.VSM2.Utils;
