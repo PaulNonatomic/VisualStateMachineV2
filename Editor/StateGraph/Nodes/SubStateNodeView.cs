@@ -1,5 +1,4 @@
-﻿using System;
-using Nonatomic.VSM2.StateGraph;
+﻿using Nonatomic.VSM2.StateGraph;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
@@ -7,42 +6,41 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
 	public sealed class SubStateNodeView : BaseStateNodeView
 	{
-		private readonly StateMachineModel _model;
-		private readonly Type _stateType;
-		private VisualElement _titleContainer;
-		private VisualElement _title;
-		private GraphView _graphView;
-		private VisualElement _glowBorder;
-
-		public SubStateNodeView(GraphView graphView, 
-								StateMachineModel stateMachineModel,  
-								StateNodeModel nodeModel) 
-								: base(graphView, stateMachineModel, nodeModel)
+		public SubStateNodeView(GraphView graphView,
+			StateMachineModel stateMachineModel,
+			StateNodeModel nodeModel)
+			: base(graphView, stateMachineModel, nodeModel)
 		{
-			AddStyle(nameof(SubStateNodeView));
-			AddTitleContainer();
-			ColorizeTitle();
-			AddTitleLabel();
-			AddTitleIcon();
-			AddProgressBar();
-			AddInputPorts(inputContainer);
-			AddOutputPorts(outputContainer);
+		}
 
-			var contents = this.Query<VisualElement>("contents").First();
-			var propertyContainer = CreatePropertyContainer();
+		protected override void InitializeNode()
+		{
+			base.InitializeNode();
+
+			StyleManager.AddStyleSheet(nameof(SubStateNodeView));
+			StyleManager.AddTitleLabel();
+
+			var icon = StyleManager.CreateNodeIcon();
+			StyleManager.TitleContainer.Insert(0, icon);
+
+			AnimationController.AddProgressBar();
+			PortManager.AddInputPorts(inputContainer);
+			PortManager.AddOutputPorts(outputContainer);
+
+			var contents = this.Q<VisualElement>("contents");
+			var propertyContainer = PropertyPanel.CreatePropertyContainer();
 			propertyContainer.AddToClassList("full-width");
 			contents.Insert(0, propertyContainer);
-			
-			AddProperties(propertyContainer);
-			AddGlowBorder();
-			CheckCustomWidth();
+
+			PropertyPanel.AddProperties(propertyContainer);
+			AnimationController.AddGlowBorder();
+			StyleManager.ApplyNodeWidth();
 			UpdatePosition();
 		}
 
 		public override void Update()
 		{
-			UpdateProgressBar();
-			UpdateGlowBorder();
+			AnimationController.UpdateAnimations();
 		}
 	}
 }

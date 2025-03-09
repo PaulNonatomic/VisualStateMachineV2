@@ -9,62 +9,84 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
 	public sealed class DelayNodeView : BaseStateNodeView
 	{
-		private readonly VisualElement _propertyContainer;
+		private FloatField _floatField;
 		private Image _icon;
+		private VisualElement _propertyContainer;
 
-		public DelayNodeView(GraphView graphView, 
-							 StateMachineModel stateMachineModel,  
-							 StateNodeModel nodeModel) 
-							 : base(graphView, stateMachineModel, nodeModel)
+		public DelayNodeView(GraphView graphView,
+			StateMachineModel stateMachineModel,
+			StateNodeModel nodeModel)
+			: base(graphView, stateMachineModel, nodeModel)
 		{
+		}
 
-			AddStyle(nameof(DelayNodeView));
-			AddTitleContainer();
-			ColorizeTitle();
-			RemoveTitleLabel();
-			AddGlowBorder();
-			AddInputPorts(TitleContainer);
-			
-			_propertyContainer = CreatePropertyContainer();
-			TitleContainer.Add(_propertyContainer);
-			
+		protected override void InitializeNode()
+		{
+			base.InitializeNode();
+
+			StyleManager.AddStyleSheet(nameof(DelayNodeView));
+
+			// Add "compact-node" class for width control
+			AddToClassList("compact-node");
+
+			StyleManager.RemoveTitleLabel();
+			AnimationController.AddGlowBorder();
+			PortManager.AddInputPorts(StyleManager.TitleContainer);
+
+			_propertyContainer = PropertyPanel.CreatePropertyContainer();
+			_propertyContainer.AddToClassList("compact-container"); // Add class for styling
+			StyleManager.TitleContainer.Add(_propertyContainer);
+
 			AddTitleIcon();
 			AddDurationField();
-			AddOutputPorts(TitleContainer);
+			PortManager.AddOutputPorts(StyleManager.TitleContainer);
+
+			// Explicitly set width
+			style.width = 120;
+			style.minWidth = 120;
+			style.maxWidth = 120;
+
 			UpdatePosition();
 		}
 
 		public override void Update()
 		{
-			UpdateGlowBorder();
+			AnimationController.UpdateAnimations();
 			UpdateIconSpin();
 		}
 
 		private void AddDurationField()
 		{
-			var delayState = (BaseDelayState) NodeModel.State;
-			var floatField = new FloatField("")
+			var delayState = (BaseDelayState)NodeModel.State;
+			_floatField = new FloatField("")
 			{
 				bindingPath = nameof(delayState.Duration)
 			};
+			_floatField.style.minWidth = 40;
+			_floatField.style.maxWidth = 60;
 			this.Bind(new SerializedObject(delayState));
 
-			_propertyContainer.Add(floatField);
+			_propertyContainer.Add(_floatField);
 		}
 
 		private void UpdateIconSpin()
 		{
+			// Make sure _icon is initialized
+			if (_icon == null) return;
+
 			var rot = _icon.style.rotate;
 			var ang = rot.value;
-			ang.angle = NodeModel.Active ? (NodeModel.LastActive % 1f) * 350f : 0f;
+			ang.angle = NodeModel.Active ? NodeModel.LastActive % 1f * 350f : 0f;
 			rot.value = ang;
 
 			_icon.style.rotate = rot;
 		}
-		
-		protected override void AddTitleIcon()
+
+		private void AddTitleIcon()
 		{
-			_icon = MakeIcon(NodeModel);
+			_icon = StyleManager.CreateNodeIcon();
+			_icon.style.width = 16;
+			_icon.style.height = 16;
 			_propertyContainer.Insert(0, _icon);
 		}
 	}

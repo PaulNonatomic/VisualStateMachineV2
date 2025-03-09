@@ -7,38 +7,51 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
 	public sealed class CounterNodeView : BaseStateNodeView
 	{
-		private readonly VisualElement _propertyContainer;
-		private Image _icon;
-		private IntegerField _field;
 		private readonly BaseCounterState _counterState;
+		private IntegerField _field;
+		private Image _icon;
+		private VisualElement _propertyContainer;
 
-		public CounterNodeView(GraphView graphView, 
-							 StateMachineModel stateMachineModel,  
-							 StateNodeModel nodeModel) 
-							 : base(graphView, stateMachineModel, nodeModel)
+		public CounterNodeView(GraphView graphView,
+			StateMachineModel stateMachineModel,
+			StateNodeModel nodeModel)
+			: base(graphView, stateMachineModel, nodeModel)
 		{
+			_counterState = (BaseCounterState)nodeModel.State;
+		}
 
-			_counterState = (BaseCounterState) nodeModel.State;
-			
-			AddStyle(nameof(CounterNodeView));
-			AddTitleContainer();
-			ColorizeTitle();
-			RemoveTitleLabel();
-			AddGlowBorder();
-			AddInputPorts(TitleContainer);
-			
-			_propertyContainer = CreatePropertyContainer();
-			TitleContainer.Add(_propertyContainer);
-			
+		protected override void InitializeNode()
+		{
+			base.InitializeNode();
+
+			StyleManager.AddStyleSheet(nameof(CounterNodeView));
+
+			// Add "compact-node" class for width control
+			AddToClassList("compact-node");
+
+			StyleManager.RemoveTitleLabel();
+			AnimationController.AddGlowBorder();
+			PortManager.AddInputPorts(StyleManager.TitleContainer);
+
+			_propertyContainer = PropertyPanel.CreatePropertyContainer();
+			_propertyContainer.AddToClassList("compact-container"); // Add class for styling
+			StyleManager.TitleContainer.Add(_propertyContainer);
+
 			AddTitleIcon();
 			AddCounterField();
-			AddOutputPorts(TitleContainer);
+			PortManager.AddOutputPorts(StyleManager.TitleContainer);
+
+			// Explicitly set width
+			style.width = 120;
+			style.minWidth = 120;
+			style.maxWidth = 120;
+
 			UpdatePosition();
 		}
 
 		public override void Update()
 		{
-			UpdateGlowBorder();
+			AnimationController.UpdateAnimations();
 			UpdateField();
 		}
 
@@ -52,13 +65,17 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			_field = new IntegerField("");
 			_field.isReadOnly = true;
 			_field.AddToClassList("count-field");
-			
+			_field.style.minWidth = 40;
+			_field.style.maxWidth = 60;
+
 			_propertyContainer.Add(_field);
 		}
-		
-		protected override void AddTitleIcon()
+
+		private void AddTitleIcon()
 		{
-			_icon = MakeIcon(NodeModel);
+			_icon = StyleManager.CreateNodeIcon();
+			_icon.style.width = 16;
+			_icon.style.height = 16;
 			_propertyContainer.Insert(0, _icon);
 		}
 	}

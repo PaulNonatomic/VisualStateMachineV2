@@ -1,5 +1,4 @@
-﻿using System;
-using Nonatomic.VSM2.StateGraph;
+﻿using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.States;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
@@ -8,49 +7,49 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 {
 	public sealed class CounterWithTargetNodeView : BaseStateNodeView
 	{
-		private readonly StateMachineModel _model;
-		private readonly Type _stateType;
-		private VisualElement _titleContainer;
-		private VisualElement _title;
-		private GraphView _graphView;
-		private VisualElement _glowBorder;
-		private IntegerField _field;
 		private readonly BaseCounterState _counterState;
-		private readonly VisualElement _propertyContainer;
+		private IntegerField _field;
+		private VisualElement _propertyContainer;
 
-		public CounterWithTargetNodeView(GraphView graphView, 
-							 StateMachineModel stateMachineModel,  
-							 StateNodeModel nodeModel) 
-							 : base(graphView, stateMachineModel, nodeModel)
+		public CounterWithTargetNodeView(GraphView graphView,
+			StateMachineModel stateMachineModel,
+			StateNodeModel nodeModel)
+			: base(graphView, stateMachineModel, nodeModel)
 		{
-			
-			_counterState = (BaseCounterState) nodeModel.State;
-			var contents = this.Query<VisualElement>("contents").First();
-			
-			AddStyle(nameof(CounterWithTargetNodeView));
-			AddTitleContainer();
-			ColorizeTitle();
-			AddTitleLabel();
-			AddTitleIcon();
+			_counterState = (BaseCounterState)nodeModel.State;
+		}
+
+		protected override void InitializeNode()
+		{
+			base.InitializeNode();
+
+			var contents = this.Q<VisualElement>("contents");
+
+			StyleManager.AddStyleSheet(nameof(CounterWithTargetNodeView));
+			StyleManager.AddTitleLabel();
+
+			var icon = StyleManager.CreateNodeIcon();
+			StyleManager.TitleContainer.Insert(0, icon);
+
 			AddEditButton();
-			AddProgressBar();
-			AddInputPorts(inputContainer);
-			AddOutputPorts(outputContainer);
-			
-			_propertyContainer = CreatePropertyContainer();
+			AnimationController.AddProgressBar();
+			PortManager.AddInputPorts(inputContainer);
+			PortManager.AddOutputPorts(outputContainer);
+
+			_propertyContainer = PropertyPanel.CreatePropertyContainer();
 			_propertyContainer.AddToClassList("full-width");
 			contents.Insert(0, _propertyContainer);
-			
-			AddProperties(_propertyContainer);
+
+			PropertyPanel.AddProperties(_propertyContainer);
 			AddCounterField();
-			AddGlowBorder();
-			CheckCustomWidth();
+			AnimationController.AddGlowBorder();
+			StyleManager.ApplyNodeWidth();
 			UpdatePosition();
 		}
 
 		public override void Update()
 		{
-			UpdateGlowBorder();
+			AnimationController.UpdateAnimations();
 			UpdateField();
 		}
 
@@ -67,6 +66,17 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 
 			var scroll = _propertyContainer.Q<ScrollView>();
 			scroll.Insert(0, _field);
+		}
+
+		private void AddEditButton()
+		{
+			var editButton = CreateEditButton(HandleEditButton);
+			if (editButton != null) StyleManager.TitleContainer.Add(editButton);
+		}
+
+		private void HandleEditButton()
+		{
+			OpenStateScript();
 		}
 	}
 }
