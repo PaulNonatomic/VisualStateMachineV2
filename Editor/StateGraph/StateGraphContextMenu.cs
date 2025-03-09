@@ -1,5 +1,6 @@
 ﻿using System;
 using Nonatomic.VSM2.Editor.NodeGraph;
+using Nonatomic.VSM2.Editor.StateGraph.VisualElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 

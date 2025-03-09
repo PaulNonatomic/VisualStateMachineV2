@@ -1,70 +1,70 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿// Main graph view class with reduced responsibilities
+
 using Nonatomic.VSM2.Editor.NodeGraph;
-using Nonatomic.VSM2.Editor.Persistence;
 using Nonatomic.VSM2.Editor.StateGraph.Nodes;
 using Nonatomic.VSM2.Editor.StateGraph.Nodes.Base;
-using Nonatomic.VSM2.Editor.Utils;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
-using Nonatomic.VSM2.StateGraph.States;
-using Nonatomic.VSM2.Utils;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Nonatomic.VSM2.Editor.StateGraph
+namespace Nonatomic.VSM2.Editor.StateGraph.VisualElements
 {
 	public class StateGraphView : NodeGraphView
 	{
-		private ToolBarView _toolBar;
-		private FooterBarView _footerBar;
-		private StateGraphContextMenu _contextMenu;
 		private readonly float _creationTime;
+		private GraphClipboardService _clipboardService;
+		private StateGraphContextMenu _contextMenu;
+		private GraphEventHandler _eventHandler;
+		private FooterBarView _footerBar;
+		private GraphPopulationService _populationService;
+		private GraphSelectionHandler _selectionHandler;
+		private ToolBarView _toolBar;
 
 		public StateGraphView(string id) : base(id)
 		{
 			_creationTime = Time.time;
-			
+
+			// Initialize services
+			_populationService = new GraphPopulationService(this);
+			_selectionHandler = new GraphSelectionHandler(this);
+			_clipboardService = new GraphClipboardService(this);
+			_eventHandler = new GraphEventHandler(this);
+
+			// Initialize UI components
 			MakeToolBar();
 			MakeFooterBar();
-			RegisterCallback<KeyDownEvent>(OnKeyDown);
+
+			// Set up event handlers
+			RegisterCallback<KeyDownEvent>(_eventHandler.OnKeyDown);
 		}
 
 		public void PopulateGraph(NodeGraphDataModel model, bool recentre)
 		{
-			if(!model) return;
-			
+			if (!model) return;
+
 			var stateModel = model as StateMachineModel;
 			var activeTime = Time.time - _creationTime;
 			ModelSelection.ActiveModel = model;
 
+			// Update UI components
 			_toolBar.SetModel(stateModel);
 			_footerBar.SetGridPosition(StateManager.GridPosition);
 			_footerBar.SetModel(stateModel);
-		
-			base.PopulateGraph(model);
-			AddEntryNode(stateModel);
 
-			//A delay is required to allow the entry node time to be added
-			EditorApplication.delayCall += () =>
-			{
-				//It's possible that the delayCall is invoked multiple times when entering run time
-				//This just prevents adding the nodes multiple times
-				if (nodes.ToList().Count > 0) return;
-				
-				AddNodes(stateModel);
-				AddEdges(stateModel);
-				
-				if (recentre) HandleRecenter();
-			};
+			// Defer to base class for basic population
+			base.PopulateGraph(model);
+
+			// Use the specialized population service for state machine specific elements
+			_populationService.AddEntryNode(stateModel);
+			_populationService.PopulateWithDelay(stateModel, recentre);
 		}
 
 		public override void PopulateGraph(NodeGraphDataModel model)
 		{
-			PopulateGraph(model, recentre: true);
+			PopulateGraph(model, true);
 		}
 
 		protected override void MakeStateManager(string id)
@@ -72,140 +72,13 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			StateManager = new StateNodeGraphStateManager(id);
 		}
 
-		private void OnKeyDown(KeyDownEvent evt)
-		{
-			HandleCopyAndPasteKeys(evt);
-		}
-
-		private void HandleCopyAndPasteKeys(KeyDownEvent evt)
-		{
-			if (!evt.ctrlKey && !evt.commandKey) return;
-			
-			switch (evt.keyCode)
-			{
-				case KeyCode.C:
-					HandleCopySelected();
-					evt.StopPropagation();
-					break;
-				case KeyCode.V:
-					HandlePasteSelected();
-					evt.StopPropagation();
-					break;
-			}
-		}
-
-		private static void AddEntryNode(StateMachineModel stateModel)
-		{
-			if(!stateModel) return;
-			if (stateModel.HasState<EntryState>()) return;
-			StateGraphNodeFactory.MakeStateNodeData(stateModel, typeof(EntryState), Vector2.zero);
-		}
-
 		public override EventPropagation DeleteSelection()
 		{
-			var selectedEdges = selection.OfType<Edge>().ToList();
-			var selectedStateNodes = selection.OfType<NodeView>().ToList();
-			
-			DeleteEdges(selectedEdges);
-			DeleteNodes(selectedStateNodes);
-			
+			_selectionHandler.DeleteSelectedElements();
 			return base.DeleteSelection();
 		}
-
-		private void DeleteEdges(List<Edge> edges)
-		{
-			var model = (StateMachineModel) StateManager.Model;
-			foreach (var edge in edges)
-			{
-				var transitionData = edge.userData as StateTransitionModel;
-				model.RemoveTransition(transitionData);
-			}
-
-			EditorApplication.delayCall += () =>
-			{
-				PopulateGraph(model, recentre: false);
-			};
-		}
-
-		private void DeleteNodes(List<NodeView> stateNodeViews)
-		{
-			var model = (StateMachineModel) StateManager.Model;
-			foreach (var node in stateNodeViews)
-			{
-				var nodeData = node.userData as StateNodeModel;
-				model.RemoveState(nodeData);
-			}
-			
-			EditorApplication.delayCall += () =>
-			{
-				PopulateGraph(model, recentre: false);
-			};
-		}
-
-		private void AddNodes(StateMachineModel stateMachineModel)
-		{
-			var stateNodes = stateMachineModel.Nodes.Cast<StateNodeModel>();
-			foreach (var nodeModel in stateNodes)
-			{
-				var nodeView = StateGraphNodeFactory.MakeNode(this, nodeModel, stateMachineModel); 
-				AddElement(nodeView);
-			}
-		}
-
-		private void AddEdges(StateMachineModel stateMachineModel)
-		{
-			foreach (var transition in stateMachineModel.Transitions)
-			{
-				StateGraphTransitionFactory.MakeTransitionView(this, transition);
-			}
-		}
-
-		protected override void HandleAttachToPanel(AttachToPanelEvent evt)
-		{
-			base.HandleAttachToPanel(evt);
-			
-			EditorApplication.playModeStateChanged += HandlePlayModeStateChanged;
-			OnGridPositionChanged += HandleGridPositionChanged;
-			_toolBar.OnRecenter += HandleRecenter;
-			_toolBar.OnSave += HandleSave;
-			_contextMenu = new StateGraphContextMenu(this);
-			_contextMenu.OnCreateNewStateNode += HandleCreateNewStateNode;
-			_contextMenu.OnCreateNewStickyNote += HandleCreateNewStickyNote;
-			_contextMenu.OnDeleteEdgeContext += HandleDeleteEdge;
-			_contextMenu.OnDeleteStateNode += HandleDeleteStateNode;
-			_contextMenu.OnDeleteSelection += HandleDeleteSelection;
-			_contextMenu.OnCopySelected += HandleCopySelected;
-			_contextMenu.OnPasteSelected += HandlePasteSelected;
-		}
-
-		protected override void HandleLeavePanel(DetachFromPanelEvent evt)
-		{
-			base.HandleLeavePanel(evt);
-			
-			EditorApplication.playModeStateChanged -= HandlePlayModeStateChanged;
-			OnGridPositionChanged -= HandleGridPositionChanged;
-			_toolBar.OnRecenter -= HandleRecenter;
-			_toolBar.OnSave -= HandleSave;
-			_contextMenu.OnCreateNewStateNode -= HandleCreateNewStateNode;
-			_contextMenu.OnCreateNewStickyNote -= HandleCreateNewStickyNote;
-			_contextMenu.OnDeleteEdgeContext -= HandleDeleteEdge;
-			_contextMenu.OnDeleteSelection -= HandleDeleteSelection;
-			_contextMenu.OnDeleteStateNode -= HandleDeleteStateNode;
-			_contextMenu.OnCopySelected -= HandleCopySelected;
-			_contextMenu.OnPasteSelected -= HandlePasteSelected;
-		}
 		
-		private void HandleSave()
-		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-
-			var model = (StateMachineModel) StateManager.Model;
-			model = StateMachineModelUtils.UpdatePortDataInModel(model);
-
-			StateMachineModelSaver.Save(model);
-		}
-
-		private void HandleRecenter()
+		public void HandleRecenter()
 		{
 			var entryNode = this.Q<EntryNodeView>();
 			if (entryNode == null) return;
@@ -214,111 +87,70 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			var centerOffset = new Vector2(contentRect.width * 0.25f, 0);
 			viewTransform.position = contentRect.center - entryNodePosition - centerOffset;
 			StateManager.SetGridPosition(contentRect.center, viewTransform.position);
-			HandleGridPositionChanged(viewTransform.position);
+			_footerBar.SetGridPosition(StateManager.GridPosition);
 		}
 
-		private void HandlePlayModeStateChanged(PlayModeStateChange stateChange)
+		protected override void HandleAttachToPanel(AttachToPanelEvent evt)
 		{
-			var stateManager = (StateNodeGraphStateManager) StateManager;
-			var gridPos = stateManager.GridPosition;
-			
-			stateManager.LoadModelFromStateController();
-			PopulateGraph(StateManager.Model, recentre: true);
-			
-			EditorApplication.delayCall += ()=>
-			{
-				SetGridPosition(gridPos);
-			};
+			base.HandleAttachToPanel(evt);
+
+			// Register event handlers
+			EditorApplication.playModeStateChanged += _eventHandler.HandlePlayModeStateChanged;
+			OnGridPositionChanged += _eventHandler.HandleGridPositionChanged;
+
+			// Set up toolbar events
+			_toolBar.OnRecenter += _eventHandler.HandleRecenter;
+			_toolBar.OnSave += _eventHandler.HandleSave;
+
+			// Set up context menu
+			_contextMenu = new StateGraphContextMenu(this);
+			_contextMenu.OnCreateNewStateNode += _eventHandler.HandleCreateNewStateNode;
+			_contextMenu.OnCreateNewStickyNote += _eventHandler.HandleCreateNewStickyNote;
+			_contextMenu.OnDeleteEdgeContext += _eventHandler.HandleDeleteEdge;
+			_contextMenu.OnDeleteStateNode += _eventHandler.HandleDeleteStateNode;
+			_contextMenu.OnDeleteSelection += _eventHandler.HandleDeleteSelection;
+			_contextMenu.OnCopySelected += _clipboardService.HandleCopySelected;
+			_contextMenu.OnPasteSelected += _clipboardService.HandlePasteSelected;
 		}
 
-		private void SetGridPosition(Vector2 gridPos)
+		protected override void HandleLeavePanel(DetachFromPanelEvent evt)
 		{
-			viewTransform.position = contentRect.center + gridPos;
-			StateManager.SetGridPosition(contentRect.center, viewTransform.position);
-			HandleGridPositionChanged(viewTransform.position);
+			base.HandleLeavePanel(evt);
+
+			// Unregister event handlers
+			EditorApplication.playModeStateChanged -= _eventHandler.HandlePlayModeStateChanged;
+			OnGridPositionChanged -= _eventHandler.HandleGridPositionChanged;
+
+			// Unset toolbar events
+			_toolBar.OnRecenter -= _eventHandler.HandleRecenter;
+			_toolBar.OnSave -= _eventHandler.HandleSave;
+
+			// Unset context menu events
+			_contextMenu.OnCreateNewStateNode -= _eventHandler.HandleCreateNewStateNode;
+			_contextMenu.OnCreateNewStickyNote -= _eventHandler.HandleCreateNewStickyNote;
+			_contextMenu.OnDeleteEdgeContext -= _eventHandler.HandleDeleteEdge;
+			_contextMenu.OnDeleteSelection -= _eventHandler.HandleDeleteSelection;
+			_contextMenu.OnDeleteStateNode -= _eventHandler.HandleDeleteStateNode;
+			_contextMenu.OnCopySelected -= _clipboardService.HandleCopySelected;
+			_contextMenu.OnPasteSelected -= _clipboardService.HandlePasteSelected;
 		}
 
 		protected override void HandleUpdate()
 		{
 			StateManager.SetGridPosition(contentRect.center, viewTransform.position);
 			_footerBar.SetGridPosition(StateManager.GridPosition);
-			
+
 			if (!Application.isPlaying) return;
 			if (!StateManager.Model) return;
-			
+
+			// Update all node views
 			var nodeViews = this.Query<BaseStateNodeView>().ToList();
-			foreach (var nodeView in nodeViews)
-			{
-				nodeView.Update();
-			}
+			foreach (var nodeView in nodeViews) nodeView.Update();
 		}
 
-		private void HandleGridPositionChanged(Vector2 position)
+		protected override void HandleSelectionChanged()
 		{
-			_footerBar.SetGridPosition(StateManager.GridPosition);
-		}
-
-		private void HandleCopySelected()
-		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			CopyPasteHelper.Copy(this);
-		}
-
-		private void HandlePasteSelected()
-		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			CopyPasteHelper.Paste(this);
-		}
-		
-		private void HandleDeleteSelection()
-		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			
-			DeleteSelection();
-		}
-
-		private void HandleDeleteStateNode(NodeView nodeView)
-		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-
-			var nodesToDelete = new List<NodeView>() { nodeView };
-			DeleteNodes(nodesToDelete);
-		}
-
-		private void HandleDeleteEdge(StateNodeEdge edge)
-		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			DeleteEdges(new List<Edge>(){edge});
-		}
-
-		private void HandleCreateNewStickyNote(Vector2 position)
-		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			
-			CreateNewStateNode(position, typeof(StickyNoteState));
-		}
-
-		private void HandleCreateNewStateNode(Vector2 position)
-		{
-			if (GuardUtils.GuardAgainstRuntimeOperation()) return;
-			
-			var screenPosition = Event.current != null 
-				? GUIUtility.GUIToScreenPoint(Event.current.mousePosition) 
-				: GUIUtility.ScreenToGUIPoint(MousePosition);
-			
-			StateSelectorWindow.Open(StateManager.Model, screenPosition, stateType =>
-			{
-				CreateNewStateNode(position, stateType);
-			});
-		}
-
-		private void CreateNewStateNode(Vector2 position, Type stateType)
-		{
-			var nodePosition = GraphUtils.ScreenPointToGraphPointWithZoom(position, this);
-			var model = (StateMachineModel) StateManager.Model;
-			var nodeData = StateGraphNodeFactory.MakeStateNodeData(model, stateType, nodePosition);
-			var nodeView = StateGraphNodeFactory.MakeNode(this, nodeData, model);
-			AddElement(nodeView);
+			_selectionHandler.HandleSelectionChanged();
 		}
 
 		private void MakeFooterBar()
@@ -337,30 +169,6 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 
 			if (!StateManager.Model) return;
 			_toolBar.SetModel(StateManager.Model as StateMachineModel);
-		}
-
-		protected override void HandleSelectionChanged()
-		{
-			HandleSelectionOfScriptableObject();
-			HandleSelectionOfGameObject();
-		}
-		
-		protected void HandleSelectionOfScriptableObject()
-		{
-			if (Selection.activeObject is not StateMachineModel model) return;
-			
-			ModelSelection.ActiveModel = model;
-		}
-
-		protected void HandleSelectionOfGameObject()
-		{
-			if (!Selection.activeGameObject) return;
-			if (!Selection.activeGameObject.TryGetComponent(out StateMachineController stateMachineController)) return;
-			
-			ModelSelection.ActiveModel = stateMachineController.Model;
-			
-			var stateManager = (StateNodeGraphStateManager) StateManager;
-			stateManager.SetStateControllerId(stateMachineController.Id);
 		}
 	}
 }

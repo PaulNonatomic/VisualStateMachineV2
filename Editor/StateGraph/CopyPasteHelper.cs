@@ -5,6 +5,7 @@ using Nonatomic.VSM2.Editor.NodeGraph;
 using Nonatomic.VSM2.Editor.Persistence;
 using Nonatomic.VSM2.Editor.StateGraph.Nodes;
 using Nonatomic.VSM2.Editor.StateGraph.Nodes.Base;
+using Nonatomic.VSM2.Editor.StateGraph.VisualElements;
 using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.States;

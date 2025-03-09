@@ -7,6 +7,11 @@
   - NodePortManager
   - NodePropertyPanel
   - NodeStyleManager
+- Simplified the StateGraphView moving some of the many concerns out into their own classes.
+  - GraphClipboardService
+  - GraphEventHandler
+  - GraphPopulationService
+  - GraphSelectionService
 
 # [0.10.3-beta] - Feb 11, 2025
 - Fix for playing selected StateMachineControllers model in the State Machine Editor when entering runtime.
