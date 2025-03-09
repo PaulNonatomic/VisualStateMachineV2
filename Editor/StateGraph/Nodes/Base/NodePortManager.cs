@@ -5,7 +5,7 @@ using Nonatomic.VSM2.Utils;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
+namespace Nonatomic.VSM2.Editor.StateGraph.Nodes.Base
 {
 	public class NodePortManager
 	{

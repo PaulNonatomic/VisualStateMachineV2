@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Nonatomic.VSM2.Editor.Services;
+using Nonatomic.VSM2.Editor.StateGraph.Nodes.Base;
 using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.Attributes;
 using Nonatomic.VSM2.StateGraph.States;

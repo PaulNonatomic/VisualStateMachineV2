@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Nonatomic.VSM2.Editor.StateGraph.Nodes;
+using Nonatomic.VSM2.Editor.StateGraph.Nodes.Base;
 using Nonatomic.VSM2.StateGraph;
 using Nonatomic.VSM2.StateGraph.States;
 using Nonatomic.VSM2.StateGraph.Validation;
