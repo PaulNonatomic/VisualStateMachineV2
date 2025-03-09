@@ -12,6 +12,8 @@
   - GraphEventHandler
   - GraphPopulationService
   - GraphSelectionService
+- Simplified StateGraphNodeFactory moving some of the functionality out into
+  - StateNodeModelFactory
 
 # [0.10.3-beta] - Feb 11, 2025
 - Fix for playing selected StateMachineControllers model in the State Machine Editor when entering runtime.

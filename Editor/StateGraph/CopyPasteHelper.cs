@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Nonatomic.VSM2.Editor.NodeGraph;
 using Nonatomic.VSM2.Editor.Persistence;
+using Nonatomic.VSM2.Editor.StateGraph.Factories;
 using Nonatomic.VSM2.Editor.StateGraph.Nodes;
 using Nonatomic.VSM2.Editor.StateGraph.Nodes.Base;
 using Nonatomic.VSM2.Editor.StateGraph.VisualElements;
