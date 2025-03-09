@@ -1,7 +1,12 @@
 # Change Log
 
-# [0.10.4-beta] - Mar 09, 2025
+# [0.11.0-beta] - Mar 09, 2025
 - Removed some redundant code and redundant using statements.
+- Simplified the BaseStateNodeView moving some of the many concerns out into their own classes.
+  - NodeAnimationController
+  - NodePortManager
+  - NodePropertyPanel
+  - NodeStyleManager
 
 # [0.10.3-beta] - Feb 11, 2025
 - Fix for playing selected StateMachineControllers model in the State Machine Editor when entering runtime.
