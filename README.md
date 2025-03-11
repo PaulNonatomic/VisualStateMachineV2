@@ -1,8 +1,22 @@
-# Visual State Machine V2 (VSM2)
+<div align=center>   
 
-## Overview
+<p align="center">
+  <img src="Readme~\logo.png" width="250">
+</p>
+
+### A visual editor for designing state machines in <a href="https://unity.com/">Unity</a>
+
 Currently still a work in progress and subject to breaking changes.
-Visual State Machine is a Unity package designed to simplify the creation and management of state machines in Unity projects. It provides a visual editor for designing state machines, making it easier to create complex behaviors without writing extensive code.
+Visual State Machine is a Unity package designed to simplify the creation and management of state machines in [Unity](https://unity.com/) projects. It provides a visual editor for designing state machines, making it easier to create complex behaviors without writing extensive code.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PullRequests](https://img.shields.io/badge/PRs-welcome-blueviolet)](http://makeapullrequest.com)
+[![Releases](https://img.shields.io/github/v/release/PaulNonatomic/VisualStateMachineV2)](https://github.com/PaulNonatomic/VisualStateMachineV2/releases)
+[![Unity](https://img.shields.io/badge/Unity-2022.3+-black.svg)](https://unity3d.com/pt/get-unity/download/archive)
+
+</div>
+
+---
 
 https://github.com/user-attachments/assets/61388bea-8bd4-4f92-9f12-c0f5768e1e8f
 
