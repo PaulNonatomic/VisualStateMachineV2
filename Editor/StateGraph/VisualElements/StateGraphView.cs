@@ -43,6 +43,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.VisualElements
 
 		public void PopulateGraph(NodeGraphDataModel model, bool recentre)
 		{
+			Debug.Log($"StateGraphView.PopulateGraph");
 			if (!model) return;
 
 			var stateModel = model as StateMachineModel;
@@ -64,6 +65,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.VisualElements
 
 		public override void PopulateGraph(NodeGraphDataModel model)
 		{
+			Debug.Log($"StateGraphView.PopulateGraph");
 			PopulateGraph(model, true);
 		}
 

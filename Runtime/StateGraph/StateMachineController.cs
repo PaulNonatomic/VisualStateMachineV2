@@ -38,6 +38,7 @@ namespace Nonatomic.VSM2.StateGraph
 		/// <param name="id">The JumpIn id of the destination JumpIn node</param>
 		public virtual void JumpTo(JumpId id)
 		{
+			Debug.Log("JumpTo: " + id);
 			_stateMachine?.JumpTo(id);
 		}
 
@@ -48,6 +49,7 @@ namespace Nonatomic.VSM2.StateGraph
 		/// <param name="value">The new StateMachineModel to set.</param>
 		public virtual void SwitchModel(StateMachineModel value)
 		{
+			Debug.Log("SwitchModel: " + value.ModelName);
 			if (!value) return;
 			
 			_stateMachine?.OnDestroy();
@@ -87,6 +89,7 @@ namespace Nonatomic.VSM2.StateGraph
 		{
 			if(!_activated) return;
 			
+			Debug.Log("StateMachineController.Start");
 			_stateMachine?.Start();
 			_stateMachine?.Enter();
 			_started = true;

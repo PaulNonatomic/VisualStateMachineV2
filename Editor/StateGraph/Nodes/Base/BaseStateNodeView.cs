@@ -1,6 +1,4 @@
-﻿// Base class designed to be open for extension
-
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using Nonatomic.VSM2.Editor.NodeGraph;
@@ -40,6 +38,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes.Base
 			PropertyPanel = new NodePropertyPanel(this, nodeModel);
 			AnimationController = new NodeAnimationController(this, nodeModel);
 		
+			UnityEngine.Debug.Log("BaseStateNodeView initialized");
 			InitializeNode();
 		
 			RegisterCallback<AttachToPanelEvent>(HandleAttachToPanel);

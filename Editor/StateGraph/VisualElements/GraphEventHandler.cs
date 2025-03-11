@@ -28,6 +28,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph.VisualElements
 
 		public void HandlePlayModeStateChanged(PlayModeStateChange stateChange)
 		{
+			Debug.Log($"GraphEventHandler.HandlePlayModeStateChanged: {stateChange}");
+			
 			var stateManager = (StateNodeGraphStateManager)_graphView.StateManager;
 			var gridPos = stateManager.GridPosition;
 
@@ -81,6 +83,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.VisualElements
 			var transitionData = edge.userData as StateTransitionModel;
 			model.RemoveTransition(transitionData);
 
+			Debug.Log($"GraphEventHandler.HandleDeleteEdge");
 			EditorApplication.delayCall += () => { _graphView.PopulateGraph(model, false); };
 		}
 

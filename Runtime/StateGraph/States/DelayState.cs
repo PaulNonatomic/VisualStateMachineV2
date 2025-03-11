@@ -17,19 +17,21 @@ namespace Nonatomic.VSM2.StateGraph.States
 		[Enter]
 		public override void OnEnter()
 		{
+			Debug.Log($"DelayState.OnEnter");
 			_elapsedTime = 0f;
 		}
 		
 		public override void OnUpdate()
 		{
 			_elapsedTime += Time.deltaTime;
-
+			Debug.Log($"DelayState.OnUpdate: {_elapsedTime}, {Duration}");
 			if (_elapsedTime < Duration) return;
 			OnComplete?.Invoke();
 		}
 
 		public override void OnExit()
 		{
+			Debug.Log($"DelayState.OnExit");
 			//...
 		}
 	}

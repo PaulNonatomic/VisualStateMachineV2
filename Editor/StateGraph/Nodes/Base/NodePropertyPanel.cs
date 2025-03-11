@@ -57,14 +57,11 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes.Base
 					// Instead of just warning, let's check if this is a property rather than a field
 					// Some types might have properties that can't be serialized directly
 					var property = target.GetType().GetProperty(field.Name);
-					if (property != null)
-						// This is a property - we might want to handle it differently
-						// For now, we'll just skip it without a warning
-						continue;
+					if (property != null) continue;
 
 					// Only log a warning if it's not a known property name we expect to skip
-					if (field.Name != "RandomValue") // Add other known non-serializable names here
-						Debug.LogWarning($"Property {field.Name} not found in serialized object.");
+					Debug.LogWarning($"Property {field.Name} not found in serialized object.");
+					
 					continue;
 				}
 

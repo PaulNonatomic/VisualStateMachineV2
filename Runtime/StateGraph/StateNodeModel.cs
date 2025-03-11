@@ -32,26 +32,31 @@ namespace Nonatomic.VSM2.StateGraph
 			
 			Enabled = true;
 			LastActive = -1;
+			Debug.Log($"{State.name}.OnAwake()");
 			State?.OnAwake();
 		}
 
 		public void Start()
 		{
+			Debug.Log($"{State.name}.OnStart()");
 			State?.OnStart();
 		}
 
 		public void Enter(TransitionEventData eventData)
 		{
+			Debug.Log($"Entering node {Id}, current Active state: {Active}");
 			if (Active) return;
 			
 			Active = true;
 			LastActive = Time.time;
 			State.TransitionData = eventData;
+			Debug.Log($"Node {Id} Active set to: {Active}");
 			
 			var type = State.GetType();
 			var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
 				.Where(m => m.GetCustomAttribute<EnterAttribute>() != null && !m.IsAbstract)
 				.ToList();
+			Debug.Log($"{State.name} methods");
 			
 			if (eventData.HasValue)
 			{
@@ -63,6 +68,7 @@ namespace Nonatomic.VSM2.StateGraph
 				
 				try
 				{
+					Debug.Log($"{State.name} {method.Name}.Invoke()");
 					method.Invoke(State, new[] { eventData.Value });
 				}
 				catch (Exception ex)
@@ -79,6 +85,7 @@ namespace Nonatomic.VSM2.StateGraph
 				
 				try
 				{
+					Debug.Log($"{State.name} {method.Name}.Invoke()");
 					method.Invoke(State, null);
 				}
 				catch (Exception ex)
@@ -90,6 +97,7 @@ namespace Nonatomic.VSM2.StateGraph
 
 		public void Update()
 		{
+			Debug.Log($"{State.name}.OnUpdate()");
 			LastActive = Time.time;
 			State?.OnUpdate();
 		}
@@ -110,6 +118,7 @@ namespace Nonatomic.VSM2.StateGraph
 			
 			LastActive = Time.time;
 			Active = false;
+			Debug.Log($"{State.name}.OnExit()");
 			State?.OnExit();
 		}
 
@@ -119,6 +128,7 @@ namespace Nonatomic.VSM2.StateGraph
 			
 			Active = false;
 			Enabled = false;
+			Debug.Log($"{State.name}.OnDestroy()");
 			State?.OnDestroy();
 		}
 		

@@ -25,6 +25,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph.VisualElements
 
 		public void PopulateWithDelay(StateMachineModel stateModel, bool recentre)
 		{
+			Debug.Log($"GraphPopulationService.PopulateWithDelay");
+			
 			//A delay is required to allow the entry node time to be added
 			EditorApplication.delayCall += () =>
 			{
@@ -41,6 +43,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.VisualElements
 
 		private void AddNodes(StateMachineModel stateMachineModel)
 		{
+			Debug.Log($"GraphPopulationService: AddNodes");
 			var stateNodes = stateMachineModel.Nodes.Cast<StateNodeModel>();
 			foreach (var nodeModel in stateNodes)
 			{

@@ -40,6 +40,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Factories
 			var viewType = GetViewTypeByStateType(stateType);
 
 			// Create the view without additional initialization
+			Debug.Log("StateGraphNodeFactory: Creating node view of type " + viewType);
 			var instance = (BaseStateNodeView)Activator.CreateInstance(viewType, graphView, model, node);
 			return instance;
 		}

@@ -66,7 +66,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 			_field.AddToClassList("count-field");
 
 			var scroll = _propertyContainer.Q<ScrollView>();
-			scroll.Insert(0, _field);
+			scroll?.Insert(0, _field);
 		}
 
 		private void AddEditButton()

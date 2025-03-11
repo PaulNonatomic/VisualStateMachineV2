@@ -4,6 +4,7 @@ using Nonatomic.VSM2.StateGraph.States;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
@@ -23,11 +24,11 @@ namespace Nonatomic.VSM2.Editor.StateGraph.Nodes
 
 		protected override void InitializeNode()
 		{
+			Debug.Log("DelayNodeView initialized");
 			base.InitializeNode();
 
 			StyleManager.AddStyleSheet(nameof(DelayNodeView));
 
-			// Add "compact-node" class for width control
 			AddToClassList("compact-node");
 
 			StyleManager.RemoveTitleLabel();

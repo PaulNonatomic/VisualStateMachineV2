@@ -5,6 +5,7 @@ using Nonatomic.VSM2.NodeGraph;
 using Nonatomic.VSM2.StateGraph;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 
 namespace Nonatomic.VSM2.Editor.StateGraph.VisualElements
 {
@@ -59,6 +60,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.VisualElements
 				model.RemoveTransition(transitionData);
 			}
 
+			Debug.Log($"GraphSelectionHandler.DeleteEdges");
 			EditorApplication.delayCall += () => { _graphView.PopulateGraph(model, false); };
 		}
 
@@ -71,6 +73,7 @@ namespace Nonatomic.VSM2.Editor.StateGraph.VisualElements
 				model.RemoveState(nodeData);
 			}
 
+			Debug.Log($"GraphSelectionHandler.DeleteNodes");
 			EditorApplication.delayCall += () => { _graphView.PopulateGraph(model, false); };
 		}
 	}
