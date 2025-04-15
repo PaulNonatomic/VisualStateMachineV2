@@ -4,7 +4,7 @@
     background-color: var(--unity-colors-window-background);
     font-size: 12px;
     padding: 1px 0px;
-    border-width:0;
+    border-width: 0;
     flex-direction: row;
     -unity-text-align: middle-left;
 }
@@ -12,6 +12,7 @@
 .unity-button.even.highlighted-button-style {
     background-color: #595959;
 }
+
 .unity-button.highlighted-button-style {
     background-color: #595959;
 }
@@ -27,7 +28,7 @@
 }
 
 .unity-scroll-view__content-container {
-    padding-top:10px;
+    padding-top: 10px;
     background-color: var(--unity-colors-window-background);
 }
 
@@ -39,10 +40,10 @@
     visibility: hidden;
 }
 
-#group-header{
+#group-header {
     flex-direction: row;
-    padding-top:5px;
-    padding-bottom:5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 #group-body {
@@ -54,7 +55,7 @@
     padding-top: 0px;
 }
 
-#group-icon{
+#group-icon {
     width: 16px;
     height: 16px;
     margin-left: 5px;

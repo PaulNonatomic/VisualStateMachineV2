@@ -2,7 +2,7 @@
 
 /* *********** Title Bar *********** */
 .node #title {
-    height:36px;
+    height: 36px;
 }
 
 .node #title-label {
@@ -25,21 +25,21 @@
 }
 
 .node #title-button-container {
-    
+
 }
 
 .node #title-icon {
-    min-width:22px;
-    min-height:22px;
+    min-width: 22px;
+    min-height: 22px;
     width: 22px;
-    height:22px;
+    height: 22px;
 }
 
 #edit-btn {
     background-color: #1d1d1d;
-    margin:0px;
-    height:100%;
-    width:30px;
+    margin: 0px;
+    height: 100%;
+    width: 30px;
     border-radius: 5px;
     align-items: center;
     justify-content: center;

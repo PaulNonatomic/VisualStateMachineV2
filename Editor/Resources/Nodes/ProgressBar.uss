@@ -23,7 +23,7 @@
 
 #progress-bar {
     height: 6px;
-    margin:2px;
+    margin: 2px;
 }
 
 .unity-progress-bar__progress {

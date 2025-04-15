@@ -11,18 +11,18 @@
 
 /* *********** Title Bar *********** */
 .node #title {
-    height:50px;
+    height: 50px;
 }
 
-.node #title-container {   
+.node #title-container {
     margin-bottom: 6px;
 }
 
 .node #title-icon {
-    min-width:18px;
-    min-height:18px;
+    min-width: 18px;
+    min-height: 18px;
     width: 18px;
-    height:18px;
+    height: 18px;
     margin-left: 3px;
     margin-right: 6px;
     margin-bottom: 3px;
@@ -31,8 +31,8 @@
 
 .node #title-button-container {
     visibility: hidden;
-    width:0;
-    height:0;
+    width: 0;
+    height: 0;
 }
 
 /* *********** Property Container *********** */
@@ -58,7 +58,7 @@ Port {
     height: 100%;
     width: 25px;
     min-width: 25px;
-    padding-top:12px;
+    padding-top: 12px;
 }
 
 Port Label {

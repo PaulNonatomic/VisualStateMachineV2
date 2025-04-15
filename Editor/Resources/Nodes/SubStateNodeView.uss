@@ -1,4 +1,4 @@
-/* *********** SubStateNodeView *********** */
+
 @import url("BaseNode.uss");
 @import url("ProgressBar.uss");
 @import url("PropertyContainer.uss");

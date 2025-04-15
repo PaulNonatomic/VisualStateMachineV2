@@ -13,15 +13,15 @@
 #button-container {
     flex-direction: row-reverse;
     height: 100%;
-    padding:2px;
+    padding: 2px;
     width: 100px;
 }
 
 #toolbtn {
     background-color: #1d1d1d;
-    margin:0px;
-    height:100%;
-    width:30px;
+    margin: 0px;
+    height: 100%;
+    width: 30px;
     border-radius: 5px;
     align-items: center;
     justify-content: center;
@@ -34,8 +34,8 @@
 
 .node #title-button-container {
     visibility: hidden;
-    width:0;
-    height:0;
+    width: 0;
+    height: 0;
 }
 
 
