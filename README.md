@@ -1,7 +1,7 @@
 <div align=center>   
 
 <p align="center">
-  <img src="Readme~\logo.png" width="250">
+  <img src="Readme~\logo.png" width="350">
 </p>
 
 ### A visual editor for designing state machines in <a href="https://unity.com/">Unity</a>
