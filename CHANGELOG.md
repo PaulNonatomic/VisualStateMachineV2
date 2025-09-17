@@ -1,5 +1,8 @@
 # Change Log
 
+# [0.10.5-beta] - Sep 17, 2025
+- Runtime assembly auto-referenced by default for easier custom state creation
+
 # [0.10.4-beta] - Mar 09, 2025
 - Removed some redundant code and redundant using statements.
 
