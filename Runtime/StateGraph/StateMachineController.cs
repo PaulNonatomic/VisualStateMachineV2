@@ -49,12 +49,13 @@ namespace Nonatomic.VSM2.StateGraph
 		public virtual void SwitchModel(StateMachineModel value)
 		{
 			if (!value) return;
-			
+
 			_stateMachine?.OnDestroy();
 			_stateMachine = null;
-			
+
 			_model = value;
 			CreateStateMachine();
+			_activated = _stateMachine != null;
 
 			if (!gameObject.activeInHierarchy || !_started) return;
 			_stateMachine?.Start();
@@ -85,11 +86,12 @@ namespace Nonatomic.VSM2.StateGraph
 		/// </summary>
 		public virtual void Start()
 		{
+			_started = true;
+
 			if(!_activated) return;
-			
+
 			_stateMachine?.Start();
 			_stateMachine?.Enter();
-			_started = true;
 		}
 
 		/// <summary>
