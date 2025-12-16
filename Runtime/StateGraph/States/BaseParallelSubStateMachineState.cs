@@ -11,13 +11,13 @@ namespace Nonatomic.VSM2.StateGraph.States
 		
 		[SerializeField] protected List<StateMachineModel> Models;
 		
-		public override void OnAwakeState()
+		public override void OnAwake()
 		{
 			CreateStateMachines();
 			ReplaceModelsWithActiveModels();
 		}
 
-		public override void OnStartState()
+		public override void OnStart()
 		{
 			foreach (var subSubStateMachine in SubStateMachines)
 			{
@@ -25,7 +25,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			}
 		}
 
-		public override void OnEnterState()
+		public override void OnEnter()
 		{
 			foreach(var subSubStateMachine in SubStateMachines)
 			{
@@ -35,7 +35,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			}
 		}
 
-		public override void OnUpdateState()
+		public override void OnUpdate()
 		{
 			foreach(var subSubStateMachine in SubStateMachines)
 			{
@@ -43,7 +43,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			}
 		}
 
-		public override void OnFixedUpdateState()
+		public override void OnFixedUpdate()
 		{
 			foreach(var subSubStateMachine in SubStateMachines)
 			{
@@ -51,7 +51,15 @@ namespace Nonatomic.VSM2.StateGraph.States
 			}
 		}
 
-		public override void OnExitState()
+		public override void OnLateUpdate()
+		{
+			foreach(var subSubStateMachine in SubStateMachines)
+			{
+				subSubStateMachine.LateUpdate();
+			}
+		}
+
+		public override void OnExit()
 		{
 			foreach(var subSubStateMachine in SubStateMachines)
 			{
@@ -60,7 +68,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			}
 		}
 
-		public override void OnDestroyState()
+		public override void OnDestroy()
 		{
 			ReplaceModelsWithOriginalModels();
 				
@@ -78,7 +86,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			{
 				if (model == null) continue;
 				
-				var subSubStateMachine = new StateMachine(model, GameObject, SharedData);
+				var subSubStateMachine = new StateMachine(model, Controller, SharedData);
 				subSubStateMachine.SetParent(StateMachine);
 				SubStateMachines.Add(subSubStateMachine);
 			}

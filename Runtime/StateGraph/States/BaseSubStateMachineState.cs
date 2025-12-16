@@ -11,30 +11,27 @@ namespace Nonatomic.VSM2.StateGraph.States
 	public abstract class BaseSubStateMachineState : State
 	{
 		public StateMachine SubStateMachine { get; private set; }
-
-		public StateMachineModel Model
-		{
-			get => _model;
-			set => _model = value;
-		}
+		public StateMachineModel Model => _model;
 
 		[SerializeField] private StateMachineModel _model;
+
 		private bool _started;
 		private bool _entered;
 
-		public override void OnAwakeState()
+		public override void OnAwake()
 		{
 			CreateStateMachine();
 			ReplaceModelWithActiveModel();
 		}
 		
-		public override void OnStartState()
+		public override void OnStart()
 		{
 			SubStateMachine?.Start();
 			_started = true;
 		}
 
-		public override void OnEnterState()
+		[Enter]
+		public override void OnEnter()
 		{
 			if(SubStateMachine == null) return;
 
@@ -44,17 +41,22 @@ namespace Nonatomic.VSM2.StateGraph.States
 			SubStateMachine.Enter();
 		}
 
-		public override void OnUpdateState()
+		public override void OnUpdate()
 		{
 			SubStateMachine?.Update();
 		}
 
-		public override void OnFixedUpdateState()
+		public override void OnFixedUpdate()
 		{
 			SubStateMachine?.FixedUpdate();
 		}
 
-		public override void OnExitState()
+		public override void OnLateUpdate()
+		{
+			SubStateMachine?.LateUpdate();
+		}
+
+		public override void OnExit()
 		{
 			if(SubStateMachine == null) return;
 			
@@ -63,7 +65,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			_entered = false;
 		}
 
-		public override void OnDestroyState()
+		public override void OnDestroy()
 		{
 			ReplaceModelWithOriginalModel();
 			
@@ -79,6 +81,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			
 			_model = value;
 			CreateStateMachine();
+			ReplaceModelWithActiveModel();
 
 			if (!GameObject.activeInHierarchy || !_started) return;
 			SubStateMachine?.Start();
@@ -91,7 +94,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 		{
 			if(!_model) return;
 			
-			SubStateMachine = new StateMachine(_model, GameObject, SharedData);
+			SubStateMachine = new StateMachine(_model, Controller, SharedData);
 			SubStateMachine.SetParent(StateMachine);
 		}
 
@@ -100,14 +103,14 @@ namespace Nonatomic.VSM2.StateGraph.States
 			//...
 		}
 		
-		private void ReplaceModelWithActiveModel()
+		protected virtual void ReplaceModelWithActiveModel()
 		{
 			if (SubStateMachine == null) return;
 			
 			_model = SubStateMachine.Model;
 		}
 
-		private void ReplaceModelWithOriginalModel()
+		protected virtual void ReplaceModelWithOriginalModel()
 		{
 			if (!_model) return;
 			

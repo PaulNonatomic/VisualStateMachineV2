@@ -21,7 +21,7 @@ namespace Samples.Animation.Source.States
 		private float _time;
 		private Vector3 _basePosition;
 
-		public override void OnEnterState()
+		public override void OnEnter()
 		{
 			_animController = GameObject.GetComponent<AnimationController>();
 			_animController.OnLeftClick += HandleLeftClick;
@@ -29,7 +29,7 @@ namespace Samples.Animation.Source.States
 			_basePosition = _animController.LocalPosition;
 		}
 
-		public override void OnUpdateState()
+		public override void OnUpdate()
 		{
 			_time += Time.deltaTime * _moveSpeed;
 			var sin = Mathf.Sin(_time);
@@ -40,7 +40,7 @@ namespace Samples.Animation.Source.States
 			_animController.MoveCube(position, Space.Self);
 		}
 
-		public override void OnExitState()
+		public override void OnExit()
 		{
 			_animController.OnLeftClick -= HandleLeftClick;
 			_animController.OnRightClick -= HandleRightClick;

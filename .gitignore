@@ -77,7 +77,11 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-# Claude Code
-CLAUDE.md
-CLAUDE.md.meta
+# Claude-related files and directories
 .claude/
+.claude-cache/
+.claude-memory/
+claude.log
+claude-session.json
+.claudeignore
+CLAUDE.md

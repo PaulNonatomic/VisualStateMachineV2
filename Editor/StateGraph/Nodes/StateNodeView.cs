@@ -1,7 +1,6 @@
 ﻿using System;
 using Nonatomic.VSM2.StateGraph;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace Nonatomic.VSM2.Editor.StateGraph.Nodes

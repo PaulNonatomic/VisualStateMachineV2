@@ -20,7 +20,7 @@ namespace Samples.Animation.Source.States
 		private AnimationController _animController;
 		private float _time;
 
-		public override void OnEnterState()
+		public override void OnEnter()
 		{
 			_time = Time.time;
 			_animController = GameObject.GetComponent<AnimationController>();
@@ -28,12 +28,12 @@ namespace Samples.Animation.Source.States
 			_animController.OnRightClick += HandleRightClick;
 		}
 
-		public override void OnUpdateState()
+		public override void OnUpdate()
 		{
 			_animController.RotateCube(_axis, _angle * Time.deltaTime, _space);
 		}
 
-		public override void OnExitState()
+		public override void OnExit()
 		{
 			_animController.OnLeftClick -= HandleLeftClick;
 			_animController.OnRightClick -= HandleRightClick;

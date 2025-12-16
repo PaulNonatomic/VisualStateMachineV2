@@ -1,0 +1,31 @@
+﻿/* ProgressBar.uss */
+
+/* *********** Progress Bar *********** */
+
+.node #progress-bar {
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    translate: 0px 2px;
+}
+
+.node .unity-progress-bar__background {
+    background-color: #252525;
+}
+
+.unity-progress-bar__progress {
+    visibility: hidden;
+}
+
+.active-node .unity-progress-bar__progress {
+    visibility: visible;
+}
+
+#progress-bar {
+    height: 6px;
+    margin:2px;
+}
+
+.unity-progress-bar__progress {
+    background-color: #4CAF50;
+}

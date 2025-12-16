@@ -1,0 +1,15 @@
+/* *********** StateNodeView *********** */
+@import url("BaseNode.uss");
+@import url("ProgressBar.uss");
+@import url("PropertyContainer.uss");
+@import url("TitleBar.uss");
+
+/* *********** Base Node *********** */
+/** No Overrides **/
+
+/* *********** Title Bar *********** */
+.node #title {
+    flex-direction: column;
+}
+
+/* *********** Property Container *********** */

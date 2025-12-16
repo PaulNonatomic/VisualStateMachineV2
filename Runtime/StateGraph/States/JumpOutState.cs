@@ -4,7 +4,8 @@ namespace Nonatomic.VSM2.StateGraph.States
 {
 	public class JumpOutState : JumpState
 	{
-		public override void OnEnterState()
+		[Enter]
+		public override void OnEnter()
 		{
 			StateMachine.JumpTo(this.JumpId);
 		}

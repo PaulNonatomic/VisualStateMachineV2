@@ -7,13 +7,10 @@ namespace Nonatomic.VSM2.Utils
 	{
 		public static bool GuardAgainstRuntimeOperation(string errorMessage = "Cannot perform this operation at runtime")
 		{
-			if (Application.isPlaying)
-			{
-				GraphLog.LogError(errorMessage);
-				return true;
-			}
+			if (!Application.isPlaying) return false;
 			
-			return false;
+			GraphLog.LogError(errorMessage);
+			return true;
 		}
 	}
 }

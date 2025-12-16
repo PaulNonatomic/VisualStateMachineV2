@@ -221,14 +221,8 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 			var stateManager = (StateNodeGraphStateManager) StateManager;
 			var gridPos = stateManager.GridPosition;
 			
-			switch (stateChange)
-			{
-				case PlayModeStateChange.EnteredPlayMode:
-				case PlayModeStateChange.EnteredEditMode:
-					if(!StateManager.Model) stateManager.LoadModelFromStateController();
-					PopulateGraph(StateManager.Model, recentre: true);
-					break;
-			}
+			stateManager.LoadModelFromStateController();
+			PopulateGraph(StateManager.Model, recentre: true);
 			
 			EditorApplication.delayCall += ()=>
 			{

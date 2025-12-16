@@ -1,0 +1,31 @@
+﻿/* *********** StickyNoteNodeView *********** */
+@import url("BaseNode.uss");
+@import url("ProgressBar.uss");
+@import url("PropertyContainer.uss");
+@import url("TitleBar.uss");
+
+/* *********** Base Node *********** */
+.node #title {
+    flex-direction: column;
+}
+
+/* *********** Property Container *********** */
+#property-container {        
+    padding-bottom: 2px;
+    padding-top: 2px;
+    max-height: 100px;
+}
+
+#property-container.has-properties #unity-content-viewport{
+    padding-top:2px;
+    padding-bottom:2px;
+}
+
+#unity-content {
+    margin:2px;
+}
+
+#field-container {
+    height: 20px;
+    flex-direction: row;
+}

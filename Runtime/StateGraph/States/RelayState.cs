@@ -9,12 +9,13 @@ namespace Nonatomic.VSM2.StateGraph.States
 	{
 		[Transition(frameDelay:0)] public event Action OnComplete;
 		
-		public override void OnEnterState()
+		[Enter]
+		public override void OnEnter()
 		{
 			OnComplete?.Invoke();
 		}
 
-		public override void OnExitState()
+		public override void OnExit()
 		{
 			//...
 		}

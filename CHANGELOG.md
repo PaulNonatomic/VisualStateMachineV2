@@ -1,5 +1,56 @@
 # Change Log
 
+# [0.10.5-beta] - Sep 17, 2025
+- Runtime assembly auto-referenced by default for easier custom state creation
+
+# [0.10.4-beta] - Mar 09, 2025
+- Removed some redundant code and redundant using statements.
+
+# [0.10.3-beta] - Feb 11, 2025
+- Fix for playing selected StateMachineControllers model in the State Machine Editor when entering runtime.
+  - Previously required a deselect and reselect of the StateMachineController to play the model in the State Machine Editor.
+
+# [0.10.2-beta] - Feb 05, 2025
+- Fix for lack of stacktrace in exceptions thrown by states
+
+# [0.10.1-beta] - Feb 03, 2025
+- Added a call to the ReplaceModelWithActiveModel method in BaseSubStateMachineState.SwitchModel to ensure the active model is set to the current model when switching models.
+
+# [0.10.0-beta] - Jan 22, 2025
+- Added a reference to the StateMachineController on each State. This removes the need to use GetComponent and allows for more direct 
+  communication between states and the controller. This does introduce an issue where a StateMachine can become tightly coupled to a 
+  derived StateMachineController that then makes the StateMachineModel less reusable. This is a trade-off for the increased ease of use.
+
+# [0.9.6-beta] - Dec 23, 2024
+- Removal of build breaking methods in AssetUtils
+
+# [0.9.5-beta] - Dec 22, 2024
+- updated migration tools
+
+# [0.9.4-beta] - Dec 22, 2024
+- Added a method to migrate all state machine model assets
+
+# [0.9.3-beta] - Dec 22, 2024
+- Added a migration step to fix transitions to OnEnterState methods
+
+# [0.9.2-beta] - Dec 22, 2024
+- Added a migration step to add missing using statements
+
+# [0.9.1-beta] - Dec 22, 2024
+- Added a migration tool to upgrade to 0.9.1-beta
+- Added obsolete methods back in and marked as obsolete to allow for a smoother migration to the new version
+- Added support for LateUpdate in states
+- Added a cache for event info obtained via reflection to reduce the runtime overhead of reflection
+
+# [0.9.0-beta] - Sept 20, 2024
+- BREAKING - State enter methods now require an [Enter] attribute.
+- States now support typed transitions
+  - Example ```[Transition] public event Action<int> OnTransitionWithInt```
+  - Example ```[Enter] public void OnEnterWithInt(int value){}```
+- Abstracted validation methods to a separate class
+- Added a CounterWithTargetState.
+- Simplified the uss files used to style the basic states
+
 # [0.8.5-beta] - Sept 17, 2024
 - Fix for deleting a selection via the context menu
 
@@ -10,7 +61,7 @@
 - Added SharedData.GetKeys() method to return all keys in the shared data.
 
 ## [0.8.3-beta] - Sept 10, 2024
-Added support for switching SubStateMachine models at runtime
+- Added support for switching SubStateMachine models at runtime
 
 ## [0.8.2-beta] - Sept 09, 2024
 - Added TryGetData and HasData methods to the SharedData class
@@ -70,7 +121,7 @@ Added support for switching SubStateMachine models at runtime
 
 ## [0.5.1-beta] - Jul 18, 2024
 - Added a protected setter to the Model accessor of BaseSubStateMachineState
-    - This will allow for derived states to switch the model in the OnAwakeState
+    - This will allow for derived states to switch the model in the OnAwake
 
 ## [0.5.0-beta] - Jul 17, 2024
 - Removal of the StateMachineController.Model setter.

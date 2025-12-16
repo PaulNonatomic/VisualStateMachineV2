@@ -11,12 +11,6 @@ namespace Nonatomic.VSM2.Editor.Persistence
 	[InitializeOnLoad]
 	public static class StateMachineModelSaver
 	{
-		static StateMachineModelSaver()
-		{
-			AssemblyReloadEvents.afterAssemblyReload += SaveAll;
-			EditorApplication.projectChanged += SaveAll;
-		}
-
 		/// <summary>
 		/// Saves all state machine models in the project by updating their data and marking them as dirty.
 		/// </summary>
@@ -56,6 +50,8 @@ namespace Nonatomic.VSM2.Editor.Persistence
 			
 			try
 			{
+				model?.SelfValidate();
+				
 				EditorUtility.DisplayProgressBar("Saving State Machine Model", "Saving model...", 0.5f);
 				UpdateAndMarkModelDirty(model);
 				AssetDatabase.SaveAssets();

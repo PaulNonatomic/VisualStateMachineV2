@@ -1,0 +1,33 @@
+/* *********** CountWithTargetNodeView *********** */
+@import url("BaseNode.uss");
+@import url("TitleBar.uss");
+@import url("ProgressBar.uss");
+@import url("PropertyContainer.uss");
+
+/* *********** Base Node *********** */
+/** No Overrides **/
+
+/* *********** Title Bar *********** */
+.node #title {
+    flex-direction: column;
+}
+
+/* *********** Progress Bar *********** */
+/** No Overrides **/
+
+/* *********** Property Container *********** */
+/** No Overrides **/
+
+/* ***********  *********** */
+.count-field Label {
+    color: #a89d46;
+    -unity-font-style: bold;
+}
+
+.count-field IntegerInput {
+    background-color: #3C3C3C;
+}
+
+.count-field IntegerInput TextElement {
+    color: #969696;
+}

@@ -12,7 +12,8 @@ namespace Nonatomic.VSM2.StateGraph.States
 		
 		private Random _random = new();
 
-		public override void OnEnterState()
+		[Enter]
+		public override void OnEnter()
 		{
 			switch (_random.Next(0, 1))
 			{
@@ -25,7 +26,7 @@ namespace Nonatomic.VSM2.StateGraph.States
 			}
 		}
 
-		public override void OnExitState()
+		public override void OnExit()
 		{
 			//...
 		}

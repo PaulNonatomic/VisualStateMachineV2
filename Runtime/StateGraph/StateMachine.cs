@@ -28,16 +28,16 @@ namespace Nonatomic.VSM2.StateGraph
 		private Dictionary<JumpId, StateNodeModel> _jumpNodeLookup = new();
 		private CancellationTokenSource _cancellationTokenSource = new();
 
-		public StateMachine(StateMachineModel model, GameObject gameObject)
+		public StateMachine(StateMachineModel model, StateMachineController controller)
 		{
 			SharedData = new SharedData();
-			Initialize(model, gameObject);
+			Initialize(model, controller);
 		}
 		
-		public StateMachine(StateMachineModel model, GameObject gameObject, ISharedData sharedData = null)
+		public StateMachine(StateMachineModel model, StateMachineController controller, ISharedData sharedData = null)
 		{
 			SharedData = sharedData ?? new SharedData();
-			Initialize(model, gameObject);
+			Initialize(model, controller);
 		}
 
 		public void Update()
@@ -54,6 +54,14 @@ namespace Nonatomic.VSM2.StateGraph
 			if (!_currentNode.Active) return;
 			
 			_currentNode.FixedUpdate();
+		}
+		
+		public void LateUpdate()
+		{
+			if (_currentNode == null) return;
+			if (!_currentNode.Active) return;
+			
+			_currentNode.LateUpdate();
 		}
 
 		public void Start()
@@ -75,7 +83,7 @@ namespace Nonatomic.VSM2.StateGraph
 			IsComplete = false;
 			SubscribeToNode(_currentNode);
 
-			_currentNode.Enter();
+			_currentNode.Enter(TransitionEventData.Empty);
 		}
 
 		public void Exit()
@@ -96,7 +104,7 @@ namespace Nonatomic.VSM2.StateGraph
 
 			if (nextNode == null) return;
 
-			TriggerAsyncTransition(nextNode);
+			TriggerAsyncTransition(nextNode, TransitionEventData.Empty);
 		}
 
 		public void OnDestroy()
@@ -116,13 +124,14 @@ namespace Nonatomic.VSM2.StateGraph
 				node?.OnDestroy();
 			}
 
+			SharedData.ClearAllData();
 			Model = null;
 		}
 
-		private void Initialize(StateMachineModel model, GameObject gameObject)
+		private void Initialize(StateMachineModel model, StateMachineController controller)
 		{
 			Model = StateMachineModel.CreateInstance(model);
-			Model.Initialize(gameObject, this, SharedData);
+			Model.Initialize(controller, this, SharedData);
 
 			CreateNodeLookupTable();
 			CreateTransitionLookupTable();
@@ -172,24 +181,57 @@ namespace Nonatomic.VSM2.StateGraph
 				ToggleEventSubscriptionByName(node.State, transition, true);
 			}
 		}
-		
+
 		private void ToggleEventSubscriptionByName(object targetObject, StateTransitionModel transition, bool subscribe)
 		{
 			var eventName = transition.OriginPort.Id;
-			var eventInfo = targetObject.GetType().GetEvent(eventName);
-			if (eventInfo == null) return;
-			
-			var handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, nameof(transition.Transition));
+			var targetType = targetObject.GetType();
 
-			if (subscribe)
+			// Get EventInfo from the cache
+			var eventInfo = ReflectionCache.GetEventInfo(targetType, eventName);
+			if (eventInfo == null) return;
+
+			// Check if this is an Action<T> or Action
+			if (eventInfo.EventHandlerType.IsGenericType
+				&& eventInfo.EventHandlerType.GetGenericTypeDefinition() == typeof(Action<>))
 			{
-				eventInfo.AddEventHandler(targetObject, handler);
-				transition.OnTransition += HandleTransition;
+				var argumentType = eventInfo.EventHandlerType.GenericTypeArguments[0];
+
+				// Grab the generic Transition<T> method off StateTransitionModel
+				var method = ReflectionCache.GetGenericMethod(
+					typeof(StateTransitionModel),
+					"Transition",
+					new[] { argumentType },
+					paramCount: 1);
+
+				if (method == null) return;
+
+				var handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, method);
+
+				if (subscribe)
+				{
+					eventInfo.AddEventHandler(targetObject, handler);
+					transition.OnTransition += HandleTransition;
+				}
+				else
+				{
+					eventInfo.RemoveEventHandler(targetObject, handler);
+					transition.OnTransition -= HandleTransition;
+				}
 			}
-			else
+			else if (eventInfo.EventHandlerType == typeof(Action))
 			{
-				eventInfo.RemoveEventHandler(targetObject, handler);
-				transition.OnTransition -= HandleTransition;
+				var handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, "Transition");
+				if (subscribe)
+				{
+					eventInfo.AddEventHandler(targetObject, handler);
+					transition.OnTransition += HandleTransition;
+				}
+				else
+				{
+					eventInfo.RemoveEventHandler(targetObject, handler);
+					transition.OnTransition -= HandleTransition;
+				}
 			}
 		}
 
@@ -207,26 +249,26 @@ namespace Nonatomic.VSM2.StateGraph
 				ToggleEventSubscriptionByName(node.State, transition, false);
 			}
 		}
-
-		private void HandleTransition(TransitionModel transition)
+	
+		private void HandleTransition(TransitionModel transition, TransitionEventData eventData)
 		{
 			var nextNode = _nodeLookup[transition.DestinationNodeId];
-			TriggerAsyncTransition(nextNode, transition.OriginPort.FrameDelay);
+			TriggerAsyncTransition(nextNode, eventData, transition.OriginPort.FrameDelay);
 		}
 
-		private async void TriggerAsyncTransition(StateNodeModel nextNode, int frameDelay = 0)
+		private async void TriggerAsyncTransition(StateNodeModel nextNode, TransitionEventData eventData, int frameDelay = 0)
 		{
 			try
 			{
-				await TransitionAsync(nextNode, frameDelay).ConfigureAwait(false);
+				await TransitionAsync(nextNode, eventData, frameDelay).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
 				throw ex;
 			}
 		}
-
-		private async Task TransitionAsync(StateNodeModel nextNode, int frameDelay = 0)
+		
+		private async Task TransitionAsync(StateNodeModel nextNode, TransitionEventData eventData, int frameDelay = 0)
 		{
 			try
 			{
@@ -256,7 +298,7 @@ namespace Nonatomic.VSM2.StateGraph
 				if (_currentNode == null) return;
 				
 				SubscribeToNode(_currentNode);
-				_currentNode.Enter();
+				_currentNode.Enter(eventData);
 			}
 			catch (OperationCanceledException canceledException)
 			{

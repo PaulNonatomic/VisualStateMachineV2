@@ -50,15 +50,25 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 				
 				var originNodeId = droppedEdgeOutput.node.name;
 				var originPortData = droppedEdgeUserData as PortModel;
+				if(originPortData == null) return;
+				
 				var destinationNodeId = nodeData.Id;
-				var destinationPortData = nodeData.InputPorts[0];
+				var destinationPorts = nodeData.InputPorts;
+				
+				var validPort = destinationPorts.FirstOrDefault(p =>
+				{
+					var blankPortTypes = string.IsNullOrEmpty(p.PortTypeName) && string.IsNullOrEmpty(originPortData.PortTypeName);
+					return blankPortTypes || p.PortTypeName == originPortData.PortTypeName;
+				});
+				
+				if (validPort == null) return;
 				
 				StateGraphTransitionFactory.MakeTransition(_graphView, 
 														   _stateMachineModel, 
 														   originNodeId, 
 														   originPortData, 
 														   destinationNodeId, 
-														   destinationPortData);
+														   validPort);
 			}, filterOut);
 		}
 		
@@ -66,12 +76,17 @@ namespace Nonatomic.VSM2.Editor.StateGraph
 		{
 			if (Application.isPlaying) return;
 			if (edge.output == null || edge.input == null) return;
-			
+
 			var originNodeId = edge.output.node.name;
 			var originPortModel = edge.output.userData as PortModel;
+			if (originPortModel == null) return;
 			
 			var destinationNodeId = edge.input.node.name;
 			var destinationPortModel = edge.input.userData as PortModel;
+			if (destinationPortModel == null) return;
+			
+			var blankPortTypes = string.IsNullOrEmpty(originPortModel.PortTypeName) && string.IsNullOrEmpty(destinationPortModel.PortTypeName);
+			if (!blankPortTypes && originPortModel.PortTypeName != destinationPortModel.PortTypeName) return;
 			
 			StateGraphTransitionFactory.MakeTransition(_graphView, 
 													   _stateMachineModel, 

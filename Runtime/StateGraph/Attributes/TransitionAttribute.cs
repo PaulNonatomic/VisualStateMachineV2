@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using UnityEngine;
 
 namespace Nonatomic.VSM2.NodeGraph
 {
@@ -19,11 +20,17 @@ namespace Nonatomic.VSM2.NodeGraph
 			_portModel.PortColor = portColor;
 			_portModel.FrameDelay = frameDelay;
 		}
-
+		
 		public PortModel GetPortData(EventInfo eventInfo, int eventIndex)
 		{
 			_portModel.Id = eventInfo.Name;
 			_portModel.Index = eventIndex;
+
+			var args = eventInfo.EventHandlerType.GenericTypeArguments;
+			if (args.Length > 0)
+			{
+				_portModel.SetPortType(args[0]);
+			}
 			
 			return _portModel;
 		}

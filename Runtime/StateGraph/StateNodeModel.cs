@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Nonatomic.VSM2.Logging;
 using Nonatomic.VSM2.NodeGraph;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -33,32 +32,76 @@ namespace Nonatomic.VSM2.StateGraph
 			
 			Enabled = true;
 			LastActive = -1;
-			State?.OnAwakeState();
+			State?.OnAwake();
 		}
 
 		public void Start()
 		{
-			State?.OnStartState();
+			State?.OnStart();
 		}
 
-		public void Enter()
+		public void Enter(TransitionEventData eventData)
 		{
 			if (Active) return;
 			
 			Active = true;
 			LastActive = Time.time;
-			State?.OnEnterState();
+			State.TransitionData = eventData;
+			
+			var type = State.GetType();
+			var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+				.Where(m => m.GetCustomAttribute<EnterAttribute>() != null && !m.IsAbstract)
+				.ToList();
+			
+			if (eventData.HasValue)
+			{
+				var method = methods.FirstOrDefault(m => 
+					m.GetParameters().Length == 1 && 
+					m.GetParameters()[0].ParameterType == eventData.Type);
+
+				if (method == null) return;
+				
+				try
+				{
+					method.Invoke(State, new[] { eventData.Value });
+				}
+				catch (Exception ex)
+				{
+					Debug.LogException(ex);
+				}
+			}
+			else
+			{
+				var method = methods.FirstOrDefault(m => 
+					m.GetParameters().Length == 0);
+
+				if (method == null) return;
+				
+				try
+				{
+					method.Invoke(State, null);
+				}
+				catch (Exception ex)
+				{
+					Debug.LogException(ex);
+				}
+			}
 		}
 
 		public void Update()
 		{
 			LastActive = Time.time;
-			State?.OnUpdateState();
+			State?.OnUpdate();
 		}
 
 		public void FixedUpdate()
 		{
-			State?.OnFixedUpdateState();
+			State?.OnFixedUpdate();
+		}
+
+		public void LateUpdate()
+		{
+			State?.OnLateUpdate();
 		}
 
 		public void Exit()
@@ -67,7 +110,7 @@ namespace Nonatomic.VSM2.StateGraph
 			
 			LastActive = Time.time;
 			Active = false;
-			State?.OnExitState();
+			State?.OnExit();
 		}
 
 		public void OnDestroy()
@@ -76,20 +119,12 @@ namespace Nonatomic.VSM2.StateGraph
 			
 			Active = false;
 			Enabled = false;
-			State?.OnDestroyState();
-		}
-
-		public void ValidatePorts()
-		{
-			var type = State.GetType();
-			var events = type.GetEvents(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-			
-			SynchronizePortData(events, OutputPorts);
+			State?.OnDestroy();
 		}
 		
 		public StateNodeModel Clone()
 		{
-			var clone = (StateNodeModel) this.MemberwiseClone();
+			var clone = (StateNodeModel)this.MemberwiseClone();
 			
 			if (State)
 			{
@@ -105,166 +140,47 @@ namespace Nonatomic.VSM2.StateGraph
 			clone.OutputPorts = new List<PortModel>();
 			foreach (var outputPort in OutputPorts)
 			{
-				clone.OutputPorts.Add(outputPort.Clone()); // Assuming PortModel has a Clone method
+				clone.OutputPorts.Add(outputPort.Clone());
 			}
 
 			return clone;
 		}
-		
-		private void ToggleEventSubscriptionByName(object targetObject, string eventName, StateTransitionModel transition, bool subscribe)
-		{
-			var eventInfo = targetObject.GetType().GetEvent(eventName);
-			if (eventInfo == null) return;
-			
-			var handler = Delegate.CreateDelegate(eventInfo.EventHandlerType, transition, nameof(transition.Transition));
 
-			if (subscribe)
-			{
-				eventInfo.AddEventHandler(targetObject, handler);
-			}
-			else
-			{
-				eventInfo.RemoveEventHandler(targetObject, handler);
-			}
-		}
-
-		private void SynchronizePortData(EventInfo[] eventInfos, List<PortModel> portDatas)
-		{
-			var eventInfoNames = new HashSet<string>();
-			var eventInfoIndices = new Dictionary<string, int>();
-
-			// Build dictionaries for quick lookup
-			for (var i = 0; i < eventInfos.Length; i++)
-			{
-				eventInfoNames.Add(eventInfos[i].Name);
-				eventInfoIndices[eventInfos[i].Name] = i;
-			}
-
-			// Track indices already used to ensure uniqueness
-			var usedIndices = new HashSet<int>();
-
-			// Synchronize existing PortData items
-			for (var i = portDatas.Count - 1; i >= 0; i--)
-			{
-				var portData = portDatas[i];
-				if (!eventInfoNames.Contains(portData.Id))
-				{
-					// PortData ID does not match any EventInfo name
-					GraphLog.LogWarning($"Removing PortData with ID '{portData.Id}' as it does not match any EventInfo.");
-					portDatas.RemoveAt(i);
-				}
-				else
-				{
-					// Check if the index is correct
-					var correctIndex = eventInfoIndices[portData.Id];
-					if (portData.Index != correctIndex)
-					{
-						GraphLog.LogWarning($"Correcting index of PortData with ID '{portData.Id}' from {portData.Index} to {correctIndex}.");
-						portData.Index = correctIndex;
-					}
-
-					// Ensure uniqueness of indices
-					if (usedIndices.Contains(portData.Index))
-					{
-						GraphLog.LogWarning($"Duplicate index found for PortData with ID '{portData.Id}'. Removing entry.");
-						portDatas.RemoveAt(i);
-					}
-					else
-					{
-						usedIndices.Add(portData.Index);
-					}
-				}
-			}
-
-			// Add missing PortData items
-			foreach (var eventInfo in eventInfos)
-			{
-				if (portDatas.Any(pd => pd.Id == eventInfo.Name)) continue;
-				
-				var newIndex = eventInfoIndices[eventInfo.Name];
-				if (usedIndices.Contains(newIndex)) continue;
-				
-				var attributes = eventInfo.GetCustomAttributes(typeof(TransitionAttribute), false);
-				if (attributes.Length == 0) continue;
-				
-				GraphLog.LogWarning($"Adding missing PortData for EventInfo '{eventInfo.Name}' at index {newIndex}.");
-				var attribute = (TransitionAttribute) attributes[0];
-				var portModel = attribute.GetPortData(eventInfo, newIndex);
-				
-				portDatas.Add(portModel);
-				usedIndices.Add(newIndex);
-			}
-		}
-		
-		private void LookForPortInfoMismatch(EventInfo[] events)
-		{
-			//Check for port count mismatch
-			if (events.Length > OutputPorts.Count)
-			{
-				GraphLog.LogWarning($"{events.Length - OutputPorts.Count} Missing port from state node: {Id}");
-				
-				//find missing port
-				for (var index = 0; index < events.Length; index++)
-				{
-					var eventInfo = events[index];
-					if (OutputPorts.Any(port => eventInfo.Name == port.Id && index == port.Index)) continue;
-
-					GraphLog.LogWarning($"Missing port: {eventInfo.Name} at index {index}");
-				}
-			}
-			else if(events.Length < OutputPorts.Count)
-			{
-				GraphLog.LogWarning($"State node contains {OutputPorts.Count - events.Length} deleted ports: {Id}");
-				
-				//find deleted port
-				foreach(var port in OutputPorts)
-				{
-					if (events.Any(e => e.Name == port.Id)) continue;
-					
-					GraphLog.LogWarning($"Deleted port: {port.Id}");
-				}
-			}
-			
-			for (var index = 0; index < events.Length; index++)
-			{
-				var eventInfo = events[index];
-
-				if (index >= OutputPorts.Count) break;
-				var port = OutputPorts[index];
-
-				if (port.Id != eventInfo.Name)
-				{
-					GraphLog.LogWarning($"Port Id mismatch: {port.Id}, {eventInfo.Name}");
-				}
-
-				if (port.Index != index)
-				{
-					GraphLog.LogWarning($"Port index mismatch: {port.Index}, {index}");
-				}
-			}
-		}
-		
 		private void CreateInputPorts(State state)
 		{
-			InputPorts.Add(new PortModel()
+			var type = state.GetType();
+			var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance)
+				.Where(m => m.GetCustomAttribute<EnterAttribute>() != null && !m.IsAbstract)
+				.ToList();
+
+			for (var i = 0; i < methods.Count; i++)
 			{
-				Id = "OnEnterState",
-				Index = 0
-			});
+				var method = methods[i];
+				var attribute = method.GetCustomAttribute<EnterAttribute>();
+				var portModel = attribute.GetPortData(method, methodIndex:i);
+				InputPorts.Add(portModel);
+			}
 		}
 
 		private void CreateOutputPorts(State state)
 		{
 			var type = state.GetType();
 			var events = type.GetEvents(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-			for (var index = 0; index < events.Length; index++)
+			
+			foreach (var eventInfo in events)
 			{
-				var eventInfo = events[index];
 				var attributes = eventInfo.GetCustomAttributes(typeof(TransitionAttribute), false);
 				if (attributes.Length == 0) continue;
+
+				var eventType = eventInfo.EventHandlerType;
 				
-				var attribute = (TransitionAttribute) attributes[0];
-				var portModel = attribute.GetPortData(eventInfo, index);
+				if (!eventType.IsGenericType || eventType.GetGenericTypeDefinition() != typeof(Action<>))
+				{
+					if (eventType != typeof(Action)) continue;
+				}
+				
+				var attribute = (TransitionAttribute)attributes[0];
+				var portModel = attribute.GetPortData(eventInfo, OutputPorts.Count);
 				OutputPorts.Add(portModel);
 			}
 		}
