@@ -1,4 +1,6 @@
-﻿namespace Nonatomic.VSM2.Logging
+﻿using UnityEngine;
+
+namespace Nonatomic.VSM2.Logging
 {
 	public static class GraphLog
 	{
