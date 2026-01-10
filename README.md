@@ -16,6 +16,19 @@ Visual State Machine is a Unity package designed to simplify the creation and ma
 
 </div>
 
+## Installation
+
+Add **VSM2** to your Unity project via Package Manager:
+
+1. Open **Window > Package Manager**
+2. Click **+** > **Add package from git URL**
+3. Enter:
+```
+https://www.pkglnk.dev/track/vsm2.git
+```
+
+[![pkglnk](https://www.pkglnk.dev/badge/vsm2.svg)](https://www.pkglnk.dev/pkg/vsm2)
+
 ---
 
 https://github.com/user-attachments/assets/61388bea-8bd4-4f92-9f12-c0f5768e1e8f
