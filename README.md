@@ -6,8 +6,8 @@
 
 ### A visual editor for designing state machines in <a href="https://unity.com/">Unity</a>
 
-Currently still a work in progress and subject to breaking changes.
-Visual State Machine is a Unity package designed to simplify the creation and management of state machines in [Unity](https://unity.com/) projects. It provides a visual editor for designing state machines, making it easier to create complex behaviors without writing extensive code.
+Visual State Machine V2 (VSM2) is a Unity package for creating finite state machines (FSM) using a visual node-based editor. Design game AI, UI flows, animation controllers, and gameplay logic with a drag-and-drop interface directly in the Unity Editor."
+** If you find this useful, please star **
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PullRequests](https://img.shields.io/badge/PRs-welcome-blueviolet)](http://makeapullrequest.com)
@@ -15,6 +15,18 @@ Visual State Machine is a Unity package designed to simplify the creation and ma
 [![Unity](https://img.shields.io/badge/Unity-2022.3+-black.svg)](https://unity3d.com/pt/get-unity/download/archive)
 
 </div>
+
+## Table of Contents
+- [Installation](#installation)
+- [Features](#features)
+- [Migration Steps to Version 0.9.0-beta](#migration-steps-to-version-090-beta)
+- [Usage](#usage)
+- [Typed Transitions](#typed-transitions)
+- [Loops with Jump Nodes](#loops-with-jump-nodes)
+- [Transition Delay](#transition-delay)
+- [Copy & Paste](#copy--paste)
+- [Shared Data](#shared-data)
+- [License](#license)
 
 ## Installation
 
