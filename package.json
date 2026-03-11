@@ -11,10 +11,16 @@
     
   },
   "keywords": [
-    "Unity",
-    "Package",
-    "Visual",
-    "StateMachine"
+    "unity",
+    "state-machine",
+    "fsm",
+    "visual-editor",
+    "node-graph",
+    "visual-programming",
+    "game-development",
+    "unity-editor",
+    "finite-state-machine",
+    "upm"
   ],
   "author": {
     "name": "Nonatomic",
