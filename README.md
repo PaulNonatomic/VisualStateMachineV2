@@ -45,7 +45,8 @@ Add **VSM2** to your Unity project via Package Manager:
 ```
 https://www.pkglnk.dev/vsm2.git
 ```
-[![pkglnk](https://www.pkglnk.dev/card/vsm2.svg?variant=directory)](https://www.pkglnk.dev/pkg/vsm2)
+
+[![pkglnk](https://www.pkglnk.dev/card/vsm2.svg)](https://www.pkglnk.dev/pkg/vsm2)
 
 ---
 ## Support
