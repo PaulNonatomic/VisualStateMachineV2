@@ -28,6 +28,14 @@ Visual State Machine V2 (VSM2) is a Unity package for creating finite state mach
 - [Shared Data](#shared-data)
 - [License](#license)
 
+https://github.com/user-attachments/assets/61388bea-8bd4-4f92-9f12-c0f5768e1e8f
+
+## Features
+- **Visual Editor**: Design state machines using a user-friendly graphical interface.
+- **Unity Integration**: Seamlessly integrates with Unity, allowing for easy implementation in your game projects.
+- **Custom State Support**: Create your own states to handle specific game behaviors.
+- **Transition Management**: Easily manage transitions between states with intuitive controls.
+
 ## Installation
 
 Add **VSM2** to your Unity project via Package Manager:
@@ -41,29 +49,10 @@ https://www.pkglnk.dev/vsm2.git
 [![pkglnk](https://www.pkglnk.dev/card/vsm2.svg?variant=directory)](https://www.pkglnk.dev/pkg/vsm2)
 
 ---
-
-https://github.com/user-attachments/assets/61388bea-8bd4-4f92-9f12-c0f5768e1e8f
-
-## Features
-- **Visual Editor**: Design state machines using a user-friendly graphical interface.
-- **Unity Integration**: Seamlessly integrates with Unity, allowing for easy implementation in your game projects.
-- **Custom State Support**: Create your own states to handle specific game behaviors.
-- **Transition Management**: Easily manage transitions between states with intuitive controls.
-
-## Installation
-To install Visual State Machine in your Unity project, follow these steps:
-1. Open Unity and navigate to the **Package Manager**.
-2. Click on the **+** button and select **Add package from git URL...**
-3. Enter the following URL: `https://github.com/PaulNonatomic/VisualStateMachineV2.git` and press **Add**.
-
-## Migration Steps to Version 0.9.0-beta
-
-When upgrading to Visual State Machine V2 (VSM2) version 0.9.0-beta, follow these steps to ensure a seamless transition and maintain functionality within your Unity project:
-
-1. **Commit Changes:** Before starting the upgrade, ensure all your current work is committed to version control.
-2. **Update the package:** Change the package address in your projects Packages/manifest.json file to https://github.com/PaulNonatomic/VisualStateMachineV2.git#0.9.0-migration
-3. **Run the migration tool:** open Tools -> VSM2 -> Migrate to 0.9.0-beta
-4. **Update the package again:** Once the migration has completed update the package to the latest, currently 0.9.6-beta 
+## Support
+If you like my work then please consider showing your support by buying me a brew
+<br><br>
+<a href="https://www.buymeacoffee.com/nonatomic" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-green.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
 ## Usage
 1. **Create a State Machine Asset**
