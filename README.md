@@ -17,9 +17,8 @@ Visual State Machine V2 (VSM2) is a Unity package for creating finite state mach
 </div>
 
 ## Table of Contents
-- [Installation](#installation)
 - [Features](#features)
-- [Migration Steps to Version 0.9.0-beta](#migration-steps-to-version-090-beta)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Typed Transitions](#typed-transitions)
 - [Loops with Jump Nodes](#loops-with-jump-nodes)
