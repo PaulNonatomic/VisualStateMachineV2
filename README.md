@@ -16,6 +16,11 @@ Visual State Machine V2 (VSM2) is a Unity package for creating finite state mach
 
 </div>
 
+> [!NOTE]
+> **There's a new version.** [Visual State Machine V3](https://github.com/PaulNonatomic/VisualStateMachineV3) is a from-scratch rewrite with a code-first builder API, blackboard data flow, sub-state machines, async states, breakpoint debugging, and IL2CPP/WebGL support. VSM2 remains available for existing projects; new work should start on V3.
+
+[![pkglnk](https://www.pkglnk.dev/card/visualstatemachinev3.svg?variant=directory&theme=unity-violet)](https://www.pkglnk.dev/pkg/visualstatemachinev3)
+
 ## Table of Contents
 - [Features](#features)
 - [Installation](#installation)
